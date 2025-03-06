@@ -7,4 +7,7 @@ public class InMemoryHotelRepository : HotelRepository {
     public void Add(Hotel hotel) {
         hotels[hotel.Id] = hotel;
     }
+    public Hotel GetById(string id) {
+        return hotels[id];
+    }
 }

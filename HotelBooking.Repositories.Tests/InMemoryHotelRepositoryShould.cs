@@ -15,7 +15,7 @@ public class InMemoryHotelRepositoryShould
     }
 
     [Test]
-    public void Test1()
+    public void add_hotel_to_hotels()
     {
          var hotel =new Hotel("hotel1","hotel 1" );
 
@@ -23,5 +23,15 @@ public class InMemoryHotelRepositoryShould
 
          repository.hotels.Count.ShouldBe(1);
          repository.hotels.ShouldContainKey("hotel1");
+    }
+
+    [Test]
+    public void get_id_from_hotel_in_hotels(){
+        var hotel =new Hotel("hotel1","hotel 1" );
+
+        repository.Add(hotel);
+        var result = repository.GetById(hotel.Id);
+
+        result.ShouldBe(hotel);
     }
 }
