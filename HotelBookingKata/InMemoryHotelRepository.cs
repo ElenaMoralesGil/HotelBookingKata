@@ -10,4 +10,8 @@ public class InMemoryHotelRepository : HotelRepository {
     public Hotel GetById(string id) {
         return hotels[id];
     }
+
+    public bool Exists(string id) {
+        return hotels.ContainsKey(id);
+    }
 }

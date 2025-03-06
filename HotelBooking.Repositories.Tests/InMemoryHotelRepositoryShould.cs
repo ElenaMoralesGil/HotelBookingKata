@@ -15,7 +15,7 @@ public class InMemoryHotelRepositoryShould
     }
 
     [Test]
-    public void add_hotel_to_hotels()
+    public void add_hotel_to_existing_hotels()
     {
          var hotel =new Hotel("hotel1","hotel 1" );
 
@@ -26,12 +26,23 @@ public class InMemoryHotelRepositoryShould
     }
 
     [Test]
-    public void get_id_from_hotel_in_hotels(){
+    public void get_id_from_existing_hotel(){
         var hotel =new Hotel("hotel1","hotel 1" );
 
         repository.Add(hotel);
         var result = repository.GetById(hotel.Id);
 
         result.ShouldBe(hotel);
+    }
+
+    [Test]
+    public void return_true_when_hotel_exists(){
+         var hotel =new Hotel("hotel1","hotel 1" );
+
+        repository.Add(hotel);
+        var result = repository.Exists(hotel.Id);
+
+        result.ShouldBe(true);
+
     }
 }
