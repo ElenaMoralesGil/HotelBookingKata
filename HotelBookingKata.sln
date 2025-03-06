@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBookingKata.Test", "Ho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBookingKata", "HotelBookingKata\HotelBookingKata.csproj", "{34782C8A-FB01-418B-AEAA-E051D4D271FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Controllers.Tests", "HotelBooking.Controllers.Tests\HotelBooking.Controllers.Tests.csproj", "{764BEC0B-2F12-45AD-948C-06DFDD4FB5F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Services.Test", "HotelBooking.Services.Test\HotelBooking.Services.Test.csproj", "{72CF5FF0-E53F-44F2-8B07-6FDFA0104830}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Repositories.Tests", "HotelBooking.Repositories.Tests\HotelBooking.Repositories.Tests.csproj", "{AD0A0C1D-A22E-49C7-A2FF-8FA897A33052}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +30,17 @@ Global
 		{34782C8A-FB01-418B-AEAA-E051D4D271FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34782C8A-FB01-418B-AEAA-E051D4D271FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34782C8A-FB01-418B-AEAA-E051D4D271FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{764BEC0B-2F12-45AD-948C-06DFDD4FB5F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{764BEC0B-2F12-45AD-948C-06DFDD4FB5F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{764BEC0B-2F12-45AD-948C-06DFDD4FB5F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{764BEC0B-2F12-45AD-948C-06DFDD4FB5F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72CF5FF0-E53F-44F2-8B07-6FDFA0104830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72CF5FF0-E53F-44F2-8B07-6FDFA0104830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72CF5FF0-E53F-44F2-8B07-6FDFA0104830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72CF5FF0-E53F-44F2-8B07-6FDFA0104830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD0A0C1D-A22E-49C7-A2FF-8FA897A33052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD0A0C1D-A22E-49C7-A2FF-8FA897A33052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD0A0C1D-A22E-49C7-A2FF-8FA897A33052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD0A0C1D-A22E-49C7-A2FF-8FA897A33052}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
