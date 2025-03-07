@@ -15,8 +15,8 @@ public class HotelControllerShould
     [SetUp]
     public void Setup()
     {
-        hotelService = Substitute.For<HotelService>(Substitute.For<HotelRepository>());
-        controllers = new HotelController(hotelService);
+        hotelService = Substitute.For<HotelService>();
+        controller = new HotelController(hotelService);
     }
 
     [Test]
