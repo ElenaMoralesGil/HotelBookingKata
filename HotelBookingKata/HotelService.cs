@@ -9,6 +9,9 @@ public class HotelService {
     }
 
     public void AddHotel(string hotelId, string hotelName){
+
+        if (HotelRepository.Exists(hotelId)) throw new InvalidOperationException("Hotel already exists");
+       
         var hotel =  new Hotel(hotelId,hotelName);
         HotelRepository.Add(hotel);
     }

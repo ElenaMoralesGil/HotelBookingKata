@@ -36,5 +36,20 @@ public class HotelApiShould  {
         response.Headers.Location.ToString().ShouldContain("Hotel1");
 
     }
+    [Test]
+    public async Task return_conflict_when_adding_duplicated_hotel()
+    {
+        var hotel = new
+        {
+            id = "Hotel1",
+            name = "Hotel 1"
+        };
+
+        await client.PostAsJsonAsync("/api/hotels", hotel);
+        var response = await client.PostAsJsonAsync("/api/hotels", hotel);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Conflict);
+
+    }
     
 }
