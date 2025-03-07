@@ -1,3 +1,4 @@
+using HotelBookingKata.services;
 namespace HotelBookingKata;
 
 public partial class Program {
@@ -7,7 +8,7 @@ public partial class Program {
 
         builder.Services.AddControllers();
         builder.Services.AddSingleton<HotelRepository, InMemoryHotelRepository>();
-        builder.Services.AddScoped<HotelService> ();
+        builder.Services.AddScoped<HotelServiceImpl> ();
 
         var app = builder.Build();
         app.MapControllers();
