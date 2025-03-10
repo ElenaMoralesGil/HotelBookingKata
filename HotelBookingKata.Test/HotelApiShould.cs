@@ -1,4 +1,5 @@
 using System.Net;
+using HotelBookingKata.Entities;
 using System.Net.Http.Json;
 using Shouldly;
 
@@ -51,6 +52,25 @@ public class HotelApiShould  {
         response.StatusCode.ShouldBe(HttpStatusCode.Conflict);
 
     }
-    
+    [Test]
+    public async Task set_room_when_hotel_exists()
+    {
+        var hotel = new
+        {
+            id = "Hotel1",
+            name = "Hotel 1"
+        };
+        await client.PostAsJsonAsync("/api/hotels", hotel);
+        var room = new
+        {
+            roomNumber = "1",
+            roomType = RoomType.Standard
+        };
+
+        var response = await client.PostAsJsonAsync($"/api/hotels/{hotel.id}/rooms", room);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+
+    }
 
 }

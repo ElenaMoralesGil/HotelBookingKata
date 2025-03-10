@@ -1,4 +1,6 @@
-namespace HotelBookingKata;
+using HotelBookingKata.Entities;
+
+namespace HotelBookingKata.Repositories;
 
 public class InMemoryHotelRepository : HotelRepository {
 
@@ -13,5 +15,10 @@ public class InMemoryHotelRepository : HotelRepository {
 
     public bool Exists(string id) {
         return hotels.ContainsKey(id);
+    }
+
+    public void Update(Hotel hotel)
+    {
+        hotels[hotel.Id] = hotel;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using HotelBookingKata;
 using HotelBookingKata.services;
 using HotelBookingKata.Controllers;
+using HotelBookingKata.Entities;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Shouldly;
@@ -48,5 +49,25 @@ public class HotelControllerShould
         var result = controller.AddHotel(request);
         result.ShouldBeOfType<ConflictObjectResult>();
         var conflictResult = (ConflictObjectResult)result;
+    }
+
+    [Test]
+    public void return_noContent_when_setting_a_valid_room_to_an_existing_hotel()
+    {
+        var hotel = new
+        {
+            Id = "Hotel1",
+            Name = "Hotel 1"
+        };
+        var request = new HotelController.SetRoomRequest
+        {
+            RoomNumber = "1",
+            RoomType = RoomType.Standard
+        };
+
+        var result = controller.SetRoom(hotel.Id, request);
+
+        result.ShouldBeOfType<NoContentResult>();
+        hotelService.Received(1).SetRoom(hotel.Id, request.RoomNumber, request.RoomType);
     }
 }
