@@ -1,8 +1,9 @@
 ﻿using System.Net;
-using HotelBookingKata;
 using NSubstitute;
 using Shouldly;
 using HotelBookingKata.services;
+using HotelBookingKata.Entities;
+using HotelBookingKata.Repositories;
 namespace HotelBooking.Services.Test;
 
 public class HotelServiceImplShould
@@ -21,7 +22,7 @@ public class HotelServiceImplShould
     [Test]
     public void add_hotel_when_hotel_doesnt_exist()
     {
-        var hotel =new Hotel("hotel1","hotel 1" );
+        var hotel = new Hotel("hotel1", "hotel 1");
 
         hotelRepository.Add(hotel);
 
@@ -34,9 +35,20 @@ public class HotelServiceImplShould
         var hotel = new Hotel("hotel1", "hotel 1");
         hotelRepository.Exists(hotel.Id).Returns(true);
 
-        Should.Throw<InvalidOperationException>(() => 
+        Should.Throw<InvalidOperationException>(() =>
         hotelService.AddHotel(hotel.Id, hotel.Name))
             .Message.ShouldBe("Hotel already exists");
         hotelRepository.Received(1).Exists(hotel.Id);
+    }
+
+    [Test]
+    public void set_room_when_hotel_exists()
+    {
+        var hotel = new Hotel("hotel1", "hotel 1");
+        var room = new Room("1", RoomType.Standard);
+        hotelRepository.GetById(hotel.Id).Returns(hotel);
+
+        hotelService.SetRoom(hotel.Id, room.Number, room.Type);
+        hotelRepository.Received(1).Update(hotel);
     }
 }
