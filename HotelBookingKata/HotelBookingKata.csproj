@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="HotelBooking.Repositories.Tests" />
+     <InternalsVisibleTo Include="HotelBooking.Entities.Tests" />
   </ItemGroup>
 
 </Project>
