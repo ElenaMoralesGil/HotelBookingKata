@@ -73,4 +73,21 @@ public class HotelApiShould  {
 
     }
 
+    [Test]
+    public async Task return_not_found_when_setting_room_to_non_existing_hotel()
+    {
+        var hotel = new
+        {
+            id = "Hotel1",
+            name = "Hotel 1"
+        };
+        var room = new
+        {
+            roomNumber = "1",
+            roomType = RoomType.Standard
+        };
+        var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.id}/rooms", room);
+        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+    }
+
 }

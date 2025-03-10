@@ -20,8 +20,7 @@ public class HotelServiceImpl : HotelService{
 
     public void SetRoom(string hotelId, string roomNumber, RoomType roomType)
     {
-        var hotel = HotelRepository.GetById(hotelId);
-        if (hotel == null) throw new InvalidOperationException("Hotel does not exist");
+        var hotel = HotelRepository.GetById(hotelId) ?? throw new InvalidOperationException("Hotel does not exist");
         hotel.SetRoom(roomNumber, roomType);
         HotelRepository.Update(hotel);
     }

@@ -38,6 +38,12 @@ public class InMemoryHotelRepositoryShould
     }
 
     [Test]
+    public void return_exception_when_getting_id_from_non_existent_hotel()
+    {
+        Should.Throw<InvalidOperationException>(() => repository.GetById("hotel1"));
+    }
+
+    [Test]
     public void return_true_when_hotel_exists()
     {
         var hotel = new Hotel("hotel1", "hotel 1");

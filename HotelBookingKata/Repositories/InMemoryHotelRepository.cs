@@ -10,7 +10,11 @@ public class InMemoryHotelRepository : HotelRepository {
         hotels[hotel.Id] = hotel;
     }
     public Hotel GetById(string id) {
-        return hotels[id];
+        if(!hotels.ContainsKey(id))
+        {
+            throw new InvalidOperationException("Hotel not found");
+        }
+        return hotels[id] ;
     }
 
     public bool Exists(string id) {

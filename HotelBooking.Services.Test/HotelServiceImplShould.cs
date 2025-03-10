@@ -51,4 +51,17 @@ public class HotelServiceImplShould
         hotelService.SetRoom(hotel.Id, room.Number, room.Type);
         hotelRepository.Received(1).Update(hotel);
     }
+
+    [Test]
+    public void return_not_found_when_hotel_doesnt_exist()
+    {
+        var hotel = new Hotel("hotel1", "hotel 1");
+        var room = new Room("1", RoomType.Standard);
+        hotelRepository.GetById(hotel.Id).Returns((Hotel) null);
+        Should.Throw<InvalidOperationException>(() =>
+        hotelService.SetRoom(hotel.Id, room.Number, room.Type))
+            .Message.ShouldBe("Hotel does not exist");
+        hotelRepository.Received(1).GetById(hotel.Id);
+        hotelRepository.DidNotReceive().Update(Arg.Any<Hotel>());
+    }
 }
