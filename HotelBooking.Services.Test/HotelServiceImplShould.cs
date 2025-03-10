@@ -64,4 +64,17 @@ public class HotelServiceImplShould
         hotelRepository.Received(1).GetById(hotel.Id);
         hotelRepository.DidNotReceive().Update(Arg.Any<Hotel>());
     }
+
+    [Test]
+    public void return_hotel_when_finding_hotel_by_id_of_an_existing_hotel()
+    {
+        var hotel = new Hotel("hotel1", "hotel 1");
+        hotelRepository.GetById(hotel.Id).Returns(hotel);
+
+        var result = hotelService.FindHotelBy(hotel.Id);
+
+        result.ShouldBe(hotel);
+        hotelRepository.Received(1).GetById(hotel.Id);
+
+    }
 }

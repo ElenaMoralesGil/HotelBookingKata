@@ -24,4 +24,9 @@ public class HotelServiceImpl : HotelService{
         hotel.SetRoom(roomNumber, roomType);
         HotelRepository.Update(hotel);
     }
+
+    public Hotel FindHotelBy(string hotelId)
+    {
+        return HotelRepository.GetById(hotelId);
+    }
 }

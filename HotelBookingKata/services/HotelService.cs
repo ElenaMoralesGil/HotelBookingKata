@@ -5,6 +5,7 @@ namespace HotelBookingKata.services
     {
         void AddHotel(string hotelId, string hotelName);
         void SetRoom(string hotelId, string roomNumber, RoomType roomType);
+        Hotel FindHotelBy(string hotelId);
 
     }
 }

@@ -89,4 +89,21 @@ public class HotelControllerShould
         result.ShouldBeOfType<NotFoundObjectResult>();
         var notFoundResult = (NotFoundObjectResult)result;
     }
+
+    [Test]
+    public void return_Ok_when_getting_existing_hotel()
+    {
+        var hotel = new Hotel("hotel1", "hotel 1");
+        hotel.SetRoom("1", RoomType.Standard);
+        hotelService.FindHotelBy(hotel.Id).Returns(hotel);
+
+        var result = controller.GetHotel(hotel.Id);
+
+        result.ShouldBeOfType<OkObjectResult>();
+        var okResult = (OkObjectResult)result;
+        var hotelResponse = okResult.Value as HotelResponse;
+        hotelResponse.Id.ShouldBe(hotel.Id);
+        hotelResponse.Name.ShouldBe(hotel.Name);
+        hotelResponse.RoomCounts.Count.ShouldBe(1);
+    }
 }
