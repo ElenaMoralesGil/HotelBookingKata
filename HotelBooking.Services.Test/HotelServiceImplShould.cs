@@ -47,6 +47,7 @@ public class HotelServiceImplShould
     {
         var hotel = new Hotel("hotel1", "hotel 1");
         var room = new Room(RoomType.Standard, "1");
+        hotelRepository.Exists(hotel.Id).Returns(true);
         hotelRepository.GetById(hotel.Id).Returns(hotel);
 
         hotelService.SetRoom(hotel.Id, room.Number, room.Type);
