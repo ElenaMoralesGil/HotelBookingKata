@@ -57,13 +57,18 @@ public class HotelController : ControllerBase
         try
         {
             var hotel = hotelService.FindHotelBy(hotelId);
-            
+            var rooms = hotel.GetRooms().Select(room => new RoomResponse
+            {
+                Number = room.Number,
+                Type = room.Type
+            }).ToList();
+
 
             return Ok(new HotelResponse
             {
                 Id = hotel.Id,
                 Name = hotel.Name,
-                Rooms = hotel.GetRooms()
+                Rooms = rooms
             });
         }
         catch (InvalidOperationException exception)
@@ -84,13 +89,19 @@ public class HotelController : ControllerBase
 
     public class SetRoomRequest
     {
-        public required string Number { get; set; }
-        public required RoomType Type { get; set; }
+        public  string Number { get; set; }
+        public  RoomType Type { get; set; }
     }
 }
 public class HotelResponse
 {
-    public required string Id { get; set; }
-    public required string Name { get; set; }
-    public required List<Room> Rooms { get; set; }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public List<RoomResponse> Rooms { get; set; }
+}
+
+public class RoomResponse
+{
+    public string Number { get; set; }
+    public RoomType Type { get; set; }
 }

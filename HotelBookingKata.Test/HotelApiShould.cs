@@ -99,12 +99,12 @@ public class HotelApiShould  {
         {
             Id = "Hotel1",
             Name = "Hotel 1",
-           
         };
         var room1 = new
         {
             Number = "1",
             Type = RoomType.Standard
+
         };
         var room2 = new
         {
@@ -116,8 +116,7 @@ public class HotelApiShould  {
         await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms", room2);
 
         var response = await client.GetAsync($"/api/hotels/{hotel.Id}");
-        var options = new JsonSerializerOptions { IncludeFields = true};
-        var result = await response.Content.ReadFromJsonAsync<HotelResponse>(options);
+        var result = await response.Content.ReadFromJsonAsync<HotelResponse>();
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         hotel.ShouldNotBeNull();
         result.ShouldNotBeNull();
