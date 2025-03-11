@@ -37,7 +37,6 @@ public class HotelApiShould  {
 
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
         response.Headers.Location.ToString().ShouldContain("Hotel1");
-
         var repository = factory.GetRepository();
         repository.Exists(hotel.id).ShouldBeTrue();
         var storedHotel = repository.GetById(hotel.id);
@@ -58,7 +57,6 @@ public class HotelApiShould  {
         var response = await client.PostAsJsonAsync("/api/hotels", hotel);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Conflict);
-
         var repository = factory.GetRepository();
         repository.Exists(hotel.id).ShouldBeTrue();
         repository.hotels.Count.ShouldBe(1);
@@ -82,7 +80,6 @@ public class HotelApiShould  {
         var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms/{room.Type}", room);
 
         response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
-
         var repository = factory.GetRepository();
         var storedHotel = repository.GetById(hotel.Id);
         storedHotel.Rooms.Count.ShouldBe(1);
@@ -105,7 +102,12 @@ public class HotelApiShould  {
             Type = RoomType.Standard
         };
         var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms/{room.Type}", room);
+        
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        var repository = factory.GetRepository();
+        repository.Exists(hotel.Id).ShouldBeFalse();
+
+
     }
 
     [Test]
