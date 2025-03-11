@@ -38,6 +38,12 @@ public class HotelApiShould  {
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
         response.Headers.Location.ToString().ShouldContain("Hotel1");
 
+        var repository = factory.GetRepository();
+        repository.Exists(hotel.id).ShouldBeTrue();
+        var storedHotel = repository.GetById(hotel.id);
+        storedHotel.Id.ShouldBe(hotel.id);
+        storedHotel.Name.ShouldBe(hotel.name);
+
     }
     [Test]
     public async Task return_conflict_when_adding_duplicated_hotel()
