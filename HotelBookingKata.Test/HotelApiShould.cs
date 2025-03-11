@@ -83,6 +83,12 @@ public class HotelApiShould  {
 
         response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
 
+        var repository = factory.GetRepository();
+        var storedHotel = repository.GetById(hotel.Id);
+        storedHotel.Rooms.Count.ShouldBe(1);
+        storedHotel.Rooms[0].Number.ShouldBe("1");
+        storedHotel.Rooms[0].Type.ShouldBe(RoomType.Standard);
+
     }
 
     [Test]
