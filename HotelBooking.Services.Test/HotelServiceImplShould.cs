@@ -4,6 +4,7 @@ using Shouldly;
 using HotelBookingKata.services;
 using HotelBookingKata.Entities;
 using HotelBookingKata.Repositories;
+using HotelBookingKata.Exceptions;
 namespace HotelBooking.Services.Test;
 
 public class HotelServiceImplShould
@@ -35,9 +36,9 @@ public class HotelServiceImplShould
         var hotel = new Hotel("hotel1", "hotel 1");
         hotelRepository.Exists(hotel.Id).Returns(true);
 
-        Should.Throw<InvalidOperationException>(() =>
+        Should.Throw<HotelAlreadyExistsException>(() =>
         hotelService.AddHotel(hotel.Id, hotel.Name))
-            .Message.ShouldBe("Hotel already exists");
+            .Message.ShouldBe($"Hotel with id {hotel.Id} already exists");
         hotelRepository.Received(1).Exists(hotel.Id);
     }
 
@@ -58,10 +59,9 @@ public class HotelServiceImplShould
         var hotel = new Hotel("hotel1", "hotel 1");
         var room = new Room( RoomType.Standard, "1");
         hotelRepository.GetById(hotel.Id).Returns((Hotel) null);
-        Should.Throw<InvalidOperationException>(() =>
+        Should.Throw<HotelNotFoundException>(() =>
         hotelService.SetRoom(hotel.Id, room.Number, room.Type))
-            .Message.ShouldBe("Hotel does not exist");
-        hotelRepository.Received(1).GetById(hotel.Id);
+            .Message.ShouldBe("Hotel with id hotel1 not found");
         hotelRepository.DidNotReceive().Update(Arg.Any<Hotel>());
     }
 

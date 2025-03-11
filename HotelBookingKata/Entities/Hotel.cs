@@ -1,3 +1,6 @@
+using HotelBookingKata.Exceptions;
+using System;
+
 namespace HotelBookingKata.Entities;
 
 public class Hotel {
@@ -20,9 +23,10 @@ public class Hotel {
 
     public Room GetRoom(RoomType type)
     {
-       if(Rooms.Find(room => room.Type == type) == null) throw new InvalidOperationException();
+       var room = Rooms.Find(room => room.Type == type);
+       if (room == null) throw new RoomNotFoundException(Id, type);
        
-        return Rooms.Find(room => room.Type == type);
+        return room;
     }
 
     public List<Room> GetRooms()

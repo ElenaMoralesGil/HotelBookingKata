@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using HotelBookingKata.services;
 using HotelBookingKata.Entities;
+using HotelBookingKata.Exceptions;
 namespace HotelBookingKata.Controllers;
 
 [ApiController]
@@ -22,7 +23,7 @@ public class HotelController : ControllerBase
             hotelService.AddHotel(request.Id, request.Name);
             return Created($"/api/hotels/{request.Id}", null);
         }
-        catch (InvalidOperationException exception)
+        catch (HotelAlreadyExistsException exception)
         {
             return Conflict(new { message = exception.Message });
         }
@@ -41,7 +42,7 @@ public class HotelController : ControllerBase
             hotelService.SetRoom(hotelId, request.Number, roomType);
             return NoContent();
         }
-        catch (InvalidOperationException exception)
+        catch (HotelNotFoundException exception)
         {
             return NotFound(new { message = exception.Message });
         }
@@ -71,7 +72,7 @@ public class HotelController : ControllerBase
                 Rooms = rooms
             });
         }
-        catch (InvalidOperationException exception)
+        catch (HotelNotFoundException exception)
         {
             return NotFound(new { message = exception.Message });
         }

@@ -1,4 +1,5 @@
 using HotelBookingKata.Entities;
+using HotelBookingKata.Exceptions;
 
 namespace HotelBookingKata.Repositories;
 
@@ -9,10 +10,11 @@ public class InMemoryHotelRepository : HotelRepository {
     public void Add(Hotel hotel) {
         hotels[hotel.Id] = hotel;
     }
+    
     public Hotel GetById(string id) {
         if(!hotels.ContainsKey(id))
         {
-            throw new InvalidOperationException("Hotel not found");
+            throw new HotelNotFoundException(id);
         }
         return hotels[id] ;
     }

@@ -1,5 +1,6 @@
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Entities;
+using HotelBookingKata.Exceptions;
 namespace HotelBookingKata.services;
 
 public class HotelServiceImpl : HotelService{
@@ -12,7 +13,7 @@ public class HotelServiceImpl : HotelService{
 
     public void AddHotel(string hotelId, string hotelName){
 
-        if (HotelRepository.Exists(hotelId)) throw new InvalidOperationException("Hotel already exists");
+        if (HotelRepository.Exists(hotelId)) throw new HotelAlreadyExistsException(hotelId);
        
         var hotel =  new Hotel(hotelId,hotelName);
         HotelRepository.Add(hotel);
@@ -20,7 +21,9 @@ public class HotelServiceImpl : HotelService{
 
     public void SetRoom(string hotelId, string roomNumber, RoomType roomType)
     {
-        var hotel = HotelRepository.GetById(hotelId) ?? throw new InvalidOperationException("Hotel does not exist");
+        if (!HotelRepository.Exists(hotelId)) throw new HotelNotFoundException(hotelId);
+
+        var hotel = HotelRepository.GetById(hotelId);
         hotel.SetRoom(roomNumber, roomType);
         HotelRepository.Update(hotel);
     }

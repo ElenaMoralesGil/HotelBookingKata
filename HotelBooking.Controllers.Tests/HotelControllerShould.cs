@@ -5,6 +5,7 @@ using HotelBookingKata.Entities;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Shouldly;
+using HotelBookingKata.Exceptions;
 
 namespace HotelBooking.Controllers.Tests;
 
@@ -44,7 +45,7 @@ public class HotelControllerShould
             Id = "Hotel1",
             Name = "Hotel 1"
         };
-        hotelService.When(x => x.AddHotel(hotel.Id, hotel.Name)).Do(x => throw new InvalidOperationException("Hotel already exists"));
+        hotelService.When(x => x.AddHotel(hotel.Id, hotel.Name)).Do(x => throw new HotelAlreadyExistsException(hotel.Id));
         var request = new HotelController.AddHotelRequest { Id = hotel.Id, Name = hotel.Name };
         var result = controller.AddHotel(request);
         result.ShouldBeOfType<ConflictObjectResult>();
@@ -78,7 +79,7 @@ public class HotelControllerShould
             Id = "Hotel1",
             Name = "Hotel 1"
         };
-        hotelService.When(x => x.SetRoom(hotel.Id, "1", RoomType.Standard)).Do(x => throw new InvalidOperationException("Hotel does not exist"));
+        hotelService.When(x => x.SetRoom(hotel.Id, "1", RoomType.Standard)).Do(x => throw new HotelNotFoundException(hotel.Id));
         var request = new HotelController.SetRoomNumberRequest
         {
             Number = "1",

@@ -3,6 +3,7 @@ using HotelBookingKata.Repositories;
 using HotelBookingKata.Entities;
 using NSubstitute;
 using Shouldly;
+using HotelBookingKata.Exceptions;
 namespace HotelBooking.Repositories.Tests;
 
 public class InMemoryHotelRepositoryShould
@@ -40,7 +41,7 @@ public class InMemoryHotelRepositoryShould
     [Test]
     public void return_exception_when_getting_id_from_non_existent_hotel()
     {
-        Should.Throw<InvalidOperationException>(() => repository.GetById("hotel1"));
+        Should.Throw<HotelNotFoundException>(() => repository.GetById("hotel1"));
     }
 
     [Test]
