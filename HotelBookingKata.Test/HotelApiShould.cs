@@ -59,6 +59,10 @@ public class HotelApiShould  {
 
         response.StatusCode.ShouldBe(HttpStatusCode.Conflict);
 
+        var repository = factory.GetRepository();
+        repository.Exists(hotel.id).ShouldBeTrue();
+        repository.hotels.Count.ShouldBe(1);
+
     }
     [Test]
     public async Task set_room_when_hotel_exists()

@@ -12,7 +12,8 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="HotelBooking.Repositories.Tests" />
-     <InternalsVisibleTo Include="HotelBooking.Entities.Tests" />
+    <InternalsVisibleTo Include="HotelBooking.Entities.Tests" />
+    <InternalsVisibleTo Include="HotelBooking.API.Test" />
   </ItemGroup>
 
 </Project>
