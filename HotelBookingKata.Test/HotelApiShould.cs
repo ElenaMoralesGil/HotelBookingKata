@@ -144,6 +144,16 @@ public class HotelApiShould  {
         result.Rooms[0].Type.ShouldBe(RoomType.Standard);
         result.Rooms[1].Number.ShouldBe("2");
         result.Rooms[1].Type.ShouldBe(RoomType.JuniorSuite);
+        var repository = factory.GetRepository();
+        repository.Exists(hotel.Id).ShouldBeTrue();
+        var storedHotel = repository.GetById(hotel.Id);
+        storedHotel.Rooms.Count.ShouldBe(2);
+        storedHotel.Rooms[0].Number.ShouldBe("1");
+        storedHotel.Rooms[0].Type.ShouldBe(RoomType.Standard);
+        storedHotel.Rooms[1].Number.ShouldBe("2");
+        storedHotel.Rooms[1].Type.ShouldBe(RoomType.JuniorSuite);
+        storedHotel.Id.ShouldBe(hotel.Id);
+        storedHotel.Name.ShouldBe(hotel.Name);
     }
 
 }
