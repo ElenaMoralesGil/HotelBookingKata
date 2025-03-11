@@ -9,7 +9,7 @@ public partial class Program {
 
         builder.Services.AddControllers();
         builder.Services.AddSingleton<HotelRepository, InMemoryHotelRepository>();
-        builder.Services.AddScoped<HotelService, HotelServiceImpl> ();
+        builder.Services.AddScoped<HotelService, ApplicationHotelService> ();
 
         var app = builder.Build();
         app.MapControllers();

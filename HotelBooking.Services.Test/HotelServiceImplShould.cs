@@ -10,14 +10,14 @@ namespace HotelBooking.Services.Test;
 public class HotelServiceImplShould
 {
 
-    private HotelServiceImpl hotelService;
+    private ApplicationHotelService hotelService;
     private HotelRepository hotelRepository;
 
     [SetUp]
     public void Setup()
     {
         hotelRepository = Substitute.For<HotelRepository>();
-        hotelService = new HotelServiceImpl(hotelRepository);
+        hotelService = new ApplicationHotelService(hotelRepository);
     }
 
     [Test]
