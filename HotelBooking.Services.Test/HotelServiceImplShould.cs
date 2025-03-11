@@ -45,7 +45,7 @@ public class HotelServiceImplShould
     public void set_room_when_hotel_exists()
     {
         var hotel = new Hotel("hotel1", "hotel 1");
-        var room = new Room("1", RoomType.Standard);
+        var room = new Room(RoomType.Standard, "1");
         hotelRepository.GetById(hotel.Id).Returns(hotel);
 
         hotelService.SetRoom(hotel.Id, room.Number, room.Type);
@@ -56,7 +56,7 @@ public class HotelServiceImplShould
     public void return_not_found_when_hotel_doesnt_exist()
     {
         var hotel = new Hotel("hotel1", "hotel 1");
-        var room = new Room("1", RoomType.Standard);
+        var room = new Room( RoomType.Standard, "1");
         hotelRepository.GetById(hotel.Id).Returns((Hotel) null);
         Should.Throw<InvalidOperationException>(() =>
         hotelService.SetRoom(hotel.Id, room.Number, room.Type))

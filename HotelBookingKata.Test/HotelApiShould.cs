@@ -3,6 +3,7 @@ using HotelBookingKata.Entities;
 using HotelBookingKata.Controllers;
 using System.Net.Http.Json;
 using Shouldly;
+using System.Text.Json;
 
 namespace HotelBookingKata.Test;
 
@@ -58,17 +59,17 @@ public class HotelApiShould  {
     {
         var hotel = new
         {
-            id = "Hotel1",
-            name = "Hotel 1"
+            Id = "Hotel1",
+            Name = "Hotel 1"
         };
         await client.PostAsJsonAsync("/api/hotels", hotel);
         var room = new
         {
-            roomNumber = "1",
-            roomType = RoomType.Standard
+            Number = "1",
+            Type = RoomType.Standard
         };
 
-        var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.id}/rooms", room);
+        var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms", room);
 
         response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
 
@@ -79,15 +80,15 @@ public class HotelApiShould  {
     {
         var hotel = new
         {
-            id = "Hotel1",
-            name = "Hotel 1"
+            Id = "Hotel1",
+            Name = "Hotel 1"
         };
         var room = new
         {
-            roomNumber = "1",
-            roomType = RoomType.Standard
+            Number = "1",
+            Type = RoomType.Standard
         };
-        var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.id}/rooms", room);
+        var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms", room);
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
 
@@ -96,30 +97,36 @@ public class HotelApiShould  {
     {
         var hotel = new
         {
-            id = "Hotel1",
-            name = "Hotel 1"
+            Id = "Hotel1",
+            Name = "Hotel 1",
+           
         };
         var room1 = new
         {
-            roomNumber = "1",
-            roomType = RoomType.Standard
+            Number = "1",
+            Type = RoomType.Standard
         };
         var room2 = new
         {
-            roomNumber = "2",
-            roomType = RoomType.JuniorSuite
+            Number = "2",
+            Type = RoomType.JuniorSuite
         };
         await client.PostAsJsonAsync("/api/hotels", hotel);
-        await client.PutAsJsonAsync($"/api/hotels/{hotel.id}/rooms", room1);
-        await client.PutAsJsonAsync($"/api/hotels/{hotel.id}/rooms", room2);
+        await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms", room1);
+        await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms", room2);
 
-        var response = await client.GetAsync($"/api/hotels/{hotel.id}");
-        var result = await response.Content.ReadFromJsonAsync<HotelResponse>();
+        var response = await client.GetAsync($"/api/hotels/{hotel.Id}");
+        var options = new JsonSerializerOptions { IncludeFields = true};
+        var result = await response.Content.ReadFromJsonAsync<HotelResponse>(options);
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         hotel.ShouldNotBeNull();
-        result.Id.ShouldBe(hotel.id);
-        result.Name.ShouldBe(hotel.name);
-        result.RoomCounts.Count.ShouldBe(2);
+        result.ShouldNotBeNull();
+        result.Id.ShouldBe(hotel.Id);
+        result.Name.ShouldBe(hotel.Name);
+        result.Rooms[0].Number.ShouldBe("1");
+        result.Rooms[0].Type.ShouldBe(RoomType.Standard);
+        result.Rooms[1].Number.ShouldBe("2");
+        result.Rooms[1].Type.ShouldBe(RoomType.JuniorSuite);
     }
 
 }

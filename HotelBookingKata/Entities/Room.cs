@@ -4,7 +4,7 @@
     {
         public string Number;
         public RoomType Type;
-        public Room(string number, RoomType type)
+        public Room( RoomType type, string number)
         {
             Number = number;
             Type = type;

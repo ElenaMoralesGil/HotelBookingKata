@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBookingKata.API.Test", "HotelBookingKata.Test\HotelBookingKata.API.Test.csproj", "{F416359B-FB2C-4A03-B1FF-D47365FA954F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.API.Test", "HotelBookingKata.Test\HotelBooking.API.Test.csproj", "{F416359B-FB2C-4A03-B1FF-D47365FA954F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBookingKata", "HotelBookingKata\HotelBookingKata.csproj", "{34782C8A-FB01-418B-AEAA-E051D4D271FD}"
 EndProject

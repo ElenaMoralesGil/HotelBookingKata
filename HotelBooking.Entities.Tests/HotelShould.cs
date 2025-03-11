@@ -23,7 +23,7 @@ public class HotelShould
     public void get_room()
     {
         Hotel.SetRoom("101", RoomType.Standard);
-        var room = Hotel.GetRoom("101");
+        var room = Hotel.GetRoom(RoomType.Standard);
         room.Number.ShouldBe("101");
         room.Type.ShouldBe(RoomType.Standard);
     }

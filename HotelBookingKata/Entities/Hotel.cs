@@ -4,7 +4,7 @@ public class Hotel {
 
     public string Id;
     public string Name;
-    internal Dictionary<string, Room> Rooms = new Dictionary<string, Room>();
+    internal List<Room> Rooms = new List<Room>();
 
 
 
@@ -15,20 +15,18 @@ public class Hotel {
 
     public void SetRoom(string number, RoomType type)
     {
-        Rooms[number] = new Room(number, type);
+        Rooms.Add(new Room(type, number));
     }
 
-    public Room GetRoom(string number)
+    public Room GetRoom(RoomType type)
     {
-        if (!Rooms.ContainsKey(number))
-        {
-            throw new InvalidOperationException("Room not found");
-        }
-        return Rooms[number];
+       if(Rooms.Find(room => room.Type == type) == null) throw new InvalidOperationException();
+       
+        return Rooms.Find(room => room.Type == type);
     }
 
     public List<Room> GetRooms()
     {
-        return Rooms.Values.ToList();
+        return Rooms;
     }
 }

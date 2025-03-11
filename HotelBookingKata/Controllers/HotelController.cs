@@ -38,7 +38,7 @@ public class HotelController : ControllerBase
 
         try
         {
-            hotelService.SetRoom(hotelId, request.RoomNumber, request.RoomType);
+            hotelService.SetRoom(hotelId, request.Number, request.Type);
             return NoContent();
         }
         catch (InvalidOperationException exception)
@@ -57,16 +57,13 @@ public class HotelController : ControllerBase
         try
         {
             var hotel = hotelService.FindHotelBy(hotelId);
-            var roomCounts = hotel.GetRooms()
-                .GroupBy(room => room.Type)
-                .Select(room => new RoomTypeCount{ RoomType = room.Key, Count = room.Count() })
-                .ToList();
+            
 
             return Ok(new HotelResponse
             {
                 Id = hotel.Id,
                 Name = hotel.Name,
-                RoomCounts = roomCounts
+                Rooms = hotel.GetRooms()
             });
         }
         catch (InvalidOperationException exception)
@@ -87,19 +84,13 @@ public class HotelController : ControllerBase
 
     public class SetRoomRequest
     {
-        public required string RoomNumber { get; set; }
-        public required RoomType RoomType { get; set; }
+        public required string Number { get; set; }
+        public required RoomType Type { get; set; }
     }
 }
 public class HotelResponse
 {
     public required string Id { get; set; }
     public required string Name { get; set; }
-    public required List<RoomTypeCount> RoomCounts { get; set; }
-}
-
-public class RoomTypeCount
-{
-    public required RoomType RoomType { get; set; }
-    public required int Count { get; set; }
+    public required List<Room> Rooms { get; set; }
 }

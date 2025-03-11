@@ -59,7 +59,7 @@ public class InMemoryHotelRepositoryShould
     public void return_updated_hotel_when_setting_room()
     {
         var hotel = new Hotel("hotel1", "hotel 1");
-        var room = new Room("1", RoomType.Standard);
+        var room = new Room(RoomType.Standard, "1");
         repository.Add(hotel);
         hotel.SetRoom(room.Number, room.Type);
 
@@ -67,6 +67,7 @@ public class InMemoryHotelRepositoryShould
         var result = repository.GetById(hotel.Id);
 
         result.Rooms.Count.ShouldBe(1);
-        result.Rooms.ShouldContainKey(room.Number);
+        result.Rooms[0].Number.ShouldBe("1");
+        result.Rooms[0].Type.ShouldBe(RoomType.Standard);
     }
 }
