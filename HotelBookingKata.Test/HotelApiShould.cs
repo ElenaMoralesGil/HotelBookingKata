@@ -69,7 +69,7 @@ public class HotelApiShould  {
             Type = RoomType.Standard
         };
 
-        var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms", room);
+        var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms/{room.Type}", room);
 
         response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
 
@@ -88,7 +88,7 @@ public class HotelApiShould  {
             Number = "1",
             Type = RoomType.Standard
         };
-        var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms", room);
+        var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms/{room.Type}", room);
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
 
@@ -112,8 +112,8 @@ public class HotelApiShould  {
             Type = RoomType.JuniorSuite
         };
         await client.PostAsJsonAsync("/api/hotels", hotel);
-        await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms", room1);
-        await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms", room2);
+        await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms/{room1.Type}", room1);
+        await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms/{room2.Type}", room2);
 
         var response = await client.GetAsync($"/api/hotels/{hotel.Id}");
         var result = await response.Content.ReadFromJsonAsync<HotelResponse>();

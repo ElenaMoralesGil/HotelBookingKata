@@ -59,16 +59,15 @@ public class HotelControllerShould
             Id = "Hotel1",
             Name = "Hotel 1"
         };
-        var request = new HotelController.SetRoomRequest
+        var request = new HotelController.SetRoomNumberRequest
         {
             Number = "1",
-            Type = RoomType.Standard
         };
 
-        var result = controller.SetRoom(hotel.Id, request);
+        var result = controller.SetRoom(hotel.Id, RoomType.Standard,  request);
 
         result.ShouldBeOfType<NoContentResult>();
-        hotelService.Received(1).SetRoom(hotel.Id, request.Number, request.Type);
+        hotelService.Received(1).SetRoom(hotel.Id, request.Number, RoomType.Standard);
     }
 
     [Test]
@@ -80,12 +79,11 @@ public class HotelControllerShould
             Name = "Hotel 1"
         };
         hotelService.When(x => x.SetRoom(hotel.Id, "1", RoomType.Standard)).Do(x => throw new InvalidOperationException("Hotel does not exist"));
-        var request = new HotelController.SetRoomRequest
+        var request = new HotelController.SetRoomNumberRequest
         {
             Number = "1",
-            Type = RoomType.Standard
         };
-        var result = controller.SetRoom(hotel.Id, request);
+        var result = controller.SetRoom(hotel.Id, RoomType.Standard, request);
         result.ShouldBeOfType<NotFoundObjectResult>();
         var notFoundResult = (NotFoundObjectResult)result;
     }

@@ -32,13 +32,13 @@ public class HotelController : ControllerBase
         }
     }
 
-    [HttpPut("{hotelId}/rooms")]
-    public IActionResult SetRoom(string hotelId, [FromBody] SetRoomRequest request)
+    [HttpPut("{hotelId}/rooms/{roomType}")]
+    public IActionResult SetRoom(string hotelId,RoomType roomType, [FromBody] SetRoomNumberRequest request)
     {
 
         try
         {
-            hotelService.SetRoom(hotelId, request.Number, request.Type);
+            hotelService.SetRoom(hotelId, request.Number, roomType);
             return NoContent();
         }
         catch (InvalidOperationException exception)
@@ -87,10 +87,9 @@ public class HotelController : ControllerBase
         public required string Name { get; set; }
     }
 
-    public class SetRoomRequest
+    public class SetRoomNumberRequest
     {
         public  string Number { get; set; }
-        public  RoomType Type { get; set; }
     }
 }
 public class HotelResponse
