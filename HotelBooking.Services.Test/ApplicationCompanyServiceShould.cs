@@ -16,8 +16,8 @@ namespace HotelBooking.Services.Test;
         [SetUp]
         public void Setup()
         {
-            companyRepository = Substitute.For<InMemoryCompanyRepository>();
-            employeeRepository = Substitute.For<InMemoryEmployeeRepository>();
+            companyRepository = Substitute.For<CompanyRepository>();
+            employeeRepository = Substitute.For<EmployeeRepository>();
             companyService = new ApplicationCompanyService(companyRepository, employeeRepository);
         }
 
@@ -25,13 +25,18 @@ namespace HotelBooking.Services.Test;
 
         public void add_employee_when_employee_doesnt_exist_in_company()
         {
-        var company = new Company("Company1");
-        var employee = new Employee("Employee1", company.Id);
-        companyRepository.Exists(company.Id).Returns(true);
-        employeeRepository.Exists(employee.Id).Returns(false);
-        companyService.AddEmployee(company.Id, employee.Id);
-        companyRepository.Received(1).Add(company);
-        employeeRepository.Received(1).Add(employee);
+        var companyId = "Company1";
+        var employeeId = "Employee1";
+        var company = new Company(companyId);
+
+        companyRepository.Exists(companyId).Returns(true);
+        companyRepository.GetById(companyId).Returns(company);
+        employeeRepository.Exists(employeeId).Returns(false);
+
+        companyService.AddEmployee(company.Id, employeeId);
+
+        employeeRepository.Received(1).Add(Arg.Is<Employee>(e => e.Id == employeeId && e.CompanyId == companyId));
+        companyRepository.Received(1).Update(company);
     }
     }
 

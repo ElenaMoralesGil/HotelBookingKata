@@ -37,7 +37,7 @@ public class HotelApiShould  {
 
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
         response.Headers.Location.ToString().ShouldContain("Hotel1");
-        var repository = factory.GetRepository();
+        var repository = factory.GetHotelRepository();
         repository.Exists(hotel.id).ShouldBeTrue();
         var storedHotel = repository.GetById(hotel.id);
         storedHotel.Id.ShouldBe(hotel.id);
@@ -57,7 +57,7 @@ public class HotelApiShould  {
         var response = await client.PostAsJsonAsync("/api/hotels", hotel);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Conflict);
-        var repository = factory.GetRepository();
+        var repository = factory.GetHotelRepository();
         repository.Exists(hotel.id).ShouldBeTrue();
         repository.hotels.Count.ShouldBe(1);
 
@@ -80,7 +80,7 @@ public class HotelApiShould  {
         var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms/{room.Type}", room);
 
         response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
-        var repository = factory.GetRepository();
+        var repository = factory.GetHotelRepository();
         var storedHotel = repository.GetById(hotel.Id);
         storedHotel.Rooms.Count.ShouldBe(1);
         storedHotel.Rooms[0].Number.ShouldBe("1");
@@ -104,7 +104,7 @@ public class HotelApiShould  {
         var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms/{room.Type}", room);
         
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
-        var repository = factory.GetRepository();
+        var repository = factory.GetHotelRepository();
         repository.Exists(hotel.Id).ShouldBeFalse();
 
 
@@ -144,7 +144,7 @@ public class HotelApiShould  {
         result.Rooms[0].Type.ShouldBe(RoomType.Standard);
         result.Rooms[1].Number.ShouldBe("2");
         result.Rooms[1].Type.ShouldBe(RoomType.JuniorSuite);
-        var repository = factory.GetRepository();
+        var repository = factory.GetHotelRepository();
         repository.Exists(hotel.Id).ShouldBeTrue();
         var storedHotel = repository.GetById(hotel.Id);
         storedHotel.Rooms.Count.ShouldBe(2);

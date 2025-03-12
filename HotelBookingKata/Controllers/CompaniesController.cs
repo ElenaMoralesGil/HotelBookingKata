@@ -4,7 +4,7 @@ using HotelBookingKata.Exceptions;
 namespace HotelBookingKata.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/companies")]
 public class CompaniesController : ControllerBase {
 
     private CompanyService companyService;

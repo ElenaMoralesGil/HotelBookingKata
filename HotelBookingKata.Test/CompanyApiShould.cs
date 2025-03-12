@@ -32,14 +32,16 @@ namespace HotelBookingKata.Test;
         var companyId = "Company1";
         var employee = new
         {
-            id = "Employee1",
+            EmployeeId = "Employee1",
         };
 
         var response = await client.PostAsJsonAsync($"/api/companies/{companyId}/employees", employee);
-
+         
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
         response.Headers.Location.ToString().ShouldContain("Employee1");
-        var repository = factory.GetRepository();
-        repository.Exists(employee.id).ShouldBeTrue();
+        var companyRepository = factory.GetCompanyRepository();
+        var employeeRepository = factory.GetEmployeeRepository();
+        companyRepository.GetCompanies().ShouldContainKey(companyId);
+        employeeRepository.GetEmployees().ShouldContainKey("Employee1");
     }
 }

@@ -8,6 +8,7 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
 
     public static Dictionary<string, InMemoryHotelRepository> TestHotelRepositories = new Dictionary<string, InMemoryHotelRepository>();
     public static Dictionary<string, InMemoryCompanyRepository> TestCompanyRepositories = new Dictionary<string, InMemoryCompanyRepository>();
+    public static Dictionary<string, InMemoryEmployeeRepository> TestEmployeeRepositories = new Dictionary<string, InMemoryEmployeeRepository>();
 
     public string TestId { get; } = Guid.NewGuid().ToString();
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -24,6 +25,11 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
             TestCompanyRepositories[TestId] = new InMemoryCompanyRepository();
         }
 
+        if (!TestEmployeeRepositories.TryGetValue(TestId, out _))
+        {
+            TestEmployeeRepositories[TestId] = new InMemoryEmployeeRepository();
+        }
+
         builder.ConfigureServices(services =>
         {
            var descriptor = services.SingleOrDefault(
@@ -38,10 +44,16 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
             if (descriptor2 != null) services.Remove(descriptor2);
             services.AddSingleton<CompanyRepository>(TestCompanyRepositories[TestId]);
 
+            var descriptor3 = services.SingleOrDefault(
+                d => d.ServiceType ==
+                    typeof(EmployeeRepository));
+            if (descriptor3 != null) services.Remove(descriptor3);
+            services.AddSingleton<EmployeeRepository>(TestEmployeeRepositories[TestId]);
+
         });
     }
 
-    public InMemoryHotelRepository GetRepository()
+    public InMemoryHotelRepository GetHotelRepository()
     {
         return TestHotelRepositories[TestId];
     }
@@ -51,12 +63,18 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
         return TestCompanyRepositories[TestId];
     }
 
+    public InMemoryEmployeeRepository GetEmployeeRepository()
+    {
+        return TestEmployeeRepositories[TestId];
+    }
+
     protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
             TestHotelRepositories.Remove(TestId);
             TestCompanyRepositories.Remove(TestId);
+            TestEmployeeRepositories.Remove(TestId);
         }
         base.Dispose(disposing);
     }
