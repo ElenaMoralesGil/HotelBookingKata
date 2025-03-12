@@ -27,6 +27,20 @@ public class CompaniesController : ControllerBase {
             return Conflict(new { message = exception.Message });
         }
     }
+
+    [HttpDelete("{companyId}/employees/{employeeId}")]
+    public IActionResult DeleteEmployee(string employeeId)
+    {
+        try
+        {
+            companyService.DeleteEmployee(employeeId);
+            return Ok();
+        }
+        catch (EmployeeNotFoundException exception)
+        {
+            return NotFound(new { message = exception.Message });
+        }
+    }
 }
 
 public record AddEmployeeRequest(string EmployeeId);

@@ -14,5 +14,10 @@
             employees.Add(employee);
         }
 
+        public void RemoveEmployee(Employee employee)
+        {
+            employees.Remove(employee);
+        }
+
     }
 }

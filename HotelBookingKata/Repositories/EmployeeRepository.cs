@@ -8,5 +8,7 @@ namespace HotelBookingKata.Repositories
         bool Exists(string id);
         Dictionary<string, Employee> GetEmployees();
 
+        void Delete(string employeeId);
+
     }
 }

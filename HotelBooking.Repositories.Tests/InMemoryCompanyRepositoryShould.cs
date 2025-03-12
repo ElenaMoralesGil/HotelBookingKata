@@ -1,9 +1,7 @@
-﻿using System.Net;
+﻿
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Entities;
-using NSubstitute;
 using Shouldly;
-using HotelBookingKata.Exceptions;
 namespace HotelBooking.Repositories.Tests;
 class InMemoryCompanyRepositoryShould
 {
@@ -40,7 +38,7 @@ class InMemoryCompanyRepositoryShould
         result.ShouldBe(company);
     }
 
-    
+
 
     [Test]
     public void return_true_when_company_exists()
@@ -60,6 +58,29 @@ class InMemoryCompanyRepositoryShould
         var result = repository.Exists(company.Id);
 
         result.ShouldBeFalse();
+    }
+
+    [Test]
+    public void update_existing_company()
+    {
+        var company = new Company("company1");
+        repository.Add(company);
+        var updatedCompany = new Company("company1");
+        repository.Update(updatedCompany);
+        var result = repository.GetById(company.Id);
+    }
+
+    [Test]
+    public void get_companies()
+    {
+        var company1 = new Company("company1");
+        var company2 = new Company("company2");
+        repository.Add(company1);
+        repository.Add(company2);
+        var companies = repository.GetCompanies();
+        companies.Count.ShouldBe(2);
+        companies.ShouldContainKey("company1");
+        companies.ShouldContainKey("company2");
     }
 }
 

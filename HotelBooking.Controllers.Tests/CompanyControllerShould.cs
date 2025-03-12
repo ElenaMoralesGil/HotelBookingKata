@@ -48,5 +48,16 @@ namespace HotelBooking.Controllers.Tests
             result.ShouldBeOfType<ConflictObjectResult>();
             companyService.Received(1).AddEmployee(companyId, request.EmployeeId);
         }
+
+        [Test]
+        public void return_valid_request_when_deleting_valid_employee()
+        {
+            var employeeId = "Employee1";
+
+            var result = controller.DeleteEmployee(employeeId);
+
+            result.ShouldBeOfType<OkResult>();
+            companyService.Received(1).DeleteEmployee(employeeId);
+        }
     }
 }

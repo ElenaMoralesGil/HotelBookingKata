@@ -8,6 +8,7 @@ namespace HotelBookingKata.Repositories
 
         public void Add(Employee employee)
         {
+
             employees.Add(employee.Id, employee);
         }
 
@@ -24,6 +25,11 @@ namespace HotelBookingKata.Repositories
         public Dictionary<string, Employee> GetEmployees()
         {
             return employees;
+        }
+
+        public void Delete(string id)
+        {
+            employees.Remove(id);
         }
 
     }

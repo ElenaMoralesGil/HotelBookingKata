@@ -33,8 +33,17 @@ namespace HotelBookingKata.Services;
 
         }
 
-        public void DeleteEmployee(string employeeId)
-        {
-        }
+    public void DeleteEmployee(string employeeId) {
 
+        if (!employeeRepository.Exists(employeeId)) throw new EmployeeNotFoundException(employeeId);
+        var employee = employeeRepository.GetById(employeeId);
+        var companyId = employee.CompanyId;
+
+        if (companyRepository.Exists(companyId)){
+            var company = companyRepository.GetById(companyId);
+            company.RemoveEmployee(employee);
+            companyRepository.Update(company);
+        }
+        employeeRepository.Delete(employeeId);
     }
+}
