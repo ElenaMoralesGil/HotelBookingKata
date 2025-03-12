@@ -7,8 +7,8 @@ namespace HotelBookingKata.Repositories
         void SetEmployeePolicy(string employeeId, List<RoomType> roomTypes);
         bool HasCompanyPolicy(string companyId);
         bool HasEmployeePolicy(string employeeId);
-        bool IsRoomTypeAlloedForCompany(string companyId, RoomType roomType);
-        bool IsRoomTypeAlloedForEmployee(string employeeId, RoomType roomType);
+        bool IsRoomTypeAllowedForCompany(string companyId, RoomType roomType);
+        bool IsRoomTypeAllowedForEmployee(string employeeId, RoomType roomType);
       
 
     }

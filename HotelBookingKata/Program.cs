@@ -12,9 +12,12 @@ public partial class Program {
         builder.Services.AddSingleton<HotelRepository, InMemoryHotelRepository>();
         builder.Services.AddSingleton<CompanyRepository, InMemoryCompanyRepository>();
         builder.Services.AddSingleton<EmployeeRepository, InMemoryEmployeeRepository>();
+        builder.Services.AddSingleton<BookingPolicyRepository, InMemoryBookingPolicyRepository>();
+
 
         builder.Services.AddScoped<HotelService, ApplicationHotelService> ();
         builder.Services.AddScoped<CompanyService, ApplicationCompanyService>();
+        builder.Services.AddScoped<BookingPolicyService, ApplicationBookingPolicyService>();
 
         var app = builder.Build();
         app.MapControllers();

@@ -19,7 +19,7 @@ public class ApplicationBookingPolicyService : BookingPolicyService
         this.companyRepository = companyRepository;
     }
 
-    public bool IsBookingAllowed(string companyId, string employeeId, RoomType roomType)
+    public bool IsBookingAllowed(string employeeId, RoomType roomType)
     {
         if (!employeeRepository.Exists(employeeId)) throw new EmployeeNotFoundException(employeeId);
 
@@ -27,12 +27,12 @@ public class ApplicationBookingPolicyService : BookingPolicyService
 
         if (bookingPolicyRepository.HasEmployeePolicy(employeeId))
         {
-            return bookingPolicyRepository.IsRoomTypeAlloedForEmployee(employeeId, roomType);
+            return bookingPolicyRepository.IsRoomTypeAllowedForEmployee(employeeId, roomType);
         }
 
-        if (bookingPolicyRepository.HasCompanyPolicy(companyId))
+        if (bookingPolicyRepository.HasCompanyPolicy(employee.CompanyId))
         {
-            return bookingPolicyRepository.IsRoomTypeAlloedForCompany(companyId, roomType);
+            return bookingPolicyRepository.IsRoomTypeAllowedForCompany(employee.CompanyId, roomType);
         }
 
         return true;

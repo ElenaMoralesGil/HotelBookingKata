@@ -21,7 +21,7 @@ public class BookingPoliciesController : ControllerBase
     {
         try
         {
-            bookingPolicyService.SetCompanyPolicy(companyId, request.Policy);
+            bookingPolicyService.SetCompanyPolicy(companyId, request.RoomType);
             return Ok();
         }
         catch (CompanyNotFoundException exception)
@@ -35,8 +35,22 @@ public class BookingPoliciesController : ControllerBase
     {
         try
         {
-            bookingPolicyService.SetEmployeePolicy(employeeId, request.Policy);
+            bookingPolicyService.SetEmployeePolicy(employeeId, request.RoomType);
             return Ok();
+        }
+        catch (EmployeeNotFoundException exception)
+        {
+            return NotFound(new { message = exception.Message });
+        }
+    }
+
+    [HttpGet("employees/{employeeId}/rooms/{roomType}/allowed")]
+    public IActionResult IsBookingAllowed(string employeeId, RoomType roomType)
+    {
+        try
+        {
+            bool isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+            return Ok(isAllowed);
         }
         catch (EmployeeNotFoundException exception)
         {
@@ -45,5 +59,5 @@ public class BookingPoliciesController : ControllerBase
     }
 }
 
-public record SetCompanyPolicyRequest(List<RoomType> Policy);
-public record SetEmployeePolicyRequest(List<RoomType> Policy);
+public record SetCompanyPolicyRequest(List<RoomType> RoomType);
+public record SetEmployeePolicyRequest(List<RoomType> RoomType);

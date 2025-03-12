@@ -9,6 +9,7 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
     public static Dictionary<string, InMemoryHotelRepository> TestHotelRepositories = new Dictionary<string, InMemoryHotelRepository>();
     public static Dictionary<string, InMemoryCompanyRepository> TestCompanyRepositories = new Dictionary<string, InMemoryCompanyRepository>();
     public static Dictionary<string, InMemoryEmployeeRepository> TestEmployeeRepositories = new Dictionary<string, InMemoryEmployeeRepository>();
+    
 
     public string TestId { get; } = Guid.NewGuid().ToString();
     protected override void ConfigureWebHost(IWebHostBuilder builder)

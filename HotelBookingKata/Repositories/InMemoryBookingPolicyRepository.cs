@@ -1,7 +1,6 @@
 ﻿using HotelBookingKata.Entities;
 
-namespace HotelBookingKata.Repositories
-{
+namespace HotelBookingKata.Repositories;
     public class InMemoryBookingPolicyRepository : BookingPolicyRepository
     {
 
@@ -29,18 +28,18 @@ namespace HotelBookingKata.Repositories
             return employeePolicies.ContainsKey(employeeId);
         }
 
-        public bool IsRoomTypeAlloedForCompany(string companyId, RoomType roomType)
+        public bool IsRoomTypeAllowedForCompany(string companyId, RoomType roomType)
         {
             if (HasCompanyPolicy(companyId) is false) return false;
 
             return companyPolicies[companyId].IsRoomTypeAllowed(roomType);
         }
 
-        public bool IsRoomTypeAlloedForEmployee(string employeeId, RoomType roomType)
+        public bool IsRoomTypeAllowedForEmployee(string employeeId, RoomType roomType)
         {
             if (HasEmployeePolicy(employeeId) is false) return false;
 
             return employeePolicies[employeeId].IsRoomTypeAllowed(roomType);
         }
     }
-}
+
