@@ -14,6 +14,7 @@
     public enum RoomType
     {
         Standard,
-        JuniorSuite
+        JuniorSuite,
+        MasterSuite
     }
 }
