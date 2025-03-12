@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using HotelBookingKata.services;
+using HotelBookingKata.Services;
 using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
 namespace HotelBookingKata.Controllers;
@@ -27,10 +27,7 @@ public class HotelController : ControllerBase
         {
             return Conflict(new { message = exception.Message });
         }
-        catch (Exception exception)
-        {
-            return BadRequest(new { message = exception.Message });
-        }
+    
     }
 
     [HttpPut("{hotelId}/rooms/{roomType}")]
@@ -45,10 +42,6 @@ public class HotelController : ControllerBase
         catch (HotelNotFoundException exception)
         {
             return NotFound(new { message = exception.Message });
-        }
-        catch (Exception exception)
-        {
-            return BadRequest(new { message = exception.Message });
         }
     }
 
@@ -76,10 +69,7 @@ public class HotelController : ControllerBase
         {
             return NotFound(new { message = exception.Message });
         }
-        catch (Exception exception)
-        {
-            return BadRequest(new { message = exception.Message });
-        }
+
     }
 
     public class AddHotelRequest

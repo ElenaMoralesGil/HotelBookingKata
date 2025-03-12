@@ -1,5 +1,5 @@
 ﻿using HotelBookingKata.Entities;
-namespace HotelBookingKata.services
+namespace HotelBookingKata.Services
 {
     public interface HotelService
     {

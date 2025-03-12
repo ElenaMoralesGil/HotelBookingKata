@@ -1,7 +1,7 @@
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
-namespace HotelBookingKata.services;
+namespace HotelBookingKata.Services;
 
 public class ApplicationHotelService : HotelService{
 

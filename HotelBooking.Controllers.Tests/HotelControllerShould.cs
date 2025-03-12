@@ -1,5 +1,5 @@
 ﻿using HotelBookingKata;
-using HotelBookingKata.services;
+using HotelBookingKata.Services;
 using HotelBookingKata.Controllers;
 using HotelBookingKata.Entities;
 using Microsoft.AspNetCore.Mvc;

@@ -1,13 +1,13 @@
 ﻿using System.Net;
 using NSubstitute;
 using Shouldly;
-using HotelBookingKata.services;
+using HotelBookingKata.Services;
 using HotelBookingKata.Entities;
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Exceptions;
 namespace HotelBooking.Services.Test;
 
-public class HotelServiceImplShould
+public class ApplicationHotelServiceShould
 {
 
     private ApplicationHotelService hotelService;
