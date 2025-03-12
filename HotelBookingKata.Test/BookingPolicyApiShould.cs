@@ -41,5 +41,45 @@ class BookingPolicyApiShould {
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         isAllowed.ShouldBeTrue();
+        var repository =factory.GetBookingPolicyRepository();
+        repository.IsRoomTypeAllowedForEmployee(employeeId, RoomType.Standard).ShouldBeTrue();
     }
+
+    [Test]
+    public async Task deny_booking_when_employee_policy_does_not_permit_and_has_no_company_policy()
+    {
+        var companyId = "Company1";
+        var employeeId = "Employee1";
+        await client.PostAsJsonAsync($"/api/companies/{companyId}/employees", new { EmployeeId = employeeId });
+        await client.PutAsJsonAsync($"/api/booking-policies/employees/{employeeId}",
+            new { RoomType = new[] { RoomType.Standard } });
+        
+        var response = await client.GetAsync($"/api/booking-policies/employees/{employeeId}/rooms/{RoomType.JuniorSuite}/allowed");
+        
+        var isAllowed = await response.Content.ReadFromJsonAsync<bool>();
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        isAllowed.ShouldBeFalse();
+        var repository =factory.GetBookingPolicyRepository();
+        repository.IsRoomTypeAllowedForEmployee(employeeId, RoomType.JuniorSuite).ShouldBeFalse();
+    }
+
+    [Test]
+    public async Task deny_booking_when_employee_policy_does_not_exists_and_company_policy_does_not_permit()
+    {
+        var companyId = "Company1";
+        var employeeId = "Employee1";
+        await client.PostAsJsonAsync($"/api/companies/{companyId}/employees", new { EmployeeId = employeeId });
+        await client.PutAsJsonAsync($"/api/booking-policies/companies/{companyId}",
+            new { RoomType = new[] { RoomType.MasterSuite } });
+
+        var response = await client.GetAsync($"/api/booking-policies/employees/{employeeId}/rooms/{RoomType.JuniorSuite}/allowed");
+       
+        var isAllowed = await response.Content.ReadFromJsonAsync<bool>();
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        isAllowed.ShouldBeFalse();
+        var repository = factory.GetBookingPolicyRepository();
+        repository.IsRoomTypeAllowedForEmployee(employeeId, RoomType.JuniorSuite).ShouldBeFalse();
+    }
+
+
 }
