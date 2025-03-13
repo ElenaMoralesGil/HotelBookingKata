@@ -29,9 +29,27 @@ public class BookingsController : ControllerBase
 
             return Created($"/api/bookings/{booking.Id}", booking);
         }
-        catch (Exception ex) {
-            return BadRequest(new { message = ex.Message });
+        catch(InvalidBookingDateException exception)
+        {
+            return Conflict(new { message = exception.Message });
         }
+        catch (HotelNotFoundException exception)
+        {
+            return NotFound(new { message = exception.Message });
+        }
+        catch(RoomTypeNotAvailableException exception)
+        {
+            return Conflict(new { message = exception.Message });
+        }
+        catch (BookingNotAllowedException exception)
+        {
+            return Conflict(new { message = exception.Message });
+        }
+        catch (NoRoomsAvailableException exception)
+        {
+            return Conflict(new { message = exception.Message });
+        }
+
     }
 }
 
