@@ -10,6 +10,7 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
     public static Dictionary<string, InMemoryCompanyRepository> TestCompanyRepositories = new Dictionary<string, InMemoryCompanyRepository>();
     public static Dictionary<string, InMemoryEmployeeRepository> TestEmployeeRepositories = new Dictionary<string, InMemoryEmployeeRepository>();
     public static Dictionary<string, InMemoryBookingPolicyRepository> TestBookingPolicyRepositories = new Dictionary<string, InMemoryBookingPolicyRepository>();
+    public static Dictionary<string, InMemoryBookingRepository> TestBookingRepositories = new Dictionary<string, InMemoryBookingRepository>();
 
 
     public string TestId { get; } = Guid.NewGuid().ToString();
@@ -35,6 +36,11 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
         if(!TestBookingPolicyRepositories.TryGetValue(TestId, out _))
         {
             TestBookingPolicyRepositories[TestId] = new InMemoryBookingPolicyRepository();
+        }
+
+        if(!TestBookingRepositories.TryGetValue(TestId, out _))
+        {
+            TestBookingRepositories[TestId] = new InMemoryBookingRepository();
         }
 
         builder.ConfigureServices(services =>
@@ -63,6 +69,12 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
             if (descriptor4 != null) services.Remove(descriptor4);
             services.AddSingleton<BookingPolicyRepository>(TestBookingPolicyRepositories[TestId]);
 
+            var descriptor5 = services.SingleOrDefault(
+                d => d.ServiceType ==
+                    typeof(BookingRepository));
+            if (descriptor5 != null) services.Remove(descriptor5);
+            services.AddSingleton<BookingRepository>(TestBookingRepositories[TestId]);
+
         });
     }
 
@@ -86,6 +98,11 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
         return TestBookingPolicyRepositories[TestId];
     }
 
+    public InMemoryBookingRepository GetBookingRepository()
+    {
+        return TestBookingRepositories[TestId];
+    }
+
     protected override void Dispose(bool disposing)
     {
         if (disposing)
@@ -94,6 +111,7 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
             TestCompanyRepositories.Remove(TestId);
             TestEmployeeRepositories.Remove(TestId);
             TestBookingPolicyRepositories.Remove(TestId);
+            TestBookingRepositories.Remove(TestId);
         }
         base.Dispose(disposing);
     }

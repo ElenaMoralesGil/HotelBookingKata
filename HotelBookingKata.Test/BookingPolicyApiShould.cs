@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using HotelBookingKata.Entities;
-using HotelBookingKata.Controllers;
 using System.Net.Http.Json;
 using Shouldly;
 

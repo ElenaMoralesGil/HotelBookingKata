@@ -1,5 +1,4 @@
-﻿using System.Net;
-using NSubstitute;
+﻿using NSubstitute;
 using Shouldly;
 using HotelBookingKata.Services;
 using HotelBookingKata.Entities;

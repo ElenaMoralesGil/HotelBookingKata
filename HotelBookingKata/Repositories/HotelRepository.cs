@@ -8,4 +8,7 @@ public interface HotelRepository{
     Hotel GetById(string id);
     bool Exists(string id);
     void Update(Hotel hotel);
+
+    bool HasRoomOfType(string hotelId, RoomType roomType);
+    int GetRoomsCount(string hotelId, RoomType roomType);
 }

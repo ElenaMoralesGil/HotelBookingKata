@@ -27,4 +27,14 @@ public class InMemoryHotelRepository : HotelRepository {
     {
         hotels[hotel.Id] = hotel;
     }
+
+    public bool HasRoomOfType(string hotelId, RoomType roomType)
+    {
+        return hotels[hotelId].GetRooms().Any(room => room.Type == roomType);
+    }
+
+    public int GetRoomsCount(string hotelId, RoomType roomType)
+    {
+        return hotels[hotelId].GetRooms().Count(room => room.Type == roomType);
+    }
 }
