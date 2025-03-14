@@ -23,17 +23,7 @@ public class ApplicationBookingService : BookingService
         ValidateHotelExists(hotelId);
         ValidateIfHotelHasRoomType(hotelId, roomType);
         ValidateIfBookingIsAllowed(employeeId, roomType);
-
-        var roomsCount = hotelRepository.GetRoomsCount(hotelId, roomType);
-
-        for (var date = checkIn; date < checkOut; date = date.AddDays(1))
-        {
-            var bookingsCount = bookingRepository.CountBookingsByHotelRoomType(hotelId, roomType, date);
-            if (bookingsCount >= roomsCount)
-            {
-                throw new NoRoomsAvailableException(hotelId, roomType, checkIn, checkOut);
-            }
-        }
+        ValidateIfRoomIsAvailable(hotelId, roomType, checkIn, checkOut);
 
         var bookingId = Guid.NewGuid().ToString();
         var booking = new Booking(bookingId, employeeId, hotelId, roomType, checkIn, checkOut);
@@ -72,6 +62,19 @@ public class ApplicationBookingService : BookingService
         if (!bookingPolicyService.IsBookingAllowed(employeeId, roomType))
         {
             throw new BookingNotAllowedException(employeeId, roomType);
+        }
+    }
+
+    private void ValidateIfRoomIsAvailable(string hotelId, RoomType roomType, DateTime checkIn, DateTime checkOut)
+    {
+        var roomsCount = hotelRepository.GetRoomsCount(hotelId, roomType);
+        for (var date = checkIn; date < checkOut; date = date.AddDays(1))
+        {
+            var bookingsCount = bookingRepository.CountBookingsByHotelRoomType(hotelId, roomType, date);
+            if (bookingsCount >= roomsCount)
+            {
+                throw new NoRoomsAvailableException(hotelId, roomType, checkIn, checkOut);
+            }
         }
     }
 }
