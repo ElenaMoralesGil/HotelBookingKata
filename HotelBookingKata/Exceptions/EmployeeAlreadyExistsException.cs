@@ -1,6 +1,6 @@
 ﻿namespace HotelBookingKata.Exceptions
 {
-    public class EmployeeAlreadyExistsException :  CompanyException
+    public class EmployeeAlreadyExistsException : CompanyException
     {
         public string EmployeeId { get; }
 

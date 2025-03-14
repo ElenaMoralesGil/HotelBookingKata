@@ -1,7 +1,7 @@
-﻿using System.Net;
-using HotelBookingKata.Entities;
-using System.Net.Http.Json;
+﻿using HotelBookingKata.Entities;
 using Shouldly;
+using System.Net;
+using System.Net.Http.Json;
 
 
 namespace HotelBookingKata.Test;
@@ -154,7 +154,7 @@ class BookingApiShould
             CheckIn = DateTime.Now,
             CheckOut = DateTime.Now.AddDays(1)
         };
-        
+
         var response = client.PostAsJsonAsync("/api/bookings", booking).Result;
 
         response.StatusCode.ShouldBe(HttpStatusCode.Conflict);
@@ -175,7 +175,7 @@ class BookingApiShould
         await client.PostAsJsonAsync($"/api/companies/{company.id}/employees", employee);
         await client.PutAsJsonAsync($"/api/booking-policies/employees/{employee.EmployeeId}",
             new { RoomType = new[] { RoomType.Standard } });
-       
+
         var booking = new
         {
             EmployeeId = employee.EmployeeId,
@@ -198,17 +198,17 @@ class BookingApiShould
         var bookingResponse2 = await response2.Content.ReadFromJsonAsync<Booking>();
 
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
-        bookingResponse.EmployeeId.ShouldBe(booking.EmployeeId);
-        bookingResponse.HotelId.ShouldBe(booking.HotelId);
-        bookingResponse.RoomType.ShouldBe(booking.RoomType);
-        bookingResponse.CheckIn.ShouldBe(booking.CheckIn);
-        bookingResponse.CheckOut.ShouldBe(booking.CheckOut);
+        bookingResponse?.EmployeeId.ShouldBe(booking.EmployeeId);
+        bookingResponse?.HotelId.ShouldBe(booking.HotelId);
+        bookingResponse?.RoomType.ShouldBe(booking.RoomType);
+        bookingResponse?.CheckIn.ShouldBe(booking.CheckIn);
+        bookingResponse?.CheckOut.ShouldBe(booking.CheckOut);
         response2.StatusCode.ShouldBe(HttpStatusCode.Created);
-        bookingResponse2.EmployeeId.ShouldBe(booking2.EmployeeId);
-        bookingResponse2.HotelId.ShouldBe(booking2.HotelId);
-        bookingResponse2.RoomType.ShouldBe(booking2.RoomType);
-        bookingResponse2.CheckIn.ShouldBe(booking2.CheckIn);
-        bookingResponse2.CheckOut.ShouldBe(booking2.CheckOut);
+        bookingResponse2?.EmployeeId.ShouldBe(booking2.EmployeeId);
+        bookingResponse2?.HotelId.ShouldBe(booking2.HotelId);
+        bookingResponse2?.RoomType.ShouldBe(booking2.RoomType);
+        bookingResponse2?.CheckIn.ShouldBe(booking2.CheckIn);
+        bookingResponse2?.CheckOut.ShouldBe(booking2.CheckOut);
         var repository = factory.GetBookingRepository();
         var bookings = repository.GetBookings();
         bookings.ShouldContainKey(bookingResponse.Id);
@@ -255,7 +255,7 @@ class BookingApiShould
         bookingResponse.CheckIn.ShouldBe(booking.CheckIn);
         bookingResponse.CheckOut.ShouldBe(booking.CheckOut);
 
-        var repository =  factory.GetBookingRepository();
+        var repository = factory.GetBookingRepository();
         var bookings = repository.GetBookings();
         bookings.ShouldContainKey(bookingResponse.Id);
 

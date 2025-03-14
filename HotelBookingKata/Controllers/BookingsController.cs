@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using HotelBookingKata.Services;
-using HotelBookingKata.Entities;
+﻿using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
+using HotelBookingKata.Services;
+using Microsoft.AspNetCore.Mvc;
 namespace HotelBookingKata.Controllers;
 
 [ApiController]
@@ -29,7 +29,7 @@ public class BookingsController : ControllerBase
 
             return Created($"/api/bookings/{booking.Id}", booking);
         }
-        catch(InvalidBookingDateException exception)
+        catch (InvalidBookingDateException exception)
         {
             return Conflict(new { message = exception.Message });
         }
@@ -37,7 +37,7 @@ public class BookingsController : ControllerBase
         {
             return NotFound(new { message = exception.Message });
         }
-        catch(RoomTypeNotAvailableException exception)
+        catch (RoomTypeNotAvailableException exception)
         {
             return Conflict(new { message = exception.Message });
         }

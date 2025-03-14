@@ -1,6 +1,6 @@
 ﻿namespace HotelBookingKata.Exceptions
 {
-    public class EmployeeNotFoundException: CompanyException
+    public class EmployeeNotFoundException : CompanyException
     {
         private string EmployeeId { get; }
 

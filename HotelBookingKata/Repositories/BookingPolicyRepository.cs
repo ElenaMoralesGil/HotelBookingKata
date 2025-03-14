@@ -9,7 +9,7 @@ namespace HotelBookingKata.Repositories
         bool HasEmployeePolicy(string employeeId);
         bool IsRoomTypeAllowedForCompany(string companyId, RoomType roomType);
         bool IsRoomTypeAllowedForEmployee(string employeeId, RoomType roomType);
-      
+
 
     }
 }

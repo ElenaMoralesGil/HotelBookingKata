@@ -3,23 +3,27 @@ using HotelBookingKata.Exceptions;
 
 namespace HotelBookingKata.Repositories;
 
-public class InMemoryHotelRepository : HotelRepository {
+public class InMemoryHotelRepository : HotelRepository
+{
 
     internal Dictionary<string, Hotel> hotels = new Dictionary<string, Hotel>();
 
-    public void Add(Hotel hotel) {
+    public void Add(Hotel hotel)
+    {
         hotels[hotel.Id] = hotel;
     }
-    
-    public Hotel GetById(string id) {
-        if(!hotels.ContainsKey(id))
+
+    public Hotel GetById(string id)
+    {
+        if (!hotels.ContainsKey(id))
         {
             throw new HotelNotFoundException(id);
         }
-        return hotels[id] ;
+        return hotels[id];
     }
 
-    public bool Exists(string id) {
+    public bool Exists(string id)
+    {
         return hotels.ContainsKey(id);
     }
 

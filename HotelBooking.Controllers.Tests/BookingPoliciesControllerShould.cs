@@ -1,11 +1,10 @@
-﻿using HotelBookingKata;
-using HotelBookingKata.Services;
-using HotelBookingKata.Controllers;
+﻿using HotelBookingKata.Controllers;
 using HotelBookingKata.Entities;
+using HotelBookingKata.Exceptions;
+using HotelBookingKata.Services;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Shouldly;
-using HotelBookingKata.Exceptions;
 
 namespace HotelBooking.Controllers.Tests;
 class BookingPoliciesControllerShould
@@ -40,9 +39,9 @@ class BookingPoliciesControllerShould
         var employeeId = "Employee1";
         var roomTypes = new List<RoomType> { RoomType.Standard };
         var request = new SetEmployeePolicyRequest(roomTypes);
-        
+
         var result = controller.SetEmployeePolicy(employeeId, request);
-        
+
         result.ShouldBeOfType<OkResult>();
         bookingPolicyService.Received(1).SetEmployeePolicy(employeeId, roomTypes);
     }
@@ -53,9 +52,9 @@ class BookingPoliciesControllerShould
         var employeeId = "Employee1";
         var roomType = RoomType.Standard;
         bookingPolicyService.IsBookingAllowed(employeeId, roomType).Returns(true);
-       
+
         var result = controller.IsBookingAllowed(employeeId, roomType);
-       
+
         result.ShouldBeOfType<OkObjectResult>();
         var okResult = (OkObjectResult)result;
         okResult.Value.ShouldBe(true);
@@ -97,9 +96,9 @@ class BookingPoliciesControllerShould
         var employeeId = "Employee1";
         var request = new SetEmployeePolicyRequest(new List<RoomType> { RoomType.Standard });
         bookingPolicyService.When(x => x.SetEmployeePolicy(employeeId, request.RoomType)).Throw(new EmployeeNotFoundException(employeeId));
-        
+
         var result = controller.SetEmployeePolicy(employeeId, request);
-        
+
         result.ShouldBeOfType<NotFoundObjectResult>();
         bookingPolicyService.Received(1).SetEmployeePolicy(employeeId, request.RoomType);
     }

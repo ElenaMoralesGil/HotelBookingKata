@@ -1,39 +1,40 @@
-﻿using NSubstitute;
-using Shouldly;
-using HotelBookingKata.Services;
-using HotelBookingKata.Entities;
-using HotelBookingKata.Repositories;
+﻿using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
+using HotelBookingKata.Repositories;
+using HotelBookingKata.Services;
+using NSubstitute;
+using Shouldly;
 
 namespace HotelBooking.Services.Test;
-    class ApplicationBookingPolicyServiceShould
+class ApplicationBookingPolicyServiceShould
+{
+    private BookingPolicyRepository bookingPolicyRepository;
+    private EmployeeRepository employeeRepository;
+    private CompanyRepository companyRepository;
+    private ApplicationBookingPolicyService bookingPolicyService;
+
+    [SetUp]
+    public void Setup()
     {
-        private BookingPolicyRepository bookingPolicyRepository;
-        private EmployeeRepository employeeRepository;
-        private CompanyRepository companyRepository;
-        private ApplicationBookingPolicyService bookingPolicyService;
+        bookingPolicyRepository = Substitute.For<BookingPolicyRepository>();
+        employeeRepository = Substitute.For<EmployeeRepository>();
+        companyRepository = Substitute.For<CompanyRepository>();
+        bookingPolicyService = new ApplicationBookingPolicyService(bookingPolicyRepository, employeeRepository, companyRepository);
+    }
 
-        [SetUp]
-        public void Setup()
-        {
-            bookingPolicyRepository = Substitute.For<BookingPolicyRepository>();
-            employeeRepository = Substitute.For<EmployeeRepository>();
-            companyRepository = Substitute.For<CompanyRepository>();
-            bookingPolicyService = new ApplicationBookingPolicyService(bookingPolicyRepository, employeeRepository, companyRepository);
-        }
+    [Test]
+    public void set_company_policy_when_company_exists()
+    {
 
-        [Test]
-        public void set_company_policy_when_company_exists() {  
+        var companyId = "Company1";
+        var roomTypes = new List<RoomType> { RoomType.Standard };
+        companyRepository.Exists(companyId).Returns(true);
 
-            var companyId = "Company1";
-            var roomTypes = new List<RoomType> { RoomType.Standard};
-            companyRepository.Exists(companyId).Returns(true);
+        companyRepository.GetById(companyId).Returns(new Company(companyId));
+        bookingPolicyService.SetCompanyPolicy(companyId, roomTypes);
 
-            companyRepository.GetById(companyId).Returns(new Company(companyId));
-            bookingPolicyService.SetCompanyPolicy(companyId, roomTypes);
-
-            bookingPolicyRepository.Received(1).SetCompanyPolicy(companyId, roomTypes);
-        }
+        bookingPolicyRepository.Received(1).SetCompanyPolicy(companyId, roomTypes);
+    }
 
     [Test]
 
@@ -42,7 +43,7 @@ namespace HotelBooking.Services.Test;
         var companyId = "Company1";
         var roomTypes = new List<RoomType> { RoomType.Standard };
         companyRepository.Exists(companyId).Returns(false);
-        
+
         Should.Throw<CompanyNotFoundException>(() => bookingPolicyService.SetCompanyPolicy(companyId, roomTypes));
     }
 
@@ -65,7 +66,7 @@ namespace HotelBooking.Services.Test;
         var employeeId = "Employee1";
         var roomTypes = new List<RoomType> { RoomType.Standard };
         employeeRepository.Exists(employeeId).Returns(false);
-        
+
         Should.Throw<EmployeeNotFoundException>(() => bookingPolicyService.SetEmployeePolicy(employeeId, roomTypes));
     }
 

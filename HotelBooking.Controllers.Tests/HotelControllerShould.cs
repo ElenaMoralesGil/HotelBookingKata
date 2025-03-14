@@ -1,11 +1,10 @@
-﻿using HotelBookingKata;
-using HotelBookingKata.Services;
-using HotelBookingKata.Controllers;
+﻿using HotelBookingKata.Controllers;
 using HotelBookingKata.Entities;
+using HotelBookingKata.Exceptions;
+using HotelBookingKata.Services;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Shouldly;
-using HotelBookingKata.Exceptions;
 
 namespace HotelBooking.Controllers.Tests;
 
@@ -24,16 +23,17 @@ public class HotelControllerShould
     [Test]
     public void return_createdResult_when_adding_valid_hotel()
     {
-        var hotel =new {
+        var hotel = new
+        {
             Id = "hotel1",
-            Name= "hotel 1"
+            Name = "hotel 1"
         };
-        var request = new HotelController.AddHotelRequest{ Id = hotel.Id, Name= hotel.Name};
+        var request = new HotelController.AddHotelRequest { Id = hotel.Id, Name = hotel.Name };
 
         var result = controller.AddHotel(request);
 
         result.ShouldBeOfType<CreatedResult>();
-        var createdResult= (CreatedResult)result;
+        var createdResult = (CreatedResult)result;
         createdResult.Location.ShouldContain(hotel.Id);
     }
 
@@ -65,7 +65,7 @@ public class HotelControllerShould
             Number = "1",
         };
 
-        var result = controller.SetRoom(hotel.Id, RoomType.Standard,  request);
+        var result = controller.SetRoom(hotel.Id, RoomType.Standard, request);
 
         result.ShouldBeOfType<NoContentResult>();
         hotelService.Received(1).SetRoom(hotel.Id, request.Number, RoomType.Standard);

@@ -1,9 +1,8 @@
-﻿using NSubstitute;
-using Shouldly;
-using HotelBookingKata.Services;
-using HotelBookingKata.Entities;
+﻿using HotelBookingKata.Entities;
 using HotelBookingKata.Repositories;
-using HotelBookingKata.Exceptions;
+using HotelBookingKata.Services;
+using NSubstitute;
+using Shouldly;
 namespace HotelBooking.Services.Test;
 
 class ApplicationBookingServiceShould

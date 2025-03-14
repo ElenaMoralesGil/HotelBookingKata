@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
-using HotelBookingKata.Services;
 using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
+using HotelBookingKata.Services;
+using Microsoft.AspNetCore.Mvc;
 namespace HotelBookingKata.Controllers;
 
 [ApiController]
@@ -27,11 +27,11 @@ public class HotelController : ControllerBase
         {
             return Conflict(new { message = exception.Message });
         }
-    
+
     }
 
     [HttpPut("{hotelId}/rooms/{roomType}")]
-    public IActionResult SetRoom(string hotelId,RoomType roomType, [FromBody] SetRoomNumberRequest request)
+    public IActionResult SetRoom(string hotelId, RoomType roomType, [FromBody] SetRoomNumberRequest request)
     {
 
         try
@@ -80,7 +80,7 @@ public class HotelController : ControllerBase
 
     public class SetRoomNumberRequest
     {
-        public  string Number { get; set; }
+        public string Number { get; set; }
     }
 }
 public class HotelResponse

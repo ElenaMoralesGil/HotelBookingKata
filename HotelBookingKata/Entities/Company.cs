@@ -5,7 +5,8 @@
         public string Id { get; private set; }
         private List<Employee> employees = new List<Employee>();
 
-        public Company(string id) {
+        public Company(string id)
+        {
             Id = id;
         }
 

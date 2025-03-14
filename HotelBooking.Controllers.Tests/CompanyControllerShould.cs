@@ -1,6 +1,6 @@
-﻿using HotelBookingKata.Services;
-using HotelBookingKata.Controllers;
+﻿using HotelBookingKata.Controllers;
 using HotelBookingKata.Exceptions;
+using HotelBookingKata.Services;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Shouldly;

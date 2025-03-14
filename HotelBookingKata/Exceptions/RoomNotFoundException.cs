@@ -2,7 +2,7 @@
 
 namespace HotelBookingKata.Exceptions
 {
-    public class RoomNotFoundException :  HotelException
+    public class RoomNotFoundException : HotelException
     {
         public RoomType RoomType { get; }
         public string HotelId { get; }

@@ -2,7 +2,8 @@ using HotelBookingKata.Entities;
 
 namespace HotelBookingKata.Repositories;
 
-public interface HotelRepository{
+public interface HotelRepository
+{
 
     void Add(Hotel hotel);
     Hotel GetById(string id);

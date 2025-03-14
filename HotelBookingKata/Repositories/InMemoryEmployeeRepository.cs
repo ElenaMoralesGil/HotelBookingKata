@@ -1,7 +1,7 @@
 ﻿using HotelBookingKata.Entities;
 namespace HotelBookingKata.Repositories
 {
-    public class InMemoryEmployeeRepository :  EmployeeRepository
+    public class InMemoryEmployeeRepository : EmployeeRepository
     {
 
         private Dictionary<string, Employee> employees = new Dictionary<string, Employee>();

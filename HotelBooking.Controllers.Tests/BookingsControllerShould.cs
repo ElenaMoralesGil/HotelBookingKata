@@ -1,8 +1,7 @@
-﻿using HotelBookingKata;
-using HotelBookingKata.Services;
-using HotelBookingKata.Controllers;
+﻿using HotelBookingKata.Controllers;
 using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
+using HotelBookingKata.Services;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Shouldly;
@@ -38,7 +37,7 @@ class BookingsControllerShould
     [Test]
     public void return_conflict_when_there_is_no_room_available_of_a_type()
     {
-        
+
         var employeeId = "Employee1";
         var hotelId = "Hotel1";
         var roomType = RoomType.Standard;

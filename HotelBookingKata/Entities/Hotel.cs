@@ -1,9 +1,9 @@
 using HotelBookingKata.Exceptions;
-using System;
 
 namespace HotelBookingKata.Entities;
 
-public class Hotel {
+public class Hotel
+{
 
     public string Id;
     public string Name;
@@ -11,7 +11,8 @@ public class Hotel {
 
 
 
-    public Hotel(string id, string name) {
+    public Hotel(string id, string name)
+    {
         Id = id;
         Name = name;
     }
@@ -23,9 +24,9 @@ public class Hotel {
 
     public Room GetRoom(RoomType type)
     {
-       var room = Rooms.Find(room => room.Type == type);
-       if (room == null) throw new RoomNotFoundException(Id, type);
-       
+        var room = Rooms.Find(room => room.Type == type);
+        if (room == null) throw new RoomNotFoundException(Id, type);
+
         return room;
     }
 

@@ -1,7 +1,7 @@
 ﻿using HotelBookingKata.Entities;
 namespace HotelBookingKata.Repositories
 {
-    public class InMemoryCompanyRepository :  CompanyRepository
+    public class InMemoryCompanyRepository : CompanyRepository
     {
         private Dictionary<string, Company> companies = new Dictionary<string, Company>();
         public void Add(Company company)
@@ -10,7 +10,7 @@ namespace HotelBookingKata.Repositories
         }
         public Company? GetById(string id)
         {
-            return companies.TryGetValue(id , out var company) ? company : null;
+            return companies.TryGetValue(id, out var company) ? company : null;
         }
         public bool Exists(string id)
         {

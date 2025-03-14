@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 namespace HotelBookingKata.Test;
 
-public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram>  where TProgram : class{
+public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
+{
 
     public static Dictionary<string, InMemoryHotelRepository> TestHotelRepositories = new Dictionary<string, InMemoryHotelRepository>();
     public static Dictionary<string, InMemoryCompanyRepository> TestCompanyRepositories = new Dictionary<string, InMemoryCompanyRepository>();
@@ -27,7 +28,7 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
 
         builder.ConfigureServices(services =>
         {
-            
+
             ReplaceProgramWithTestRepository<HotelRepository>(services, TestHotelRepositories[TestId]);
             ReplaceProgramWithTestRepository<CompanyRepository>(services, TestCompanyRepositories[TestId]);
             ReplaceProgramWithTestRepository<EmployeeRepository>(services, TestEmployeeRepositories[TestId]);
@@ -45,7 +46,7 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
             d => d.ServiceType ==
                 typeof(TService));
         if (descriptor != null) services.Remove(descriptor);
-        services.AddSingleton(typeof(TService),implementation);
+        services.AddSingleton(typeof(TService), implementation);
     }
 
     public InMemoryHotelRepository GetHotelRepository() => TestHotelRepositories[TestId];

@@ -1,9 +1,7 @@
-﻿using System.Net;
-using HotelBookingKata.Repositories;
-using HotelBookingKata.Entities;
-using NSubstitute;
-using Shouldly;
+﻿using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
+using HotelBookingKata.Repositories;
+using Shouldly;
 namespace HotelBooking.Repositories.Tests;
 
 public class InMemoryHotelRepositoryShould

@@ -1,34 +1,39 @@
-using System.Net;
-using HotelBookingKata.Entities;
 using HotelBookingKata.Controllers;
-using System.Net.Http.Json;
+using HotelBookingKata.Entities;
 using Shouldly;
+using System.Net;
+using System.Net.Http.Json;
 
 
 namespace HotelBookingKata.Test;
 
-public class HotelApiShould  {
+public class HotelApiShould
+{
     private CustomWebApplicationFactory<Program> factory;
     private HttpClient client;
 
     [SetUp]
-    public void Setup() {
+    public void Setup()
+    {
         factory = new CustomWebApplicationFactory<Program>();
         client = factory.CreateClient();
 
     }
 
     [TearDown]
-    public void TearDown() {
+    public void TearDown()
+    {
         client?.Dispose();
         factory?.Dispose();
     }
 
 
     [Test]
-    public async Task add_hotel_when_created(){
+    public async Task add_hotel_when_created()
+    {
 
-        var hotel =  new {
+        var hotel = new
+        {
             id = "Hotel1",
             name = "Hotel 1"
         };
@@ -36,7 +41,7 @@ public class HotelApiShould  {
         var response = await client.PostAsJsonAsync("/api/hotels", hotel);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
-        response.Headers.Location.ToString().ShouldContain("Hotel1");
+        response.Headers.Location?.ToString().ShouldContain("Hotel1");
         var repository = factory.GetHotelRepository();
         repository.Exists(hotel.id).ShouldBeTrue();
         var storedHotel = repository.GetById(hotel.id);
@@ -102,7 +107,7 @@ public class HotelApiShould  {
             Type = RoomType.Standard
         };
         var response = await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms/{room.Type}", room);
-        
+
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
         var repository = factory.GetHotelRepository();
         repository.Exists(hotel.Id).ShouldBeFalse();

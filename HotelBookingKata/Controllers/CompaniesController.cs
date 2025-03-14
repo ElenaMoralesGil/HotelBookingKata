@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HotelBookingKata.Exceptions;
 using HotelBookingKata.Services;
-using HotelBookingKata.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 namespace HotelBookingKata.Controllers;
 
 [ApiController]
 [Route("api/companies")]
-public class CompaniesController : ControllerBase {
+public class CompaniesController : ControllerBase
+{
 
     private CompanyService companyService;
 

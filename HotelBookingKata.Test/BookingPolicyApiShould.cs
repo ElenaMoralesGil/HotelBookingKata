@@ -1,12 +1,13 @@
-﻿using System.Net;
-using HotelBookingKata.Entities;
-using System.Net.Http.Json;
+﻿using HotelBookingKata.Entities;
 using Shouldly;
+using System.Net;
+using System.Net.Http.Json;
 
 
 namespace HotelBookingKata.Test;
 
-class BookingPolicyApiShould { 
+class BookingPolicyApiShould
+{
 
     private CustomWebApplicationFactory<Program> factory;
     private HttpClient client;
@@ -40,7 +41,7 @@ class BookingPolicyApiShould {
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         isAllowed.ShouldBeTrue();
-        var repository =factory.GetBookingPolicyRepository();
+        var repository = factory.GetBookingPolicyRepository();
         repository.IsRoomTypeAllowedForEmployee(employeeId, RoomType.Standard).ShouldBeTrue();
     }
 
@@ -52,13 +53,13 @@ class BookingPolicyApiShould {
         await client.PostAsJsonAsync($"/api/companies/{companyId}/employees", new { EmployeeId = employeeId });
         await client.PutAsJsonAsync($"/api/booking-policies/employees/{employeeId}",
             new { RoomType = new[] { RoomType.Standard } });
-        
+
         var response = await client.GetAsync($"/api/booking-policies/employees/{employeeId}/rooms/{RoomType.JuniorSuite}/allowed");
-        
+
         var isAllowed = await response.Content.ReadFromJsonAsync<bool>();
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         isAllowed.ShouldBeFalse();
-        var repository =factory.GetBookingPolicyRepository();
+        var repository = factory.GetBookingPolicyRepository();
         repository.IsRoomTypeAllowedForEmployee(employeeId, RoomType.JuniorSuite).ShouldBeFalse();
     }
 
@@ -72,7 +73,7 @@ class BookingPolicyApiShould {
             new { RoomType = new[] { RoomType.MasterSuite } });
 
         var response = await client.GetAsync($"/api/booking-policies/employees/{employeeId}/rooms/{RoomType.JuniorSuite}/allowed");
-       
+
         var isAllowed = await response.Content.ReadFromJsonAsync<bool>();
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         isAllowed.ShouldBeFalse();

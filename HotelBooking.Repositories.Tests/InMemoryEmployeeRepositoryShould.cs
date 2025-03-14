@@ -1,11 +1,10 @@
 ﻿
-using HotelBookingKata.Repositories;
 using HotelBookingKata.Entities;
+using HotelBookingKata.Repositories;
 using Shouldly;
-using HotelBookingKata.Exceptions;
-using System.ComponentModel.Design;
 namespace HotelBooking.Repositories.Tests;
-class InMemoryEmployeeRepositoryShould  {
+class InMemoryEmployeeRepositoryShould
+{
 
     private InMemoryEmployeeRepository repository;
 

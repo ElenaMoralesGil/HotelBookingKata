@@ -10,8 +10,8 @@ public class ApplicationBookingPolicyService : BookingPolicyService
     private CompanyRepository companyRepository;
 
     public ApplicationBookingPolicyService(
-        BookingPolicyRepository bookingPolicyRepository, 
-        EmployeeRepository employeeRepository, 
+        BookingPolicyRepository bookingPolicyRepository,
+        EmployeeRepository employeeRepository,
         CompanyRepository companyRepository)
     {
         this.bookingPolicyRepository = bookingPolicyRepository;
@@ -40,14 +40,14 @@ public class ApplicationBookingPolicyService : BookingPolicyService
 
     public void SetCompanyPolicy(string companyId, List<RoomType> roomTypes)
     {
-        if(!companyRepository.Exists(companyId)) throw new CompanyNotFoundException(companyId);
+        if (!companyRepository.Exists(companyId)) throw new CompanyNotFoundException(companyId);
 
         bookingPolicyRepository.SetCompanyPolicy(companyId, roomTypes);
     }
 
     public void SetEmployeePolicy(string employeeId, List<RoomType> roomTypes)
     {
-        if(!employeeRepository.Exists(employeeId)) throw new EmployeeNotFoundException(employeeId);
+        if (!employeeRepository.Exists(employeeId)) throw new EmployeeNotFoundException(employeeId);
 
         bookingPolicyRepository.SetEmployeePolicy(employeeId, roomTypes);
     }

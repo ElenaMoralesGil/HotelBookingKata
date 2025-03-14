@@ -21,7 +21,7 @@ class InMemoryBookingPolicyRepositoryShould
 
         repository.SetCompanyPolicy(companyId, roomTypes);
 
-        repository.HasCompanyPolicy(companyId).ShouldBeTrue();  
+        repository.HasCompanyPolicy(companyId).ShouldBeTrue();
         repository.IsRoomTypeAllowedForCompany(companyId, RoomType.Standard).ShouldBeTrue();
         repository.IsRoomTypeAllowedForCompany(companyId, RoomType.JuniorSuite).ShouldBeFalse();
     }

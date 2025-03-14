@@ -1,6 +1,6 @@
 ﻿
-using HotelBookingKata.Repositories;
 using HotelBookingKata.Entities;
+using HotelBookingKata.Repositories;
 using Shouldly;
 namespace HotelBooking.Repositories.Tests;
 class InMemoryCompanyRepositoryShould

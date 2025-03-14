@@ -2,9 +2,11 @@ using HotelBookingKata.Repositories;
 using HotelBookingKata.Services;
 namespace HotelBookingKata;
 
-public partial class Program {
+public partial class Program
+{
 
-    public static void Main(string[] args){
+    public static void Main(string[] args)
+    {
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
@@ -16,7 +18,7 @@ public partial class Program {
         builder.Services.AddSingleton<BookingRepository, InMemoryBookingRepository>();
 
 
-        builder.Services.AddScoped<HotelService, ApplicationHotelService> ();
+        builder.Services.AddScoped<HotelService, ApplicationHotelService>();
         builder.Services.AddScoped<CompanyService, ApplicationCompanyService>();
         builder.Services.AddScoped<BookingPolicyService, ApplicationBookingPolicyService>();
         builder.Services.AddScoped<BookingService, ApplicationBookingService>();

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using HotelBookingKata.Services;
+﻿using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
-using HotelBookingKata.Entities;
+using HotelBookingKata.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBookingKata.Controllers;
 
@@ -16,7 +16,7 @@ public class BookingPoliciesController : ControllerBase
         this.bookingPolicyService = bookingPolicyService;
     }
 
-    [HttpPut("companies/{companyId}") ]
+    [HttpPut("companies/{companyId}")]
     public IActionResult SetCompanyPolicy(string companyId, [FromBody] SetCompanyPolicyRequest request)
     {
         try

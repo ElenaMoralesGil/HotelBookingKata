@@ -3,7 +3,7 @@ using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 namespace HotelBookingKata.Services;
 
-public class ApplicationBookingService :  BookingService
+public class ApplicationBookingService : BookingService
 {
     private BookingRepository bookingRepository;
     private HotelRepository hotelRepository;
@@ -18,7 +18,7 @@ public class ApplicationBookingService :  BookingService
 
     public Booking Book(string employeeId, string hotelId, RoomType roomType, DateTime checkIn, DateTime checkOut)
     {
-        if(checkOut <= checkIn)
+        if (checkOut <= checkIn)
         {
             throw new InvalidBookingDateException("Checkout date must be after Checkin date");
         }
@@ -42,12 +42,12 @@ public class ApplicationBookingService :  BookingService
 
         var roomsCount = hotelRepository.GetRoomsCount(hotelId, roomType);
 
-        for ( var date = checkIn; date < checkOut; date = date.AddDays(1))
+        for (var date = checkIn; date < checkOut; date = date.AddDays(1))
         {
             var bookingsCount = bookingRepository.CountBookingsByHotelRoomType(hotelId, roomType, date);
             if (bookingsCount >= roomsCount)
             {
-                throw new NoRoomsAvailableException(hotelId, roomType, checkIn,checkOut);
+                throw new NoRoomsAvailableException(hotelId, roomType, checkIn, checkOut);
             }
         }
 

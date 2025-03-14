@@ -1,9 +1,9 @@
-﻿using NSubstitute;
-using Shouldly;
-using HotelBookingKata.Services;
-using HotelBookingKata.Entities;
-using HotelBookingKata.Repositories;
+﻿using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
+using HotelBookingKata.Repositories;
+using HotelBookingKata.Services;
+using NSubstitute;
+using Shouldly;
 namespace HotelBooking.Services.Test;
 
 public class ApplicationHotelServiceShould
@@ -57,8 +57,8 @@ public class ApplicationHotelServiceShould
     public void return_not_found_when_hotel_doesnt_exist()
     {
         var hotel = new Hotel("hotel1", "hotel 1");
-        var room = new Room( RoomType.Standard, "1");
-        hotelRepository.GetById(hotel.Id).Returns((Hotel) null);
+        var room = new Room(RoomType.Standard, "1");
+        hotelRepository.GetById(hotel.Id).Returns((Hotel)null);
         Should.Throw<HotelNotFoundException>(() =>
         hotelService.SetRoom(hotel.Id, room.Number, room.Type))
             .Message.ShouldBe("Hotel with id hotel1 not found");

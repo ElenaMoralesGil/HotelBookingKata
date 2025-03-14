@@ -1,26 +1,29 @@
-using HotelBookingKata.Repositories;
 using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
+using HotelBookingKata.Repositories;
 namespace HotelBookingKata.Services;
 
-public class ApplicationHotelService : HotelService{
+public class ApplicationHotelService : HotelService
+{
 
     private readonly HotelRepository HotelRepository;
 
-    public ApplicationHotelService(HotelRepository hotelRepository){
-        HotelRepository= hotelRepository;
+    public ApplicationHotelService(HotelRepository hotelRepository)
+    {
+        HotelRepository = hotelRepository;
     }
 
-    public void AddHotel(string hotelId, string hotelName){
+    public void AddHotel(string hotelId, string hotelName)
+    {
 
         if (HotelRepository.Exists(hotelId)) throw new HotelAlreadyExistsException(hotelId);
-       
-        var hotel =  new Hotel(hotelId,hotelName);
+
+        var hotel = new Hotel(hotelId, hotelName);
         HotelRepository.Add(hotel);
     }
 
     public void SetRoom(string hotelId, string roomNumber, RoomType roomType)
-    {   
+    {
         if (!HotelRepository.Exists(hotelId)) throw new HotelNotFoundException(hotelId);
 
         var hotel = HotelRepository.GetById(hotelId);
