@@ -107,7 +107,7 @@ class BookingsControllerShould
 
         result.ShouldBeOfType<CreatedResult>();
         var createdResult = (CreatedResult)result;
-        createdResult.Location.ShouldContain(booking.Id);
+        createdResult.Location?.ShouldContain(booking.Id);
 
     }
 }

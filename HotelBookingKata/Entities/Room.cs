@@ -2,8 +2,8 @@
 {
     public class Room
     {
-        public string Number;
-        public RoomType Type;
+        public string Number { get; }
+        public RoomType Type { get; }
         public Room(RoomType type, string number)
         {
             Number = number;

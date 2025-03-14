@@ -5,8 +5,8 @@ namespace HotelBookingKata.Entities;
 public class Hotel
 {
 
-    public string Id;
-    public string Name;
+    public string Id { get; private set; }
+    public string Name { get; private set; }
     internal List<Room> Rooms = new List<Room>();
 
 

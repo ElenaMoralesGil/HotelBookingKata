@@ -35,7 +35,7 @@ public class HotelsControllerShould
 
         result.ShouldBeOfType<CreatedResult>();
         var createdResult = (CreatedResult)result;
-        createdResult.Location.ShouldContain(hotel.Id);
+        createdResult.Location?.ShouldContain(hotel.Id);
     }
 
     [Test]

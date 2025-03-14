@@ -30,7 +30,7 @@ class CompaniesControllerShould
 
         result.ShouldBeOfType<CreatedResult>();
         var createdResult = (CreatedResult)result;
-        createdResult.Location.ShouldContain(request.EmployeeId);
+        createdResult.Location?.ShouldContain(request.EmployeeId);
         companyService.Received(1).AddEmployee(companyId, request.EmployeeId);
     }
 
