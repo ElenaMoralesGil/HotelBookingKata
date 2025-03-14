@@ -45,37 +45,25 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
 
         builder.ConfigureServices(services =>
         {
-           var descriptor = services.SingleOrDefault(
-                d => d.ServiceType ==
-                    typeof(HotelRepository));
-            if (descriptor != null) services.Remove(descriptor);
-            services.AddSingleton<HotelRepository>(TestHotelRepositories[TestId]);
-
-            var descriptor2 = services.SingleOrDefault(
-                d => d.ServiceType ==
-                    typeof(CompanyRepository));
-            if (descriptor2 != null) services.Remove(descriptor2);
-            services.AddSingleton<CompanyRepository>(TestCompanyRepositories[TestId]);
-
-            var descriptor3 = services.SingleOrDefault(
-                d => d.ServiceType ==
-                    typeof(EmployeeRepository));
-            if (descriptor3 != null) services.Remove(descriptor3);
-            services.AddSingleton<EmployeeRepository>(TestEmployeeRepositories[TestId]);
-
-            var descriptor4 = services.SingleOrDefault(
-                d => d.ServiceType ==
-                    typeof(BookingPolicyRepository));
-            if (descriptor4 != null) services.Remove(descriptor4);
-            services.AddSingleton<BookingPolicyRepository>(TestBookingPolicyRepositories[TestId]);
-
-            var descriptor5 = services.SingleOrDefault(
-                d => d.ServiceType ==
-                    typeof(BookingRepository));
-            if (descriptor5 != null) services.Remove(descriptor5);
-            services.AddSingleton<BookingRepository>(TestBookingRepositories[TestId]);
+            
+            ConfigureTestRepository<HotelRepository>(services, TestHotelRepositories[TestId]);
+            ConfigureTestRepository<CompanyRepository>(services, TestCompanyRepositories[TestId]);
+            ConfigureTestRepository<EmployeeRepository>(services, TestEmployeeRepositories[TestId]);
+            ConfigureTestRepository<BookingPolicyRepository>(services, TestBookingPolicyRepositories[TestId]);
+            ConfigureTestRepository<BookingRepository>(services, TestBookingRepositories[TestId]);
 
         });
+
+
+    }
+
+    private void ConfigureTestRepository<TService>(IServiceCollection services, object implementation)
+    {
+        var descriptor = services.SingleOrDefault(
+            d => d.ServiceType ==
+                typeof(TService));
+        if (descriptor != null) services.Remove(descriptor);
+        services.AddSingleton(typeof(TService),implementation);
     }
 
     public InMemoryHotelRepository GetHotelRepository()
