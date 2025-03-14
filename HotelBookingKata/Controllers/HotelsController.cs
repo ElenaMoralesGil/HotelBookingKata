@@ -51,47 +51,13 @@ public class HotelsController : ControllerBase
         try
         {
             var hotel = hotelService.FindHotelBy(hotelId);
-            var rooms = hotel.GetRooms().Select(room => new RoomResponse
-            {
-                Number = room.Number,
-                Type = room.Type
-            }).ToList();
+            var rooms = hotel.GetRooms().Select(room => new RoomResponse(room.Number, room.Type)).ToList();
 
-
-            return Ok(new HotelResponse
-            {
-                Id = hotel.Id,
-                Name = hotel.Name,
-                Rooms = rooms
-            });
+            return Ok(new HotelResponse(hotel.Id, hotel.Name, rooms));
         }
         catch (HotelNotFoundException exception)
         {
             return NotFound(new { message = exception.Message });
         }
-
     }
-
-    public class AddHotelRequest
-    {
-        public required string Id { get; set; }
-        public required string Name { get; set; }
-    }
-
-    public class SetRoomNumberRequest
-    {
-        public string Number { get; set; }
-    }
-}
-public class HotelResponse
-{
-    public string Id { get; set; }
-    public string Name { get; set; }
-    public List<RoomResponse> Rooms { get; set; }
-}
-
-public class RoomResponse
-{
-    public string Number { get; set; }
-    public RoomType Type { get; set; }
 }

@@ -58,6 +58,3 @@ public class BookingPoliciesController : ControllerBase
         }
     }
 }
-
-public record SetCompanyPolicyRequest(List<RoomType> RoomType);
-public record SetEmployeePolicyRequest(List<RoomType> RoomType);

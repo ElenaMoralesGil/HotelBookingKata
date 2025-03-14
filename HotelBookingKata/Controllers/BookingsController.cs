@@ -52,5 +52,3 @@ public class BookingsController : ControllerBase
 
     }
 }
-
-public record CreateBookingRequest(string EmployeeId, string HotelId, RoomType RoomType, DateTime CheckIn, DateTime CheckOut);

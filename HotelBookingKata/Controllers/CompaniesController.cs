@@ -44,5 +44,3 @@ public class CompaniesController : ControllerBase
     }
 }
 
-public record AddEmployeeRequest(string EmployeeId);
-

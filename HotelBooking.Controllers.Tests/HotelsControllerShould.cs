@@ -28,7 +28,8 @@ public class HotelsControllerShould
             Id = "hotel1",
             Name = "hotel 1"
         };
-        var request = new HotelsController.AddHotelRequest { Id = hotel.Id, Name = hotel.Name };
+       
+        var request = new AddHotelRequest( hotel.Id,hotel.Name);
 
         var result = controller.AddHotel(request);
 
@@ -46,7 +47,7 @@ public class HotelsControllerShould
             Name = "Hotel 1"
         };
         hotelService.When(x => x.AddHotel(hotel.Id, hotel.Name)).Do(x => throw new HotelAlreadyExistsException(hotel.Id));
-        var request = new HotelsController.AddHotelRequest { Id = hotel.Id, Name = hotel.Name };
+        var request = new AddHotelRequest(hotel.Id, hotel.Name);
         var result = controller.AddHotel(request);
         result.ShouldBeOfType<ConflictObjectResult>();
         var conflictResult = (ConflictObjectResult)result;
@@ -60,10 +61,7 @@ public class HotelsControllerShould
             Id = "Hotel1",
             Name = "Hotel 1"
         };
-        var request = new HotelsController.SetRoomNumberRequest
-        {
-            Number = "1",
-        };
+        var request = new SetRoomNumberRequest("1");
 
         var result = controller.SetRoom(hotel.Id, RoomType.Standard, request);
 
@@ -80,10 +78,7 @@ public class HotelsControllerShould
             Name = "Hotel 1"
         };
         hotelService.When(x => x.SetRoom(hotel.Id, "1", RoomType.Standard)).Do(x => throw new HotelNotFoundException(hotel.Id));
-        var request = new HotelsController.SetRoomNumberRequest
-        {
-            Number = "1",
-        };
+        var request = new SetRoomNumberRequest("1");
         var result = controller.SetRoom(hotel.Id, RoomType.Standard, request);
         result.ShouldBeOfType<NotFoundObjectResult>();
         var notFoundResult = (NotFoundObjectResult)result;
