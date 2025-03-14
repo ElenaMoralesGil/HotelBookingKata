@@ -19,45 +19,27 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
 
         builder.UseEnvironment("Testing");
 
-        if (!TestHotelRepositories.TryGetValue(TestId, out _ )){
-            TestHotelRepositories[TestId] = new InMemoryHotelRepository();
-        }
-
-        if (!TestCompanyRepositories.TryGetValue(TestId, out _))
-        {
-            TestCompanyRepositories[TestId] = new InMemoryCompanyRepository();
-        }
-
-        if (!TestEmployeeRepositories.TryGetValue(TestId, out _))
-        {
-            TestEmployeeRepositories[TestId] = new InMemoryEmployeeRepository();
-        }
-
-        if(!TestBookingPolicyRepositories.TryGetValue(TestId, out _))
-        {
-            TestBookingPolicyRepositories[TestId] = new InMemoryBookingPolicyRepository();
-        }
-
-        if(!TestBookingRepositories.TryGetValue(TestId, out _))
-        {
-            TestBookingRepositories[TestId] = new InMemoryBookingRepository();
-        }
+        TestHotelRepositories[TestId] = new InMemoryHotelRepository();
+        TestCompanyRepositories[TestId] = new InMemoryCompanyRepository();
+        TestEmployeeRepositories[TestId] = new InMemoryEmployeeRepository();
+        TestBookingPolicyRepositories[TestId] = new InMemoryBookingPolicyRepository();
+        TestBookingRepositories[TestId] = new InMemoryBookingRepository();
 
         builder.ConfigureServices(services =>
         {
             
-            ConfigureTestRepository<HotelRepository>(services, TestHotelRepositories[TestId]);
-            ConfigureTestRepository<CompanyRepository>(services, TestCompanyRepositories[TestId]);
-            ConfigureTestRepository<EmployeeRepository>(services, TestEmployeeRepositories[TestId]);
-            ConfigureTestRepository<BookingPolicyRepository>(services, TestBookingPolicyRepositories[TestId]);
-            ConfigureTestRepository<BookingRepository>(services, TestBookingRepositories[TestId]);
+            ReplaceProgramWithTestRepository<HotelRepository>(services, TestHotelRepositories[TestId]);
+            ReplaceProgramWithTestRepository<CompanyRepository>(services, TestCompanyRepositories[TestId]);
+            ReplaceProgramWithTestRepository<EmployeeRepository>(services, TestEmployeeRepositories[TestId]);
+            ReplaceProgramWithTestRepository<BookingPolicyRepository>(services, TestBookingPolicyRepositories[TestId]);
+            ReplaceProgramWithTestRepository<BookingRepository>(services, TestBookingRepositories[TestId]);
 
         });
 
 
     }
 
-    private void ConfigureTestRepository<TService>(IServiceCollection services, object implementation)
+    private void ReplaceProgramWithTestRepository<TService>(IServiceCollection services, object implementation)
     {
         var descriptor = services.SingleOrDefault(
             d => d.ServiceType ==
@@ -66,30 +48,11 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
         services.AddSingleton(typeof(TService),implementation);
     }
 
-    public InMemoryHotelRepository GetHotelRepository()
-    {
-        return TestHotelRepositories[TestId];
-    }
-
-    public InMemoryCompanyRepository GetCompanyRepository()
-    {
-        return TestCompanyRepositories[TestId];
-    }
-
-    public InMemoryEmployeeRepository GetEmployeeRepository()
-    {
-        return TestEmployeeRepositories[TestId];
-    }
-
-    public InMemoryBookingPolicyRepository GetBookingPolicyRepository()
-    {
-        return TestBookingPolicyRepositories[TestId];
-    }
-
-    public InMemoryBookingRepository GetBookingRepository()
-    {
-        return TestBookingRepositories[TestId];
-    }
+    public InMemoryHotelRepository GetHotelRepository() => TestHotelRepositories[TestId];
+    public InMemoryCompanyRepository GetCompanyRepository() => TestCompanyRepositories[TestId];
+    public InMemoryEmployeeRepository GetEmployeeRepository() => TestEmployeeRepositories[TestId];
+    public InMemoryBookingPolicyRepository GetBookingPolicyRepository() => TestBookingPolicyRepositories[TestId];
+    public InMemoryBookingRepository GetBookingRepository() => TestBookingRepositories[TestId];
 
     protected override void Dispose(bool disposing)
     {
