@@ -25,11 +25,7 @@ public class ApplicationBookingService : BookingService
         ValidateIfBookingIsAllowed(employeeId, roomType);
         ValidateIfRoomIsAvailable(hotelId, roomType, checkIn, checkOut);
 
-        var bookingId = Guid.NewGuid().ToString();
-        var booking = new Booking(bookingId, employeeId, hotelId, roomType, checkIn, checkOut);
-        bookingRepository.Add(booking);
-
-        return booking;
+        return CreateBooking(employeeId, hotelId, roomType, checkIn, checkOut);
 
     }
 
@@ -76,5 +72,14 @@ public class ApplicationBookingService : BookingService
                 throw new NoRoomsAvailableException(hotelId, roomType, checkIn, checkOut);
             }
         }
+    }
+
+    private Booking CreateBooking(string employeeId, string hotelId, RoomType roomType, DateTime checkIn, DateTime checkOut)
+    {
+        var bookingId = Guid.NewGuid().ToString();
+        var booking = new Booking(bookingId, employeeId, hotelId, roomType, checkIn, checkOut);
+        bookingRepository.Add(booking);
+
+        return booking;
     }
 }
