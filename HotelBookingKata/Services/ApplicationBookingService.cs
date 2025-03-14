@@ -18,10 +18,11 @@ public class ApplicationBookingService : BookingService
 
     public Booking Book(string employeeId, string hotelId, RoomType roomType, DateTime checkIn, DateTime checkOut)
     {
-        if (checkOut <= checkIn)
-        {
-            throw new InvalidBookingDateException("Checkout date must be after Checkin date");
-        }
+        //if (checkOut <= checkIn)
+        //{
+        //    throw new InvalidBookingDateException("Checkout date must be after Checkin date");
+        //}
+        ValidateBookingDates(checkIn, checkOut);
 
         if (!hotelRepository.Exists(hotelId))
         {
@@ -57,5 +58,13 @@ public class ApplicationBookingService : BookingService
 
         return booking;
 
+    }
+
+    private void ValidateBookingDates(DateTime checkIn, DateTime checkOut)
+    {
+        if (checkOut <= checkIn)
+        {
+            throw new InvalidBookingDateException("Checkout date must be after Checkin date");
+        }
     }
 }
