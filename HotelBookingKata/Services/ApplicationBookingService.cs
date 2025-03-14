@@ -18,28 +18,11 @@ public class ApplicationBookingService : BookingService
 
     public Booking Book(string employeeId, string hotelId, RoomType roomType, DateTime checkIn, DateTime checkOut)
     {
-        //if (checkOut <= checkIn)
-        //{
-        //    throw new InvalidBookingDateException("Checkout date must be after Checkin date");
-        //}
+    
         ValidateBookingDates(checkIn, checkOut);
-
-        if (!hotelRepository.Exists(hotelId))
-        {
-            throw new HotelNotFoundException(hotelId);
-        }
-
-        var hotel = hotelRepository.GetById(hotelId);
-
-        if (!hotelRepository.HasRoomOfType(hotelId, roomType))
-        {
-            throw new RoomTypeNotAvailableException(roomType);
-        }
-
-        if (!bookingPolicyService.IsBookingAllowed(employeeId, roomType))
-        {
-            throw new BookingNotAllowedException(employeeId, roomType);
-        }
+        ValidateHotelExists(hotelId);
+        ValidateIfHotelHasRoomType(hotelId, roomType);
+        ValidateIfBookingIsAllowed(employeeId, roomType);
 
         var roomsCount = hotelRepository.GetRoomsCount(hotelId, roomType);
 
@@ -65,6 +48,30 @@ public class ApplicationBookingService : BookingService
         if (checkOut <= checkIn)
         {
             throw new InvalidBookingDateException("Checkout date must be after Checkin date");
+        }
+    }
+
+    private void ValidateHotelExists(string hotelId)
+    {
+        if (!hotelRepository.Exists(hotelId))
+        {
+            throw new HotelNotFoundException(hotelId);
+        }
+    }
+
+    private void ValidateIfHotelHasRoomType(string hotelId, RoomType roomType)
+    {
+        if (!hotelRepository.HasRoomOfType(hotelId, roomType))
+        {
+            throw new RoomTypeNotAvailableException(roomType);
+        }
+    }
+
+    private void ValidateIfBookingIsAllowed(string employeeId, RoomType roomType)
+    {
+        if (!bookingPolicyService.IsBookingAllowed(employeeId, roomType))
+        {
+            throw new BookingNotAllowedException(employeeId, roomType);
         }
     }
 }
