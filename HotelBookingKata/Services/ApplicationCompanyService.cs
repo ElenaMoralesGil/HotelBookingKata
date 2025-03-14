@@ -7,10 +7,14 @@ public class ApplicationCompanyService : CompanyService
 
     private CompanyRepository companyRepository;
     private EmployeeRepository employeeRepository;
-    public ApplicationCompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository)
+    private BookingPolicyRepository bookingPolicyRepository;
+    private BookingRepository bookingRepository;
+    public ApplicationCompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository, BookingPolicyRepository bookingPolicyRepository, BookingRepository bookingRepository)
     {
         this.companyRepository = companyRepository;
         this.employeeRepository = employeeRepository;
+        this.bookingPolicyRepository = bookingPolicyRepository;
+        this.bookingRepository = bookingRepository;
     }
     public void AddEmployee(string companyId, string employeeId)
     {
@@ -37,6 +41,7 @@ public class ApplicationCompanyService : CompanyService
     {
 
         if (!employeeRepository.Exists(employeeId)) throw new EmployeeNotFoundException(employeeId);
+
         var employee = employeeRepository.GetById(employeeId);
         var companyId = employee.CompanyId;
 
@@ -46,6 +51,8 @@ public class ApplicationCompanyService : CompanyService
             company.RemoveEmployee(employee);
             companyRepository.Update(company);
         }
+        bookingPolicyRepository.DeleteEmployeePolicy(employeeId);
+        bookingRepository.DeleteEmployeeBookings(employeeId);
         employeeRepository.Delete(employeeId);
     }
 }

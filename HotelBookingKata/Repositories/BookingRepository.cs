@@ -7,5 +7,6 @@ public interface BookingRepository
     int CountBookingsByHotelRoomType(string hotelId, RoomType roomType, DateTime date);
     Dictionary<string, Booking> GetBookings();
     bool Exists(string id);
+    void DeleteEmployeeBookings(string employeeId);
 
 }

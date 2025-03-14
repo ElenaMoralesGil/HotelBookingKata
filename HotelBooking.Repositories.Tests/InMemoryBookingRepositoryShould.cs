@@ -23,4 +23,13 @@ class InMemoryBookingRepositoryShould
 
         repository.Exists(booking.Id).ShouldBeTrue();
     }
+
+    [Test]
+    public void delete_booking_from_existing_employee()
+    {
+        var booking = new Booking("Booking1", "Employee1", "Hotel1", RoomType.Standard, DateTime.Now, DateTime.Now.AddDays(1));
+        repository.Add(booking);
+        repository.DeleteEmployeeBookings("Employee1");
+        repository.Exists(booking.Id).ShouldBeFalse();
+    }
 }

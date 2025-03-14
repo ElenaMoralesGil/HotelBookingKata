@@ -24,4 +24,13 @@ public class InMemoryBookingRepository : BookingRepository
     {
         return bookings.ContainsKey(id);
     }
+
+    public void DeleteEmployeeBookings(string employeeId)
+    {
+        var bookingsToDelete = bookings.Values.Where(b => b.EmployeeId == employeeId).ToList();
+        foreach (var booking in bookingsToDelete)
+        {
+            bookings.Remove(booking.Id);
+        }
+    }
 }

@@ -41,5 +41,15 @@ public class InMemoryBookingPolicyRepository : BookingPolicyRepository
 
         return employeePolicies[employeeId].IsRoomTypeAllowed(roomType);
     }
+
+    public void DeleteEmployeePolicy(string employeeId)
+    {
+        employeePolicies.Remove(employeeId);
+    }
+
+    public Dictionary<string, EmployeeBookingPolicy> GetEmployeePolicies()
+    {
+        return employeePolicies;
+    }
 }
 

@@ -67,5 +67,15 @@ class InMemoryBookingPolicyRepositoryShould
         var employeeId = "Employee44";
         repository.HasEmployeePolicy(employeeId).ShouldBeFalse();
     }
-}
+
+    [Test]
+    public void delete_employee_policy()
+    {
+        var employeeId = "Employee1";
+        var roomTypes = new List<RoomType> { RoomType.Standard };
+        repository.SetEmployeePolicy(employeeId, roomTypes);
+        repository.DeleteEmployeePolicy(employeeId);
+        repository.HasEmployeePolicy(employeeId).ShouldBeFalse();
+    }
+ }
 

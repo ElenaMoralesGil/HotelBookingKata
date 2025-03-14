@@ -11,6 +11,8 @@ class ApplicationCompanyServiceShould
 {
     private CompanyRepository companyRepository;
     private EmployeeRepository employeeRepository;
+    private BookingRepository bookingRepository;
+    private BookingPolicyRepository bookingPolicyRepository;
     private ApplicationCompanyService companyService;
 
     [SetUp]
@@ -18,7 +20,9 @@ class ApplicationCompanyServiceShould
     {
         companyRepository = Substitute.For<CompanyRepository>();
         employeeRepository = Substitute.For<EmployeeRepository>();
-        companyService = new ApplicationCompanyService(companyRepository, employeeRepository);
+        bookingPolicyRepository = Substitute.For<BookingPolicyRepository>();
+        bookingRepository = Substitute.For<BookingRepository>();
+        companyService = new ApplicationCompanyService(companyRepository, employeeRepository, bookingPolicyRepository, bookingRepository);
     }
 
     [Test]
@@ -54,7 +58,7 @@ class ApplicationCompanyServiceShould
     }
 
     [Test]
-    public void delete_employee_when_employee_exists()
+    public void delete_employee_when_employee_exists_with_all_their_bookings_and_policies()
     {
         var employeeId = "Employee1";
         var employee = new Employee(employeeId, "Company1");
@@ -66,6 +70,8 @@ class ApplicationCompanyServiceShould
         companyService.DeleteEmployee(employeeId);
 
         employeeRepository.Received(1).Delete(employeeId);
+        bookingRepository.Received(1).DeleteEmployeeBookings(employeeId);
+        bookingPolicyRepository.Received(1).DeleteEmployeePolicy(employeeId);
         companyRepository.Received(1).Update(Arg.Is<Company>(c => c.Id == employee.CompanyId));
     }
 }
