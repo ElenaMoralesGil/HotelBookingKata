@@ -63,6 +63,7 @@ class BookingsControllerShould
         result.ShouldBeOfType<NotFoundObjectResult>();
     }
 
+    [Test]
     public void return_conflict_when_booking_is_not_allowrd_by_policy()
     {
         var employeeId = "Employee1";
@@ -76,6 +77,7 @@ class BookingsControllerShould
         result.ShouldBeOfType<ConflictObjectResult>();
     }
 
+    [Test]
     public void return_conflict_when_there_are_no_rooms_available_at_that_time_period()
     {
         var employeeId = "Employee1";
