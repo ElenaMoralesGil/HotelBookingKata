@@ -6,11 +6,11 @@ namespace HotelBookingKata.Controllers;
 
 [ApiController]
 [Route("api/hotels")]
-public class HotelController : ControllerBase
+public class HotelsController : ControllerBase
 {
     private HotelService hotelService;
 
-    public HotelController(HotelService hotelService)
+    public HotelsController(HotelService hotelService)
     {
         this.hotelService = hotelService;
     }

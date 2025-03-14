@@ -7,7 +7,7 @@ using Shouldly;
 
 namespace HotelBooking.Controllers.Tests;
 
-class CompanyControllerShould
+class CompaniesControllerShould
 {
     private CompaniesController controller;
     private CompanyService companyService;

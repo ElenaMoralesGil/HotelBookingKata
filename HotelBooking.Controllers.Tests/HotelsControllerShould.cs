@@ -8,16 +8,16 @@ using Shouldly;
 
 namespace HotelBooking.Controllers.Tests;
 
-public class HotelControllerShould
+public class HotelsControllerShould
 {
 
-    private HotelController controller;
+    private HotelsController controller;
     private HotelService hotelService;
     [SetUp]
     public void Setup()
     {
         hotelService = Substitute.For<HotelService>();
-        controller = new HotelController(hotelService);
+        controller = new HotelsController(hotelService);
     }
 
     [Test]
@@ -28,7 +28,7 @@ public class HotelControllerShould
             Id = "hotel1",
             Name = "hotel 1"
         };
-        var request = new HotelController.AddHotelRequest { Id = hotel.Id, Name = hotel.Name };
+        var request = new HotelsController.AddHotelRequest { Id = hotel.Id, Name = hotel.Name };
 
         var result = controller.AddHotel(request);
 
@@ -46,7 +46,7 @@ public class HotelControllerShould
             Name = "Hotel 1"
         };
         hotelService.When(x => x.AddHotel(hotel.Id, hotel.Name)).Do(x => throw new HotelAlreadyExistsException(hotel.Id));
-        var request = new HotelController.AddHotelRequest { Id = hotel.Id, Name = hotel.Name };
+        var request = new HotelsController.AddHotelRequest { Id = hotel.Id, Name = hotel.Name };
         var result = controller.AddHotel(request);
         result.ShouldBeOfType<ConflictObjectResult>();
         var conflictResult = (ConflictObjectResult)result;
@@ -60,7 +60,7 @@ public class HotelControllerShould
             Id = "Hotel1",
             Name = "Hotel 1"
         };
-        var request = new HotelController.SetRoomNumberRequest
+        var request = new HotelsController.SetRoomNumberRequest
         {
             Number = "1",
         };
@@ -80,7 +80,7 @@ public class HotelControllerShould
             Name = "Hotel 1"
         };
         hotelService.When(x => x.SetRoom(hotel.Id, "1", RoomType.Standard)).Do(x => throw new HotelNotFoundException(hotel.Id));
-        var request = new HotelController.SetRoomNumberRequest
+        var request = new HotelsController.SetRoomNumberRequest
         {
             Number = "1",
         };
