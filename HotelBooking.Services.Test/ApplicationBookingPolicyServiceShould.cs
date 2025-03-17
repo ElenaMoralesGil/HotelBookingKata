@@ -11,7 +11,7 @@ class ApplicationBookingPolicyServiceShould
     private BookingPolicyRepository bookingPolicyRepository;
     private EmployeeRepository employeeRepository;
     private CompanyRepository companyRepository;
-    private ApplicationBookingPolicyService bookingPolicyService;
+    private CompanyBookingPolicyService bookingPolicyService;
 
     [SetUp]
     public void Setup()
@@ -19,7 +19,7 @@ class ApplicationBookingPolicyServiceShould
         bookingPolicyRepository = Substitute.For<BookingPolicyRepository>();
         employeeRepository = Substitute.For<EmployeeRepository>();
         companyRepository = Substitute.For<CompanyRepository>();
-        bookingPolicyService = new ApplicationBookingPolicyService(bookingPolicyRepository, employeeRepository, companyRepository);
+        bookingPolicyService = new CompanyBookingPolicyService(bookingPolicyRepository, employeeRepository, companyRepository);
     }
 
     [Test]

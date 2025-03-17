@@ -18,10 +18,10 @@ public partial class Program
         builder.Services.AddSingleton<BookingRepository, InMemoryBookingRepository>();
 
 
-        builder.Services.AddScoped<HotelService, ApplicationHotelService>();
-        builder.Services.AddScoped<CompanyService, ApplicationCompanyService>();
-        builder.Services.AddScoped<BookingPolicyService, ApplicationBookingPolicyService>();
-        builder.Services.AddScoped<BookingService, ApplicationBookingService>();
+        builder.Services.AddScoped<HotelService, CompanyHotelService>();
+        builder.Services.AddScoped<CompanyService, CompanyCompanyService>();
+        builder.Services.AddScoped<BookingPolicyService, CompanyBookingPolicyService>();
+        builder.Services.AddScoped<BookingService, CompanyBookingService>();
 
         var app = builder.Build();
         app.MapControllers();

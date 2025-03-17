@@ -2,14 +2,14 @@
 using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 namespace HotelBookingKata.Services;
-public class ApplicationCompanyService : CompanyService
+public class CompanyCompanyService : CompanyService
 {
 
     private CompanyRepository companyRepository;
     private EmployeeRepository employeeRepository;
     private BookingPolicyRepository bookingPolicyRepository;
     private BookingRepository bookingRepository;
-    public ApplicationCompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository, BookingPolicyRepository bookingPolicyRepository, BookingRepository bookingRepository)
+    public CompanyCompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository, BookingPolicyRepository bookingPolicyRepository, BookingRepository bookingRepository)
     {
         this.companyRepository = companyRepository;
         this.employeeRepository = employeeRepository;
