@@ -2,6 +2,10 @@ using HotelBookingKata.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
+using HotelBookingKata.Common;
+using HotelBookingKata.UseCases.BookingPolicies.CheckBookingPolicy;
+using HotelBookingKata.Exceptions;
 namespace HotelBookingKata.Test;
 
 public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
@@ -35,7 +39,8 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
             ReplaceProgramWithTestRepository<BookingPolicyRepository>(services, TestBookingPolicyRepositories[TestId]);
             ReplaceProgramWithTestRepository<BookingRepository>(services, TestBookingRepositories[TestId]);
 
-        });
+        
+    });
 
 
     }

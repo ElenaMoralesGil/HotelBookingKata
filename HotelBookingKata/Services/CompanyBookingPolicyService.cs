@@ -1,26 +1,42 @@
-﻿using HotelBookingKata.Entities;
+﻿using HotelBookingKata.Common;
+using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
-
-namespace HotelBookingKata.Services;
+using HotelBookingKata.Services;
+using HotelBookingKata.UseCases.BookingPolicies.CheckBookingPolicy;
 public class CompanyBookingPolicyService : BookingPolicyService
 {
     private BookingPolicyRepository bookingPolicyRepository;
+    private Dispatcher dispatcher;
     private EmployeeRepository employeeRepository;
     private CompanyRepository companyRepository;
 
     public CompanyBookingPolicyService(
         BookingPolicyRepository bookingPolicyRepository,
         EmployeeRepository employeeRepository,
-        CompanyRepository companyRepository)
+        CompanyRepository companyRepository,
+        Dispatcher dispatcher =  null )
     {
         this.bookingPolicyRepository = bookingPolicyRepository;
         this.employeeRepository = employeeRepository;
         this.companyRepository = companyRepository;
+        this.dispatcher = dispatcher;
+ 
     }
 
-    public bool IsBookingAllowed(string employeeId, RoomType roomType)
-    {
+    public bool IsBookingAllowed(string employeeId, RoomType roomType) {
+
+        if (dispatcher != null)
+        {
+
+            return dispatcher.Dispatch<CheckBookingPolicyRequest, bool>(
+                new CheckBookingPolicyRequest
+                {
+                    EmployeeId = employeeId,
+                    RoomType = roomType
+                });
+        }
+
         if (!employeeRepository.Exists(employeeId)) throw new EmployeeNotFoundException(employeeId);
 
         var employee = employeeRepository.GetById(employeeId);
@@ -37,6 +53,7 @@ public class CompanyBookingPolicyService : BookingPolicyService
 
         return true;
     }
+
 
     public void SetCompanyPolicy(string companyId, List<RoomType> roomTypes)
     {
