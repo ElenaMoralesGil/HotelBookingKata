@@ -1,4 +1,5 @@
-﻿using HotelBookingKata.Entities;
+﻿using HotelBookingKata.Common;
+using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Services;
@@ -12,6 +13,7 @@ class ApplicationBookingPolicyServiceShould
     private EmployeeRepository employeeRepository;
     private CompanyRepository companyRepository;
     private CompanyBookingPolicyService bookingPolicyService;
+    private Dispatcher dispatcher;
 
     [SetUp]
     public void Setup()
@@ -19,7 +21,8 @@ class ApplicationBookingPolicyServiceShould
         bookingPolicyRepository = Substitute.For<BookingPolicyRepository>();
         employeeRepository = Substitute.For<EmployeeRepository>();
         companyRepository = Substitute.For<CompanyRepository>();
-        bookingPolicyService = new CompanyBookingPolicyService(bookingPolicyRepository, employeeRepository, companyRepository);
+        dispatcher = Substitute.For<Dispatcher>();
+        bookingPolicyService = new CompanyBookingPolicyService(bookingPolicyRepository, employeeRepository, companyRepository, dispatcher);
     }
 
     [Test]

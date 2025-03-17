@@ -1,3 +1,4 @@
+using HotelBookingKata.Common;
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Services;
 namespace HotelBookingKata;
@@ -16,7 +17,6 @@ public partial class Program
         builder.Services.AddSingleton<EmployeeRepository, InMemoryEmployeeRepository>();
         builder.Services.AddSingleton<BookingPolicyRepository, InMemoryBookingPolicyRepository>();
         builder.Services.AddSingleton<BookingRepository, InMemoryBookingRepository>();
-
 
         builder.Services.AddScoped<HotelService, CompanyHotelService>();
         builder.Services.AddScoped<CompanyService, CompanyCompanyService>();
