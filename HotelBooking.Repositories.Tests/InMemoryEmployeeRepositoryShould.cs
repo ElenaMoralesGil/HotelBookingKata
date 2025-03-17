@@ -8,7 +8,8 @@ class InMemoryEmployeeRepositoryShould
 
     private InMemoryEmployeeRepository repository;
 
-    public InMemoryEmployeeRepositoryShould()
+    [SetUp]
+    public void  SetUp()
     {
         repository = new InMemoryEmployeeRepository();
     }
