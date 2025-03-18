@@ -4,6 +4,7 @@ using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 using HotelBookingKata.UseCases.BookingPolicies.CheckBookingPolicy;
 using HotelBookingKata.UseCases.BookingPolicies.SetCompanyPolicy;
+using HotelBookingKata.Services;
 using NSubstitute;
 using Shouldly;
 

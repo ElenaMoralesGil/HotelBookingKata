@@ -2,9 +2,10 @@
 using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
-using HotelBookingKata.Services;
 using HotelBookingKata.UseCases.BookingPolicies.CheckBookingPolicy;
 using HotelBookingKata.UseCases.BookingPolicies.SetCompanyPolicy;
+using HotelBookingKata.UseCases.BookingPolicies.SetEmployeePolicy;
+namespace HotelBookingKata.Services;
 public class CompanyBookingPolicyService : BookingPolicyService
 {
     private BookingPolicyRepository bookingPolicyRepository;
@@ -67,9 +68,10 @@ public class CompanyBookingPolicyService : BookingPolicyService
                 RoomTypes = roomTypes
             });
         }
-        if (!companyRepository.Exists(companyId)) throw new CompanyNotFoundException(companyId);
+        
+        //if (!companyRepository.Exists(companyId)) throw new CompanyNotFoundException(companyId);
 
-        bookingPolicyRepository.SetCompanyPolicy(companyId, roomTypes);
+        //bookingPolicyRepository.SetCompanyPolicy(companyId, roomTypes);
 
 
     }
@@ -77,9 +79,17 @@ public class CompanyBookingPolicyService : BookingPolicyService
 
     public void SetEmployeePolicy(string employeeId, List<RoomType> roomTypes)
     {
-        if (!employeeRepository.Exists(employeeId)) throw new EmployeeNotFoundException(employeeId);
+        if(dispatcher != null)
+        {
+            dispatcher.Dispatch<SetEmployeePolicyRequest>(new SetEmployeePolicyRequest
+            {
+                EmployeeId = employeeId,
+                RoomTypes = roomTypes
+            });
+        }
+        //if (!employeeRepository.Exists(employeeId)) throw new EmployeeNotFoundException(employeeId);
 
-        bookingPolicyRepository.SetEmployeePolicy(employeeId, roomTypes);
+        //bookingPolicyRepository.SetEmployeePolicy(employeeId, roomTypes);
     }
 }
 
