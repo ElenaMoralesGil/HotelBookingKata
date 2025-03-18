@@ -1,5 +1,8 @@
 using HotelBookingKata.Common;
 using HotelBookingKata.Repositories;
+using HotelBookingKata.UseCases.BookingPolicies.SetCompanyPolicy;
+using HotelBookingKata.UseCases.BookingPolicies.SetEmployeePolicy;
+using HotelBookingKata.UseCases.BookingPolicies.CheckBookingPolicy;
 using HotelBookingKata.Services;
 namespace HotelBookingKata;
 
@@ -17,6 +20,11 @@ public partial class Program
         builder.Services.AddSingleton<EmployeeRepository, InMemoryEmployeeRepository>();
         builder.Services.AddSingleton<BookingPolicyRepository, InMemoryBookingPolicyRepository>();
         builder.Services.AddSingleton<BookingRepository, InMemoryBookingRepository>();
+
+        builder.Services.AddScoped<Dispatcher, UseCaseDispatcher>();
+        builder.Services.AddScoped<UseCase<SetCompanyPolicyRequest>, SetCompanyPolicyHandler>();
+        builder.Services.AddScoped<UseCase<SetEmployeePolicyRequest>, SetEmployeePolicyHandler>();
+        builder.Services.AddScoped<UseCase<CheckBookingPolicyRequest, bool>, CheckBookingPolicyHandler>();
 
         builder.Services.AddScoped<HotelService, CompanyHotelService>();
         builder.Services.AddScoped<CompanyService, CompanyCompanyService>();

@@ -1,30 +1,23 @@
 ﻿using HotelBookingKata.Common;
 using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
-using HotelBookingKata.Repositories;
 using HotelBookingKata.UseCases.BookingPolicies.CheckBookingPolicy;
 using HotelBookingKata.UseCases.BookingPolicies.SetCompanyPolicy;
+using HotelBookingKata.UseCases.BookingPolicies.SetEmployeePolicy;
 using HotelBookingKata.Services;
 using NSubstitute;
 using Shouldly;
-
 namespace HotelBooking.Services.Test;
 class ApplicationBookingPolicyServiceShould
 {
-    private BookingPolicyRepository bookingPolicyRepository;
-    private EmployeeRepository employeeRepository;
-    private CompanyRepository companyRepository;
     private CompanyBookingPolicyService bookingPolicyService;
     private Dispatcher dispatcher;
 
     [SetUp]
     public void Setup()
     {
-        bookingPolicyRepository = Substitute.For<BookingPolicyRepository>();
-        employeeRepository = Substitute.For<EmployeeRepository>();
-        companyRepository = Substitute.For<CompanyRepository>();
         dispatcher = Substitute.For<Dispatcher>();
-        bookingPolicyService = new CompanyBookingPolicyService(bookingPolicyRepository, employeeRepository, companyRepository, dispatcher);
+        bookingPolicyService = new CompanyBookingPolicyService(dispatcher);
     }
 
     [Test]
@@ -32,38 +25,35 @@ class ApplicationBookingPolicyServiceShould
     {
         var companyId = "Company1";
         var roomTypes = new List<RoomType> { RoomType.Standard };
-        companyRepository.Exists(companyId).Returns(true);
         bookingPolicyService.SetCompanyPolicy(companyId, roomTypes);
-          dispatcher.Received(1).Dispatch(Arg.Is<SetCompanyPolicyRequest>(request =>
-        request.CompanyId == companyId && request.RoomTypes.SequenceEqual(roomTypes)));
+        dispatcher.Received(1).Dispatch(Arg.Is<SetCompanyPolicyRequest>(request =>
+      request.CompanyId == companyId && request.RoomTypes.SequenceEqual(roomTypes)));
 
-        bookingPolicyRepository.Received(1).SetCompanyPolicy(companyId, roomTypes);
+        dispatcher.Received(1).Dispatch(Arg.Is<SetCompanyPolicyRequest>(request => request.CompanyId == companyId && request.RoomTypes.SequenceEqual(roomTypes)));
     }
 
 
-
     [Test]
-
     public void throw_exception_when_company_does_not_exist()
     {
         var companyId = "Company1";
         var roomTypes = new List<RoomType> { RoomType.Standard };
-        companyRepository.Exists(companyId).Returns(false);
-
+        dispatcher
+            .When(d => d.Dispatch(Arg.Any<SetCompanyPolicyRequest>()))
+            .Do(call => throw new CompanyNotFoundException(companyId));
         Should.Throw<CompanyNotFoundException>(() => bookingPolicyService.SetCompanyPolicy(companyId, roomTypes));
     }
+
 
     [Test]
     public void set_employee_policy_when_employee_exists()
     {
         var employeeId = "Employee1";
         var roomTypes = new List<RoomType> { RoomType.Standard };
-        employeeRepository.Exists(employeeId).Returns(true);
-
-        employeeRepository.GetById(employeeId).Returns(new Employee(employeeId, "Company1"));
         bookingPolicyService.SetEmployeePolicy(employeeId, roomTypes);
 
-        bookingPolicyRepository.Received(1).SetEmployeePolicy(employeeId, roomTypes);
+        dispatcher.Received(1).Dispatch(Arg.Is<SetEmployeePolicyRequest>(request =>
+            request.EmployeeId == employeeId && request.RoomTypes.SequenceEqual(roomTypes)));
     }
 
     [Test]
@@ -71,8 +61,9 @@ class ApplicationBookingPolicyServiceShould
     {
         var employeeId = "Employee1";
         var roomTypes = new List<RoomType> { RoomType.Standard };
-        employeeRepository.Exists(employeeId).Returns(false);
-
+        dispatcher
+            .When(d => d.Dispatch(Arg.Any<SetEmployeePolicyRequest>()))
+            .Do(call => throw new EmployeeNotFoundException(employeeId));
         Should.Throw<EmployeeNotFoundException>(() => bookingPolicyService.SetEmployeePolicy(employeeId, roomTypes));
     }
 
@@ -84,8 +75,8 @@ class ApplicationBookingPolicyServiceShould
         var roomType = RoomType.Standard;
 
         var employee = new Employee(employeeId, companyId);
-      dispatcher.Dispatch<CheckBookingPolicyRequest, bool>(
-            Arg.Any<CheckBookingPolicyRequest>()).Returns(true);
+        dispatcher.Dispatch<CheckBookingPolicyRequest, bool>(
+              Arg.Any<CheckBookingPolicyRequest>()).Returns(true);
         var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
 
         isAllowed.ShouldBeTrue();
@@ -111,7 +102,7 @@ class ApplicationBookingPolicyServiceShould
         var employeeId = "Employee1";
         var companyId = "Company1";
         var roomType = RoomType.Standard;
-       dispatcher.Dispatch<CheckBookingPolicyRequest, bool>(Arg.Any<CheckBookingPolicyRequest>()).Returns(true);
+        dispatcher.Dispatch<CheckBookingPolicyRequest, bool>(Arg.Any<CheckBookingPolicyRequest>()).Returns(true);
         var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
 
         isAllowed.ShouldBeTrue();
@@ -124,11 +115,7 @@ class ApplicationBookingPolicyServiceShould
         var companyId = "Company1";
         var roomType = RoomType.Standard;
         var employee = new Employee(employeeId, companyId);
-        employeeRepository.Exists(employeeId).Returns(true);
-        employeeRepository.GetById(employeeId).Returns(employee);
-        bookingPolicyRepository.HasEmployeePolicy(employeeId).Returns(true);
-        bookingPolicyRepository.IsRoomTypeAllowedForEmployee(employeeId, roomType).Returns(false);
-
+        dispatcher.Dispatch<CheckBookingPolicyRequest, bool>(Arg.Any<CheckBookingPolicyRequest>()).Returns(false);
         var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
 
         isAllowed.ShouldBeFalse();
@@ -141,11 +128,7 @@ class ApplicationBookingPolicyServiceShould
         var companyId = "Company1";
         var roomType = RoomType.Standard;
         var employee = new Employee(employeeId, companyId);
-        employeeRepository.Exists(employeeId).Returns(true);
-        employeeRepository.GetById(employeeId).Returns(employee);
-        bookingPolicyRepository.HasEmployeePolicy(employeeId).Returns(false);
-        bookingPolicyRepository.HasCompanyPolicy(companyId).Returns(true);
-        bookingPolicyRepository.IsRoomTypeAllowedForCompany(companyId, roomType).Returns(false);
+        dispatcher.Dispatch<CheckBookingPolicyRequest, bool>(Arg.Any<CheckBookingPolicyRequest>()).Returns(false);
 
         var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
 
@@ -159,13 +142,7 @@ class ApplicationBookingPolicyServiceShould
         var companyId = "Company1";
         var roomType = RoomType.Standard;
         var employee = new Employee(employeeId, companyId);
-        employeeRepository.Exists(employeeId).Returns(true);
-        employeeRepository.GetById(employeeId).Returns(employee);
-        bookingPolicyRepository.HasEmployeePolicy(employeeId).Returns(true);
-        bookingPolicyRepository.IsRoomTypeAllowedForEmployee(employeeId, roomType).Returns(false);
-        bookingPolicyRepository.HasCompanyPolicy(companyId).Returns(true);
-        bookingPolicyRepository.IsRoomTypeAllowedForCompany(companyId, roomType).Returns(true);
-
+        dispatcher.Dispatch<CheckBookingPolicyRequest, bool>(Arg.Any<CheckBookingPolicyRequest>()).Returns(false);
         var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
         isAllowed.ShouldBeFalse();
     }
