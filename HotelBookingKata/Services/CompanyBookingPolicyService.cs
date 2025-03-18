@@ -4,6 +4,7 @@ using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Services;
 using HotelBookingKata.UseCases.BookingPolicies.CheckBookingPolicy;
+using HotelBookingKata.UseCases.BookingPolicies.SetCompanyPolicy;
 public class CompanyBookingPolicyService : BookingPolicyService
 {
     private BookingPolicyRepository bookingPolicyRepository;
@@ -57,10 +58,22 @@ public class CompanyBookingPolicyService : BookingPolicyService
 
     public void SetCompanyPolicy(string companyId, List<RoomType> roomTypes)
     {
+
+        if (dispatcher != null)
+        {
+            dispatcher.Dispatch<SetCompanyPolicyRequest>(new SetCompanyPolicyRequest
+            {
+                CompanyId = companyId,
+                RoomTypes = roomTypes
+            });
+        }
         if (!companyRepository.Exists(companyId)) throw new CompanyNotFoundException(companyId);
 
         bookingPolicyRepository.SetCompanyPolicy(companyId, roomTypes);
+
+
     }
+
 
     public void SetEmployeePolicy(string employeeId, List<RoomType> roomTypes)
     {

@@ -3,6 +3,7 @@ using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 using HotelBookingKata.UseCases.BookingPolicies.CheckBookingPolicy;
+using HotelBookingKata.UseCases.BookingPolicies.SetCompanyPolicy;
 using NSubstitute;
 using Shouldly;
 
@@ -28,16 +29,17 @@ class ApplicationBookingPolicyServiceShould
     [Test]
     public void set_company_policy_when_company_exists()
     {
-
         var companyId = "Company1";
         var roomTypes = new List<RoomType> { RoomType.Standard };
         companyRepository.Exists(companyId).Returns(true);
-
-        companyRepository.GetById(companyId).Returns(new Company(companyId));
         bookingPolicyService.SetCompanyPolicy(companyId, roomTypes);
+          dispatcher.Received(1).Dispatch(Arg.Is<SetCompanyPolicyRequest>(request =>
+        request.CompanyId == companyId && request.RoomTypes.SequenceEqual(roomTypes)));
 
         bookingPolicyRepository.Received(1).SetCompanyPolicy(companyId, roomTypes);
     }
+
+
 
     [Test]
 
