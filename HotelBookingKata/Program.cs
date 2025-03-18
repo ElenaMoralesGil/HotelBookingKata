@@ -26,10 +26,10 @@ public partial class Program
         builder.Services.AddScoped<UseCase<SetEmployeePolicyRequest>, SetEmployeePolicyHandler>();
         builder.Services.AddScoped<UseCase<CheckBookingPolicyRequest, bool>, CheckBookingPolicyHandler>();
 
-        builder.Services.AddScoped<HotelService, CompanyHotelService>();
-        builder.Services.AddScoped<CompanyService, CompanyCompanyService>();
-        builder.Services.AddScoped<BookingPolicyService, CompanyBookingPolicyService>();
-        builder.Services.AddScoped<BookingService, CompanyBookingService>();
+        builder.Services.AddScoped<HotelService, AppHotelService>();
+        builder.Services.AddScoped<CompanyService, AppCompanyService>();
+        builder.Services.AddScoped<BookingPolicyService, AppBookingPolicyService>();
+        builder.Services.AddScoped<BookingService, AppBookingService>();
 
         var app = builder.Build();
         app.MapControllers();

@@ -3,12 +3,12 @@ using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 namespace HotelBookingKata.Services;
 
-public class CompanyHotelService : HotelService
+public class AppHotelService : HotelService
 {
 
     private readonly HotelRepository HotelRepository;
 
-    public CompanyHotelService(HotelRepository hotelRepository)
+    public AppHotelService(HotelRepository hotelRepository)
     {
         HotelRepository = hotelRepository;
     }

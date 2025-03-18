@@ -10,14 +10,14 @@ using Shouldly;
 namespace HotelBooking.Services.Test;
 class ApplicationBookingPolicyServiceShould
 {
-    private CompanyBookingPolicyService bookingPolicyService;
+    private AppBookingPolicyService bookingPolicyService;
     private Dispatcher dispatcher;
 
     [SetUp]
     public void Setup()
     {
         dispatcher = Substitute.For<Dispatcher>();
-        bookingPolicyService = new CompanyBookingPolicyService(dispatcher);
+        bookingPolicyService = new AppBookingPolicyService(dispatcher);
     }
 
     [Test]
