@@ -19,15 +19,12 @@ public partial class Program
         builder.Services.AddSingleton<BookingRepository, InMemoryBookingRepository>();
         string apiURl = "https://localhost:5129";
         builder.Services.AddHttpClient<ApiBookingPolicyAdapter>(client => client.BaseAddress = new Uri(apiURl));
-        builder.Services.AddHttpClient<BookingManagmentAdapter>(client => client.BaseAddress = new Uri(apiURl));
-        builder.Services.AddHttpClient<PolicyManagementAdapter>(client => client.BaseAddress = new Uri(apiURl));
         builder.Services.AddScoped<BookingPolicyAdapter, ApiBookingPolicyAdapter>();
-        builder.Services.AddScoped<BookingManagmentAdapter>();
-        builder.Services.AddScoped<PolicyManagementAdapter>();
-        builder.Services.AddScoped<HotelService, CompanyHotelService>();
-        builder.Services.AddScoped<CompanyService, CompanyCompanyService>();
-        builder.Services.AddScoped<BookingPolicyService, CompanyBookingPolicyService>();
-        builder.Services.AddScoped<BookingService, CompanyBookingService>();
+       
+        builder.Services.AddScoped<HotelService, AppHotelService>();
+        builder.Services.AddScoped<CompanyService,AppCompanyService>();
+        builder.Services.AddScoped<BookingPolicyService, AppBookingPolicyService>();
+        builder.Services.AddScoped<BookingService,AppBookingService>();
 
         var app = builder.Build();
         app.MapControllers();
