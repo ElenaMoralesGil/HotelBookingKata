@@ -123,7 +123,7 @@ class BookingApiShould
         {
             EmployeeId = employee.EmployeeId,
             HotelId = hotel.id,
-            RoomType = RoomType.Standard,
+            RoomType = RoomType.JuniorSuite,
             CheckIn = DateTime.Now,
             CheckOut = DateTime.Now.AddDays(1)
         };
