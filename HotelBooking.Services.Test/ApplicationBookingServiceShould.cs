@@ -3,13 +3,14 @@ using HotelBookingKata.Repositories;
 using HotelBookingKata.Services;
 using NSubstitute;
 using Shouldly;
+using HotelBookingKata.Adapters;
 namespace HotelBooking.Services.Test;
 
 class ApplicationBookingServiceShould
 {
     private BookingRepository bookingRepository;
     private HotelRepository hotelRepository;
-    private BookingPolicyService bookingPolicyService;
+    private BookingPolicyAdapter bookingPolicyAdapter;
     private CompanyBookingService bookingService;
 
     [SetUp]
@@ -17,8 +18,8 @@ class ApplicationBookingServiceShould
     {
         bookingRepository = Substitute.For<BookingRepository>();
         hotelRepository = Substitute.For<HotelRepository>();
-        bookingPolicyService = Substitute.For<BookingPolicyService>();
-        bookingService = new CompanyBookingService(bookingRepository, hotelRepository, bookingPolicyService);
+        bookingPolicyAdapter= Substitute.For<BookingPolicyAdapter>();
+        bookingService = new CompanyBookingService(bookingRepository, hotelRepository, bookingPolicyAdapter);
     }
 
     [Test]
@@ -35,7 +36,7 @@ class ApplicationBookingServiceShould
         hotelRepository.Exists(hotelId).Returns(true);
         hotelRepository.HasRoomOfType(hotelId, roomType).Returns(true);
         hotelRepository.GetRoomsCount(hotelId, roomType).Returns(1);
-        bookingPolicyService.IsBookingAllowed(employeeId, roomType).Returns(true);
+        bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType).Returns(true);
         bookingRepository.CountBookingsByHotelRoomType(hotelId, roomType, Arg.Any<DateTime>()).Returns(0);
 
         var booking = bookingService.Book(employeeId, hotelId, roomType, checkIn, checkOut);

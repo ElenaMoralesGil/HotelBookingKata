@@ -1,19 +1,22 @@
 ﻿using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
+using HotelBookingKata.Adapters;
 namespace HotelBookingKata.Services;
 
 public class CompanyBookingService : BookingService
 {
     private BookingRepository bookingRepository;
     private HotelRepository hotelRepository;
-    private BookingPolicyService bookingPolicyService;
+    //private BookingPolicyService bookingPolicyService;
+    private BookingPolicyAdapter bookingPolicyAdapter;
 
-    public CompanyBookingService(BookingRepository bookingRepository, HotelRepository hotelRepository, BookingPolicyService bookingPolicyService)
+    public CompanyBookingService(BookingRepository bookingRepository, HotelRepository hotelRepository, BookingPolicyAdapter bookingPolicyAdapter)
     {
         this.bookingRepository = bookingRepository;
         this.hotelRepository = hotelRepository;
-        this.bookingPolicyService = bookingPolicyService;
+        //this.bookingPolicyService = bookingPolicyService;
+        this.bookingPolicyAdapter = bookingPolicyAdapter;
     }
 
     public Booking Book(string employeeId, string hotelId, RoomType roomType, DateTime checkIn, DateTime checkOut)
@@ -53,9 +56,10 @@ public class CompanyBookingService : BookingService
         }
     }
 
-    private void ValidateIfBookingIsAllowed(string employeeId, RoomType roomType)
+    private async Task ValidateIfBookingIsAllowed(string employeeId, RoomType roomType)
     {
-        if (!bookingPolicyService.IsBookingAllowed(employeeId, roomType))
+        bool isAllowed =  await bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType);
+        if (isAllowed is false ) 
         {
             throw new BookingNotAllowedException(employeeId, roomType);
         }
