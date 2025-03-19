@@ -4,18 +4,16 @@ using HotelBookingKata.Repositories;
 using HotelBookingKata.Adapters;
 namespace HotelBookingKata.Services;
 
-public class CompanyBookingService : BookingService
+public class AppBookingService : BookingService
 {
     private BookingRepository bookingRepository;
     private HotelRepository hotelRepository;
-    //private BookingPolicyService bookingPolicyService;
     private BookingPolicyAdapter bookingPolicyAdapter;
 
-    public CompanyBookingService(BookingRepository bookingRepository, HotelRepository hotelRepository, BookingPolicyAdapter bookingPolicyAdapter)
+    public AppBookingService(BookingRepository bookingRepository, HotelRepository hotelRepository, BookingPolicyAdapter bookingPolicyAdapter)
     {
         this.bookingRepository = bookingRepository;
         this.hotelRepository = hotelRepository;
-        //this.bookingPolicyService = bookingPolicyService;
         this.bookingPolicyAdapter = bookingPolicyAdapter;
     }
 
@@ -56,9 +54,9 @@ public class CompanyBookingService : BookingService
         }
     }
 
-    private async Task ValidateIfBookingIsAllowed(string employeeId, RoomType roomType)
+    private void ValidateIfBookingIsAllowed(string employeeId, RoomType roomType)
     {
-        bool isAllowed =  await bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType);
+        bool isAllowed =  bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType).GetAwaiter().GetResult();
         if (isAllowed is false ) 
         {
             throw new BookingNotAllowedException(employeeId, roomType);

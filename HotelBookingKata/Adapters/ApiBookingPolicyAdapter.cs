@@ -1,10 +1,8 @@
 ﻿using HotelBookingKata.Entities;
-using HotelBookingKata.Exceptions;
-using System.Net.Http.Json;
 namespace HotelBookingKata.Adapters;
 
 
-public class ApiBookingPolicyAdapter :  BookingPolicyAdapter
+public class ApiBookingPolicyAdapter : BookingPolicyAdapter
 {
 
     public async Task<bool> IsBookingAllowed(string employeeId, RoomType roomType)
