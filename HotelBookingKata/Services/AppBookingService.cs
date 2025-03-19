@@ -2,6 +2,7 @@
 using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Adapters;
+using System.Threading.Tasks;
 namespace HotelBookingKata.Services;
 
 public class AppBookingService : BookingService
@@ -54,9 +55,9 @@ public class AppBookingService : BookingService
         }
     }
 
-    private void ValidateIfBookingIsAllowed(string employeeId, RoomType roomType)
+    private async Task ValidateIfBookingIsAllowed(string employeeId, RoomType roomType)
     {
-        bool isAllowed =  bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType).GetAwaiter().GetResult();
+        bool isAllowed =await   bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType);
         if (isAllowed is false ) 
         {
             throw new BookingNotAllowedException(employeeId, roomType);
