@@ -3,6 +3,7 @@ using HotelBookingKata.Repositories;
 using HotelBookingKata.Services;
 using HotelBookingKata.CreateBooking;
 using HotelBookingKata.AddHotel;
+using HotelBookingKata.SetCompanyPolicy;
 namespace HotelBookingKata;
 
 public partial class Program
@@ -24,6 +25,7 @@ public partial class Program
 
         builder.Services.AddScoped<CreateBookingUseCase>();
         builder.Services.AddScoped<AddHotelUseCase>();
+        builder.Services.AddScoped<SetCompanyPolicyUseCase>();
 
         builder.Services.AddScoped<HotelService, AppHotelService>();
         builder.Services.AddScoped<CompanyService, AppCompanyService>();

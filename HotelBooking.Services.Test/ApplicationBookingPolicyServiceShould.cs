@@ -10,7 +10,6 @@ class ApplicationBookingPolicyServiceShould
 {
     private BookingPolicyRepository bookingPolicyRepository;
     private EmployeeRepository employeeRepository;
-    private CompanyRepository companyRepository;
     private AppBookingPolicyService bookingPolicyService;
 
     [SetUp]
@@ -18,33 +17,7 @@ class ApplicationBookingPolicyServiceShould
     {
         bookingPolicyRepository = Substitute.For<BookingPolicyRepository>();
         employeeRepository = Substitute.For<EmployeeRepository>();
-        companyRepository = Substitute.For<CompanyRepository>();
-        bookingPolicyService = new AppBookingPolicyService(bookingPolicyRepository, employeeRepository, companyRepository);
-    }
-
-    [Test]
-    public void set_company_policy_when_company_exists()
-    {
-
-        var companyId = "Company1";
-        var roomTypes = new List<RoomType> { RoomType.Standard };
-        companyRepository.Exists(companyId).Returns(true);
-
-        companyRepository.GetById(companyId).Returns(new Company(companyId));
-        bookingPolicyService.SetCompanyPolicy(companyId, roomTypes);
-
-        bookingPolicyRepository.Received(1).SetCompanyPolicy(companyId, roomTypes);
-    }
-
-    [Test]
-
-    public void throw_exception_when_company_does_not_exist()
-    {
-        var companyId = "Company1";
-        var roomTypes = new List<RoomType> { RoomType.Standard };
-        companyRepository.Exists(companyId).Returns(false);
-
-        Should.Throw<CompanyNotFoundException>(() => bookingPolicyService.SetCompanyPolicy(companyId, roomTypes));
+        bookingPolicyService = new AppBookingPolicyService(bookingPolicyRepository, employeeRepository);
     }
 
     [Test]

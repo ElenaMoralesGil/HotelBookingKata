@@ -16,19 +16,19 @@ public class BookingPoliciesController : ControllerBase
         this.bookingPolicyService = bookingPolicyService;
     }
 
-    [HttpPut("companies/{companyId}")]
-    public IActionResult SetCompanyPolicy(string companyId, [FromBody] SetCompanyPolicyRequest request)
-    {
-        try
-        {
-            bookingPolicyService.SetCompanyPolicy(companyId, request.RoomType);
-            return Ok();
-        }
-        catch (CompanyNotFoundException exception)
-        {
-            return NotFound(new { message = exception.Message });
-        }
-    }
+    //[HttpPut("companies/{companyId}")]
+    //public IActionResult SetCompanyPolicy(string companyId, [FromBody] SetCompanyPolicyRequest request)
+    //{
+    //    try
+    //    {
+    //        bookingPolicyService.SetCompanyPolicy(companyId, request.RoomType);
+    //        return Ok();
+    //    }
+    //    catch (CompanyNotFoundException exception)
+    //    {
+    //        return NotFound(new { message = exception.Message });
+    //    }
+    //}
 
     [HttpPut("employees/{employeeId}")]
     public IActionResult SetEmployeePolicy(string employeeId, [FromBody] SetEmployeePolicyRequest request)

@@ -70,7 +70,7 @@ class BookingPolicyApiShould
         var employeeId = "Employee1";
         await client.PostAsJsonAsync($"/api/companies/{companyId}/employees", new { EmployeeId = employeeId });
         await client.PutAsJsonAsync($"/api/booking-policies/companies/{companyId}",
-            new { RoomType = new[] { RoomType.MasterSuite } });
+            new { RoomTypes = new[] { RoomType.MasterSuite } });
 
         var response = await client.GetAsync($"/api/booking-policies/employees/{employeeId}/rooms/{RoomType.JuniorSuite}/allowed");
 
