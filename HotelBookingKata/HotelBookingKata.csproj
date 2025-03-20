@@ -16,4 +16,8 @@
     <InternalsVisibleTo Include="HotelBooking.API.Test" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
+
 </Project>

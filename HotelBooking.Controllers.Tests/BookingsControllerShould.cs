@@ -2,6 +2,7 @@
 using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
 using HotelBookingKata.Services;
+using HotelBookingKata.CreateBooking;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Shouldly;
@@ -10,14 +11,14 @@ namespace HotelBooking.Controllers.Tests;
 
 class BookingsControllerShould
 {
-    private BookingsController controller;
-    private BookingService bookingService;
+    private CreateBookingController controller;
+    private CreateBookingUseCase createBookingUseCase;
 
     [SetUp]
     public void Setup()
     {
-        bookingService = Substitute.For<BookingService>();
-        controller = new BookingsController(bookingService);
+        createBookingUseCase = Substitute.For<CreateBookingUseCase>();
+        controller = new CreateBookingController(createBookingUseCase);
     }
 
     [Test]
@@ -29,7 +30,7 @@ class BookingsControllerShould
         var checkIn = DateTime.Now;
         var checkOut = DateTime.Now.AddDays(-1);
         var request = new CreateBookingRequest(employeeId, hotelId, roomType, checkIn, checkOut);
-        bookingService.When(x => x.Book(employeeId, hotelId, roomType, checkIn, checkOut)).Throw(new InvalidBookingDateException("Checkout date must be after Checkin date"));
+        createBookingUseCase.When(x => x.Execute(request)).Throw(new InvalidBookingDateException("Checkout date must be after Checkin date"));
         var result = controller.CreateBooking(request);
         result.ShouldBeOfType<ConflictObjectResult>();
     }
@@ -44,7 +45,7 @@ class BookingsControllerShould
         var checkIn = DateTime.Now;
         var checkOut = DateTime.Now.AddDays(1);
         var request = new CreateBookingRequest(employeeId, hotelId, roomType, checkIn, checkOut);
-        bookingService.When(x => x.Book(employeeId, hotelId, roomType, checkIn, checkOut)).Throw(new RoomTypeNotAvailableException(roomType));
+        createBookingUseCase.When(x => x.Execute(request)).Throw(new RoomTypeNotAvailableException(roomType));
         var result = controller.CreateBooking(request);
         result.ShouldBeOfType<ConflictObjectResult>();
     }
@@ -58,7 +59,7 @@ class BookingsControllerShould
         var checkIn = DateTime.Now;
         var checkOut = DateTime.Now.AddDays(1);
         var request = new CreateBookingRequest(employeeId, hotelId, roomType, checkIn, checkOut);
-        bookingService.When(x => x.Book(employeeId, hotelId, roomType, checkIn, checkOut)).Throw(new HotelNotFoundException(hotelId));
+        createBookingUseCase.When(x => x.Execute(request)).Throw(new HotelNotFoundException(hotelId));
         var result = controller.CreateBooking(request);
         result.ShouldBeOfType<NotFoundObjectResult>();
     }
@@ -72,7 +73,7 @@ class BookingsControllerShould
         var checkIn = DateTime.Now;
         var checkOut = DateTime.Now.AddDays(1);
         var request = new CreateBookingRequest(employeeId, hotelId, roomType, checkIn, checkOut);
-        bookingService.When(x => x.Book(employeeId, hotelId, roomType, checkIn, checkOut)).Throw(new BookingNotAllowedException(employeeId, roomType));
+        createBookingUseCase.When(x => x.Execute(request)).Throw(new BookingNotAllowedException(employeeId, roomType));
         var result = controller.CreateBooking(request);
         result.ShouldBeOfType<ConflictObjectResult>();
     }
@@ -86,7 +87,7 @@ class BookingsControllerShould
         var checkIn = DateTime.Now;
         var checkOut = DateTime.Now.AddDays(1);
         var request = new CreateBookingRequest(employeeId, hotelId, roomType, checkIn, checkOut);
-        bookingService.When(x => x.Book(employeeId, hotelId, roomType, checkIn, checkOut)).Throw(new NoRoomsAvailableException(hotelId, roomType, checkIn, checkOut));
+        createBookingUseCase.When(x => x.Execute(request)).Throw(new NoRoomsAvailableException(hotelId, roomType, checkIn, checkOut));
         var result = controller.CreateBooking(request);
         result.ShouldBeOfType<ConflictObjectResult>();
     }
@@ -101,7 +102,7 @@ class BookingsControllerShould
         var checkOut = DateTime.Now.AddDays(1);
         var booking = new Booking("Booking1", employeeId, hotelId, roomType, checkIn, checkOut);
         var request = new CreateBookingRequest(employeeId, hotelId, roomType, checkIn, checkOut);
-        bookingService.Book(employeeId, hotelId, roomType, checkIn, checkOut).Returns(booking);
+        createBookingUseCase.Execute(request).Returns(booking);
 
         var result = controller.CreateBooking(request);
 

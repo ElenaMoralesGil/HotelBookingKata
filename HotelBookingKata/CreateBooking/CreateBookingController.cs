@@ -1,18 +1,15 @@
-﻿using HotelBookingKata.Entities;
-using HotelBookingKata.Exceptions;
-using HotelBookingKata.Services;
+﻿using HotelBookingKata.Exceptions;
 using Microsoft.AspNetCore.Mvc;
-namespace HotelBookingKata.Controllers;
-
+namespace HotelBookingKata.CreateBooking;
 [ApiController]
 [Route("api/bookings")]
-public class BookingsController : ControllerBase
+public class CreateBookingController : ControllerBase
 {
-    private BookingService bookingService;
+    private CreateBookingUseCase useCase;
 
-    public BookingsController(BookingService bookingService)
+    public CreateBookingController(CreateBookingUseCase useCase)
     {
-        this.bookingService = bookingService;
+        this.useCase = useCase;
     }
 
     [HttpPost]
@@ -20,12 +17,7 @@ public class BookingsController : ControllerBase
     {
         try
         {
-            var booking = bookingService.Book(
-                request.EmployeeId,
-                request.HotelId,
-                request.RoomType,
-                request.CheckIn,
-                request.CheckOut);
+            var booking = useCase.Execute(request);
 
             return Created($"/api/bookings/{booking.Id}", booking);
         }

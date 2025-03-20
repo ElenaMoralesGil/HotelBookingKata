@@ -1,34 +1,37 @@
-﻿using HotelBookingKata.Entities;
-using HotelBookingKata.Exceptions;
+﻿using HotelBookingKata.Controllers;
 using HotelBookingKata.Repositories;
+using HotelBookingKata.Entities;
 using HotelBookingKata.Adapters;
-using System.Threading.Tasks;
-namespace HotelBookingKata.Services;
+using HotelBookingKata.Exceptions;
+namespace HotelBookingKata.CreateBooking;
 
-public class AppBookingService : BookingService
+public class CreateBookingUseCase
 {
-    private BookingRepository bookingRepository;
     private HotelRepository hotelRepository;
+    private BookingRepository bookingRepository;
     private BookingPolicyAdapter bookingPolicyAdapter;
 
-    public AppBookingService(BookingRepository bookingRepository, HotelRepository hotelRepository, BookingPolicyAdapter bookingPolicyAdapter)
+    public CreateBookingUseCase() { }
+    public CreateBookingUseCase(HotelRepository hotelRepository, BookingRepository bookingRepository, BookingPolicyAdapter bookingPolicyAdapter)
     {
-        this.bookingRepository = bookingRepository;
         this.hotelRepository = hotelRepository;
+        this.bookingRepository = bookingRepository;
         this.bookingPolicyAdapter = bookingPolicyAdapter;
     }
 
-    public Booking Book(string employeeId, string hotelId, RoomType roomType, DateTime checkIn, DateTime checkOut)
+    public virtual Booking Execute(CreateBookingRequest request)
     {
-    
-        ValidateBookingDates(checkIn, checkOut);
-        ValidateHotelExists(hotelId);
-        ValidateIfHotelHasRoomType(hotelId, roomType);
-        ValidateIfBookingIsAllowed(employeeId, roomType);
-        ValidateIfRoomIsAvailable(hotelId, roomType, checkIn, checkOut);
+       ValidateBooking(request);
+       return CreateBooking(request.EmployeeId, request.HotelId, request.RoomType, request.CheckIn, request.CheckOut);
+    }
 
-        return CreateBooking(employeeId, hotelId, roomType, checkIn, checkOut);
-
+    private void ValidateBooking(CreateBookingRequest request)
+    {
+        ValidateBookingDates(request.CheckIn, request.CheckOut);
+        ValidateHotelExists(request.HotelId);
+        ValidateIfHotelHasRoomType(request.HotelId, request.RoomType);
+        ValidateIfBookingIsAllowed(request.EmployeeId, request.RoomType);
+        ValidateIfRoomIsAvailable(request.HotelId, request.RoomType, request.CheckIn, request.CheckOut);
     }
 
     private void ValidateBookingDates(DateTime checkIn, DateTime checkOut)
@@ -57,8 +60,8 @@ public class AppBookingService : BookingService
 
     private async Task ValidateIfBookingIsAllowed(string employeeId, RoomType roomType)
     {
-        bool isAllowed =await   bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType);
-        if (isAllowed is false ) 
+        bool isAllowed = await bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType);
+        if (isAllowed is false)
         {
             throw new BookingNotAllowedException(employeeId, roomType);
         }

@@ -4,14 +4,15 @@ using HotelBookingKata.Services;
 using NSubstitute;
 using Shouldly;
 using HotelBookingKata.Adapters;
+using HotelBookingKata.CreateBooking;
 namespace HotelBooking.Services.Test;
 
-class ApplicationBookingServiceShould
+class ApplicationbookingUseCaseShould
 {
     private BookingRepository bookingRepository;
     private HotelRepository hotelRepository;
     private BookingPolicyAdapter bookingPolicyAdapter;
-    private AppBookingService bookingService;
+    private CreateBookingUseCase bookingUseCase;
 
     [SetUp]
     public void Setup()
@@ -19,7 +20,7 @@ class ApplicationBookingServiceShould
         bookingRepository = Substitute.For<BookingRepository>();
         hotelRepository = Substitute.For<HotelRepository>();
         bookingPolicyAdapter= Substitute.For<BookingPolicyAdapter>();
-        bookingService = new AppBookingService(bookingRepository, hotelRepository, bookingPolicyAdapter);
+        bookingUseCase = new CreateBookingUseCase(hotelRepository, bookingRepository, bookingPolicyAdapter);
     }
 
     [Test]
@@ -38,8 +39,8 @@ class ApplicationBookingServiceShould
         hotelRepository.GetRoomsCount(hotelId, roomType).Returns(1);
         bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType).Returns(true);
         bookingRepository.CountBookingsByHotelRoomType(hotelId, roomType, Arg.Any<DateTime>()).Returns(0);
-
-        var booking = bookingService.Book(employeeId, hotelId, roomType, checkIn, checkOut);
+        var request = new CreateBookingRequest(employeeId, hotelId, roomType, checkIn, checkOut);
+        var booking = bookingUseCase.Execute(request);
 
         booking.ShouldNotBeNull();
         booking.EmployeeId.ShouldBe(employeeId);
