@@ -15,20 +15,6 @@ public class CompaniesController : ControllerBase
         this.companyService = companyService;
     }
 
-    [HttpPost("{companyId}/employees")]
-    public IActionResult AddEmployee(string companyId, [FromBody] AddEmployeeRequest request)
-    {
-        try
-        {
-            companyService.AddEmployee(companyId, request.EmployeeId);
-            return Created($"/api/companies/{companyId}/employees/{request.EmployeeId}", null);
-        }
-        catch (EmployeeAlreadyExistsException exception)
-        {
-            return Conflict(new { message = exception.Message });
-        }
-    }
-
     [HttpDelete("{companyId}/employees/{employeeId}")]
     public IActionResult DeleteEmployee(string employeeId)
     {

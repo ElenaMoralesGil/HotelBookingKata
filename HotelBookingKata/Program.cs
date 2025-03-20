@@ -4,6 +4,7 @@ using HotelBookingKata.SetCompanyPolicy;
 using HotelBookingKata.SetEmployeePolicy;
 using HotelBookingKata.CheckBookingPolicy;
 using HotelBookingKata.AddHotel;
+using HotelBookingKata.AddEmployee;
 using HotelBookingKata.CreateBooking;
 namespace HotelBookingKata;
 
@@ -29,6 +30,7 @@ public partial class Program
         builder.Services.AddScoped<SetEmployeePolicyUseCase>();
         builder.Services.AddScoped<CheckBookingPolicyUseCase>();
         builder.Services.AddScoped<AddHotelUseCase>();
+        builder.Services.AddScoped<AddEmployeeUseCase>();
         builder.Services.AddScoped<HotelService, AppHotelService>();
         builder.Services.AddScoped<CompanyService, AppCompanyService>();
    

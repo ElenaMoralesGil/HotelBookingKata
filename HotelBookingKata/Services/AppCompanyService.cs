@@ -16,26 +16,6 @@ public class AppCompanyService : CompanyService
         this.bookingPolicyRepository = bookingPolicyRepository;
         this.bookingRepository = bookingRepository;
     }
-    public void AddEmployee(string companyId, string employeeId)
-    {
-        if (employeeRepository.Exists(employeeId)) throw new EmployeeAlreadyExistsException(employeeId);
-
-        if (!companyRepository.Exists(companyId))
-        {
-            var company = new Company(companyId);
-            companyRepository.Add(company);
-        }
-
-        var existingCompany = companyRepository.GetById(companyId);
-
-        var employee = new Employee(employeeId, companyId);
-        existingCompany.AddEmployee(employee);
-        employeeRepository.Add(employee);
-
-        companyRepository.Update(existingCompany);
-
-
-    }
 
     public void DeleteEmployee(string employeeId)
     {

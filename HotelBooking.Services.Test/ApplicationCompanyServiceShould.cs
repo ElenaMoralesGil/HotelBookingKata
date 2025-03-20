@@ -26,38 +26,6 @@ class ApplicationCompanyServiceShould
     }
 
     [Test]
-
-    public void add_employee_when_employee_doesnt_exist_in_company()
-    {
-        var companyId = "Company1";
-        var employeeId = "Employee1";
-        var company = new Company(companyId);
-
-        companyRepository.Exists(companyId).Returns(true);
-        companyRepository.GetById(companyId).Returns(company);
-        employeeRepository.Exists(employeeId).Returns(false);
-
-        companyService.AddEmployee(company.Id, employeeId);
-
-        employeeRepository.Received(1).Add(Arg.Is<Employee>(e => e.Id == employeeId && e.CompanyId == companyId));
-        companyRepository.Received(1).Update(company);
-    }
-
-    [Test]
-    public void throw_exception_when_employee_already_exists_in_company()
-    {
-        var companyId = "Company1";
-        var employeeId = "Employee1";
-        var company = new Company(companyId);
-        var employee = new Employee(employeeId, companyId);
-        companyRepository.Exists(companyId).Returns(true);
-        companyRepository.GetById(companyId).Returns(company);
-        employeeRepository.Exists(employeeId).Returns(true);
-        employeeRepository.GetById(employeeId).Returns(employee);
-        Should.Throw<EmployeeAlreadyExistsException>(() => companyService.AddEmployee(company.Id, employee.Id));
-    }
-
-    [Test]
     public void delete_employee_when_employee_exists_with_all_their_bookings_and_policies()
     {
         var employeeId = "Employee1";
