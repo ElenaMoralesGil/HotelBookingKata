@@ -1,7 +1,7 @@
 ﻿using HotelBookingKata.Controllers;
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Entities;
-using HotelBookingKata.Adapters;
+using HotelBookingKata.CheckBookingPolicy;
 using HotelBookingKata.Exceptions;
 namespace HotelBookingKata.CreateBooking;
 
@@ -9,14 +9,14 @@ public class CreateBookingUseCase
 {
     private HotelRepository hotelRepository;
     private BookingRepository bookingRepository;
-    private CheckBookingPermissionRepository CheckBookingPermissionRepository;
+    private CheckBookingPolicyRepository checkBookingPolicyRepository;
 
     public CreateBookingUseCase() { }
-    public CreateBookingUseCase(HotelRepository hotelRepository, BookingRepository bookingRepository, CheckBookingPermissionRepository CheckBookingPermissionRepository)
-    {
+    public CreateBookingUseCase(HotelRepository hotelRepository, BookingRepository bookingRepository, CheckBookingPolicyRepository checkBookingPolicyRepository)
+    {   
         this.hotelRepository = hotelRepository;
         this.bookingRepository = bookingRepository;
-        this.CheckBookingPermissionRepository = CheckBookingPermissionRepository;
+        this.checkBookingPolicyRepository = checkBookingPolicyRepository;
     }
 
     public virtual Booking Execute(CreateBookingRequest request)
@@ -60,7 +60,7 @@ public class CreateBookingUseCase
 
     private async Task ValidateIfBookingIsAllowed(string employeeId, RoomType roomType)
     {
-        bool isAllowed = await CheckBookingPermissionRepository.IsBookingAllowed(employeeId, roomType);
+        bool isAllowed = await checkBookingPolicyRepository.IsBookingAllowed(employeeId, roomType);
         if (isAllowed is false)
         {
             throw new BookingNotAllowedException(employeeId, roomType);

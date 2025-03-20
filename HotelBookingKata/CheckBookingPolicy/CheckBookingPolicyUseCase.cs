@@ -2,13 +2,14 @@
 using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 
-namespace HotelBookingKata.Services;
-public class AppBookingPolicyService : BookingPolicyService
+namespace HotelBookingKata.CheckBookingPolicy;
+
+public class CheckBookingPolicyUseCase
 {
     private BookingPolicyRepository bookingPolicyRepository;
     private EmployeeRepository employeeRepository;
 
-    public AppBookingPolicyService(
+    public CheckBookingPolicyUseCase(
         BookingPolicyRepository bookingPolicyRepository,
         EmployeeRepository employeeRepository)
     {
@@ -16,7 +17,11 @@ public class AppBookingPolicyService : BookingPolicyService
         this.employeeRepository = employeeRepository;
     }
 
-    public bool IsBookingAllowed(string employeeId, RoomType roomType)
+    public CheckBookingPolicyUseCase()
+    {
+    }
+
+    public virtual bool Execute(string employeeId, RoomType roomType)
     {
         if (!employeeRepository.Exists(employeeId)) throw new EmployeeNotFoundException(employeeId);
 
@@ -35,4 +40,3 @@ public class AppBookingPolicyService : BookingPolicyService
         return true;
     }
 }
-

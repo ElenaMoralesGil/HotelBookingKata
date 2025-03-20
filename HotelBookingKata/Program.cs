@@ -1,10 +1,10 @@
-using HotelBookingKata.Adapters;
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Services;
-using HotelBookingKata.CreateBooking;
-using HotelBookingKata.AddHotel;
 using HotelBookingKata.SetCompanyPolicy;
 using HotelBookingKata.SetEmployeePolicy;
+using HotelBookingKata.CheckBookingPolicy;
+using HotelBookingKata.AddHotel;
+using HotelBookingKata.CreateBooking;
 namespace HotelBookingKata;
 
 public partial class Program
@@ -22,16 +22,16 @@ public partial class Program
         builder.Services.AddSingleton<BookingPolicyRepository, InMemoryBookingPolicyRepository>();
         builder.Services.AddSingleton<BookingRepository, InMemoryBookingRepository>();
 
-        builder.Services.AddScoped<CheckBookingPermissionRepository, CheckBookingPermissionAdapter>();
+        builder.Services.AddScoped<CheckBookingPolicyRepository, CheckBookingPolicyAdapter>();
 
         builder.Services.AddScoped<CreateBookingUseCase>();
-        builder.Services.AddScoped<AddHotelUseCase>();
         builder.Services.AddScoped<SetCompanyPolicyUseCase>();
         builder.Services.AddScoped<SetEmployeePolicyUseCase>();
-
+        builder.Services.AddScoped<CheckBookingPolicyUseCase>();
+        builder.Services.AddScoped<AddHotelUseCase>();
         builder.Services.AddScoped<HotelService, AppHotelService>();
         builder.Services.AddScoped<CompanyService, AppCompanyService>();
-        builder.Services.AddScoped<BookingPolicyService, AppBookingPolicyService>();
+   
 
         var app = builder.Build();
         app.MapControllers();

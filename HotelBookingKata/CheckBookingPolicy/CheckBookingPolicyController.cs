@@ -1,19 +1,19 @@
-﻿using HotelBookingKata.Entities;
+﻿
+using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
-using HotelBookingKata.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HotelBookingKata.Controllers;
+namespace HotelBookingKata.CheckBookingPolicy;
 
 [ApiController]
 [Route("api/booking-policies")]
-public class BookingPoliciesController : ControllerBase
+public class CheckBookingPolicyController : ControllerBase
 {
-    private BookingPolicyService bookingPolicyService;
+    private CheckBookingPolicyUseCase useCase;
 
-    public BookingPoliciesController(BookingPolicyService bookingPolicyService)
+    public CheckBookingPolicyController(CheckBookingPolicyUseCase useCase)
     {
-        this.bookingPolicyService = bookingPolicyService;
+        this.useCase = useCase;
     }
 
     [HttpGet("employees/{employeeId}/rooms/{roomType}/allowed")]
@@ -21,7 +21,7 @@ public class BookingPoliciesController : ControllerBase
     {
         try
         {
-            bool isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+            bool isAllowed = useCase.Execute(employeeId, roomType);
             return Ok(isAllowed);
         }
         catch (EmployeeNotFoundException exception)

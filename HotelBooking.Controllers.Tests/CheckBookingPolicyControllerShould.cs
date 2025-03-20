@@ -1,22 +1,20 @@
-﻿using HotelBookingKata.Controllers;
+﻿using HotelBookingKata.CheckBookingPolicy;
 using HotelBookingKata.Entities;
-using HotelBookingKata.Exceptions;
-using HotelBookingKata.Services;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Shouldly;
 
 namespace HotelBooking.Controllers.Tests;
-class BookingPoliciesControllerShould
+class CheckBookingPolicyControllerShould
 {
-    private BookingPoliciesController controller;
-    private BookingPolicyService bookingPolicyService;
+    private CheckBookingPolicyController controller;
+    private CheckBookingPolicyUseCase useCase;
 
     [SetUp]
     public void Setup()
     {
-        bookingPolicyService = Substitute.For<BookingPolicyService>();
-        controller = new BookingPoliciesController(bookingPolicyService);
+        useCase = Substitute.For<CheckBookingPolicyUseCase>();
+        controller = new CheckBookingPolicyController(useCase);
     }
 
 
@@ -25,14 +23,14 @@ class BookingPoliciesControllerShould
     {
         var employeeId = "Employee1";
         var roomType = RoomType.Standard;
-        bookingPolicyService.IsBookingAllowed(employeeId, roomType).Returns(true);
+        useCase.Execute(employeeId, roomType).Returns(true);
 
         var result = controller.IsBookingAllowed(employeeId, roomType);
 
         result.ShouldBeOfType<OkObjectResult>();
         var okResult = (OkObjectResult)result;
         okResult.Value.ShouldBe(true);
-        bookingPolicyService.Received(1).IsBookingAllowed(employeeId, roomType);
+        useCase.Received(1).Execute(employeeId, roomType);
     }
 
     [Test]
@@ -40,14 +38,14 @@ class BookingPoliciesControllerShould
     {
         var employeeId = "Employee1";
         var roomType = RoomType.Standard;
-        bookingPolicyService.IsBookingAllowed(employeeId, roomType).Returns(false);
+        useCase.Execute(employeeId, roomType).Returns(false);
 
         var result = controller.IsBookingAllowed(employeeId, roomType);
 
         result.ShouldBeOfType<OkObjectResult>();
         var okResult = (OkObjectResult)result;
         okResult.Value.ShouldBe(false);
-        bookingPolicyService.Received(1).IsBookingAllowed(employeeId, roomType);
+        useCase.Received(1).Execute(employeeId, roomType);
     }
 }
 

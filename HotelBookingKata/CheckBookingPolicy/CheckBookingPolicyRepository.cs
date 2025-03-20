@@ -1,7 +1,7 @@
 ﻿using HotelBookingKata.Entities;
-namespace HotelBookingKata.Adapters;
+namespace HotelBookingKata.CheckBookingPolicy;
 
-public interface CheckBookingPermissionRepository
+public interface CheckBookingPolicyRepository
 {
     Task<bool> IsBookingAllowed(string employeeId, RoomType roomType);
 }

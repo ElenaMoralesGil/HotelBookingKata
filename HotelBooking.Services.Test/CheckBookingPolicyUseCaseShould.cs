@@ -1,23 +1,22 @@
-﻿using HotelBookingKata.Entities;
-using HotelBookingKata.Exceptions;
+﻿using HotelBookingKata.CheckBookingPolicy;
+using HotelBookingKata.Entities;
 using HotelBookingKata.Repositories;
-using HotelBookingKata.Services;
 using NSubstitute;
 using Shouldly;
 
 namespace HotelBooking.Services.Test;
-class ApplicationBookingPolicyServiceShould
+class CheckBookingPolicyUseCaseShould
 {
     private BookingPolicyRepository bookingPolicyRepository;
     private EmployeeRepository employeeRepository;
-    private AppBookingPolicyService bookingPolicyService;
+    private CheckBookingPolicyUseCase useCase;
 
     [SetUp]
     public void Setup()
     {
         bookingPolicyRepository = Substitute.For<BookingPolicyRepository>();
         employeeRepository = Substitute.For<EmployeeRepository>();
-        bookingPolicyService = new AppBookingPolicyService(bookingPolicyRepository, employeeRepository);
+        useCase = new CheckBookingPolicyUseCase(bookingPolicyRepository, employeeRepository);
     }
 
 
@@ -36,7 +35,7 @@ class ApplicationBookingPolicyServiceShould
         bookingPolicyRepository.HasEmployeePolicy(employeeId).Returns(true);
         bookingPolicyRepository.IsRoomTypeAllowedForEmployee(employeeId, roomType).Returns(true);
 
-        var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+        var isAllowed = useCase.Execute(employeeId, roomType);
 
         isAllowed.ShouldBeTrue();
     }
@@ -54,7 +53,7 @@ class ApplicationBookingPolicyServiceShould
         bookingPolicyRepository.HasCompanyPolicy(companyId).Returns(true);
         bookingPolicyRepository.IsRoomTypeAllowedForCompany(companyId, roomType).Returns(true);
 
-        var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+        var isAllowed = useCase.Execute(employeeId, roomType);
 
         isAllowed.ShouldBeTrue();
     }
@@ -71,7 +70,7 @@ class ApplicationBookingPolicyServiceShould
         bookingPolicyRepository.HasEmployeePolicy(employeeId).Returns(false);
         bookingPolicyRepository.HasCompanyPolicy(companyId).Returns(false);
 
-        var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+        var isAllowed = useCase.Execute(employeeId, roomType);
 
         isAllowed.ShouldBeTrue();
     }
@@ -88,7 +87,7 @@ class ApplicationBookingPolicyServiceShould
         bookingPolicyRepository.HasEmployeePolicy(employeeId).Returns(true);
         bookingPolicyRepository.IsRoomTypeAllowedForEmployee(employeeId, roomType).Returns(false);
 
-        var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+        var isAllowed = useCase.Execute(employeeId, roomType);
 
         isAllowed.ShouldBeFalse();
     }
@@ -106,7 +105,7 @@ class ApplicationBookingPolicyServiceShould
         bookingPolicyRepository.HasCompanyPolicy(companyId).Returns(true);
         bookingPolicyRepository.IsRoomTypeAllowedForCompany(companyId, roomType).Returns(false);
 
-        var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+        var isAllowed = useCase.Execute(employeeId, roomType);
 
         isAllowed.ShouldBeFalse();
     }
@@ -125,7 +124,7 @@ class ApplicationBookingPolicyServiceShould
         bookingPolicyRepository.HasCompanyPolicy(companyId).Returns(true);
         bookingPolicyRepository.IsRoomTypeAllowedForCompany(companyId, roomType).Returns(true);
 
-        var isAllowed = bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+        var isAllowed = useCase.Execute(employeeId, roomType);
         isAllowed.ShouldBeFalse();
     }
 }
