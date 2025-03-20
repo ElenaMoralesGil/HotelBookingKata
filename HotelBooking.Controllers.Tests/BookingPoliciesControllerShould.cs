@@ -19,18 +19,6 @@ class BookingPoliciesControllerShould
         controller = new BookingPoliciesController(bookingPolicyService);
     }
 
-    [Test]
-    public void return_ok_when_setting_valid_employee_policy()
-    {
-        var employeeId = "Employee1";
-        var roomTypes = new List<RoomType> { RoomType.Standard };
-        var request = new SetEmployeePolicyRequest(roomTypes);
-
-        var result = controller.SetEmployeePolicy(employeeId, request);
-
-        result.ShouldBeOfType<OkResult>();
-        bookingPolicyService.Received(1).SetEmployeePolicy(employeeId, roomTypes);
-    }
 
     [Test]
     public void returns_ok__with_true_when_policy_is_allowed()
@@ -61,22 +49,6 @@ class BookingPoliciesControllerShould
         okResult.Value.ShouldBe(false);
         bookingPolicyService.Received(1).IsBookingAllowed(employeeId, roomType);
     }
-
-    [Test]
-    public void returns_not_found_when_setting_policy_for_non_existent_employee()
-    {
-        var employeeId = "Employee1";
-        var request = new SetEmployeePolicyRequest(new List<RoomType> { RoomType.Standard });
-        bookingPolicyService.When(x => x.SetEmployeePolicy(employeeId, request.RoomType)).Throw(new EmployeeNotFoundException(employeeId));
-
-        var result = controller.SetEmployeePolicy(employeeId, request);
-
-        result.ShouldBeOfType<NotFoundObjectResult>();
-        bookingPolicyService.Received(1).SetEmployeePolicy(employeeId, request.RoomType);
-    }
-
-
-
 }
 
 

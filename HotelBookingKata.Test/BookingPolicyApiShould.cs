@@ -34,7 +34,7 @@ class BookingPolicyApiShould
         var employeeId = "Employee1";
         await client.PostAsJsonAsync($"/api/companies/{companyId}/employees", new { EmployeeId = employeeId });
         await client.PutAsJsonAsync($"/api/booking-policies/employees/{employeeId}",
-            new { RoomType = new[] { RoomType.Standard } });
+            new { RoomTypes = new[] { RoomType.Standard } });
 
         var response = await client.GetAsync($"/api/booking-policies/employees/{employeeId}/rooms/{RoomType.Standard}/allowed");
         var isAllowed = await response.Content.ReadFromJsonAsync<bool>();
@@ -52,7 +52,7 @@ class BookingPolicyApiShould
         var employeeId = "Employee1";
         await client.PostAsJsonAsync($"/api/companies/{companyId}/employees", new { EmployeeId = employeeId });
         await client.PutAsJsonAsync($"/api/booking-policies/employees/{employeeId}",
-            new { RoomType = new[] { RoomType.Standard } });
+            new { RoomTypes = new[] { RoomType.Standard } });
 
         var response = await client.GetAsync($"/api/booking-policies/employees/{employeeId}/rooms/{RoomType.JuniorSuite}/allowed");
 

@@ -34,12 +34,5 @@ public class AppBookingPolicyService : BookingPolicyService
 
         return true;
     }
-
-    public void SetEmployeePolicy(string employeeId, List<RoomType> roomTypes)
-    {
-        if (!employeeRepository.Exists(employeeId)) throw new EmployeeNotFoundException(employeeId);
-
-        bookingPolicyRepository.SetEmployeePolicy(employeeId, roomTypes);
-    }
 }
 
