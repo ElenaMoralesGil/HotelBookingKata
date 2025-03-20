@@ -13,15 +13,6 @@ public class AppHotelService : HotelService
         HotelRepository = hotelRepository;
     }
 
-    public void AddHotel(string hotelId, string hotelName)
-    {
-
-        if (HotelRepository.Exists(hotelId)) throw new HotelAlreadyExistsException(hotelId);
-
-        var hotel = new Hotel(hotelId, hotelName);
-        HotelRepository.Add(hotel);
-    }
-
     public void SetRoom(string hotelId, string roomNumber, RoomType roomType)
     {
         if (!HotelRepository.Exists(hotelId)) throw new HotelNotFoundException(hotelId);

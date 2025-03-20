@@ -9,14 +9,14 @@ public class CreateBookingUseCase
 {
     private HotelRepository hotelRepository;
     private BookingRepository bookingRepository;
-    private BookingPolicyAdapter bookingPolicyAdapter;
+    private CheckBookingPermissionRepository CheckBookingPermissionRepository;
 
     public CreateBookingUseCase() { }
-    public CreateBookingUseCase(HotelRepository hotelRepository, BookingRepository bookingRepository, BookingPolicyAdapter bookingPolicyAdapter)
+    public CreateBookingUseCase(HotelRepository hotelRepository, BookingRepository bookingRepository, CheckBookingPermissionRepository CheckBookingPermissionRepository)
     {
         this.hotelRepository = hotelRepository;
         this.bookingRepository = bookingRepository;
-        this.bookingPolicyAdapter = bookingPolicyAdapter;
+        this.CheckBookingPermissionRepository = CheckBookingPermissionRepository;
     }
 
     public virtual Booking Execute(CreateBookingRequest request)
@@ -60,7 +60,7 @@ public class CreateBookingUseCase
 
     private async Task ValidateIfBookingIsAllowed(string employeeId, RoomType roomType)
     {
-        bool isAllowed = await bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType);
+        bool isAllowed = await CheckBookingPermissionRepository.IsBookingAllowed(employeeId, roomType);
         if (isAllowed is false)
         {
             throw new BookingNotAllowedException(employeeId, roomType);

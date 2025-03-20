@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="BookingsControllerShould.cs" />
+    <None Include="CreateBookingControllerShould.cs" />
   </ItemGroup>
 
   <ItemGroup>

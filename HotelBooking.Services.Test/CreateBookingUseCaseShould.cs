@@ -7,11 +7,11 @@ using HotelBookingKata.Adapters;
 using HotelBookingKata.CreateBooking;
 namespace HotelBooking.Services.Test;
 
-class ApplicationbookingUseCaseShould
+class CreateBookingUseCaseShould
 {
     private BookingRepository bookingRepository;
     private HotelRepository hotelRepository;
-    private BookingPolicyAdapter bookingPolicyAdapter;
+    private CheckBookingPermissionRepository CheckBookingPermissionRepository;
     private CreateBookingUseCase bookingUseCase;
 
     [SetUp]
@@ -19,8 +19,8 @@ class ApplicationbookingUseCaseShould
     {
         bookingRepository = Substitute.For<BookingRepository>();
         hotelRepository = Substitute.For<HotelRepository>();
-        bookingPolicyAdapter= Substitute.For<BookingPolicyAdapter>();
-        bookingUseCase = new CreateBookingUseCase(hotelRepository, bookingRepository, bookingPolicyAdapter);
+        CheckBookingPermissionRepository= Substitute.For<CheckBookingPermissionRepository>();
+        bookingUseCase = new CreateBookingUseCase(hotelRepository, bookingRepository, CheckBookingPermissionRepository);
     }
 
     [Test]
@@ -37,7 +37,7 @@ class ApplicationbookingUseCaseShould
         hotelRepository.Exists(hotelId).Returns(true);
         hotelRepository.HasRoomOfType(hotelId, roomType).Returns(true);
         hotelRepository.GetRoomsCount(hotelId, roomType).Returns(1);
-        bookingPolicyAdapter.IsBookingAllowed(employeeId, roomType).Returns(true);
+        CheckBookingPermissionRepository.IsBookingAllowed(employeeId, roomType).Returns(true);
         bookingRepository.CountBookingsByHotelRoomType(hotelId, roomType, Arg.Any<DateTime>()).Returns(0);
         var request = new CreateBookingRequest(employeeId, hotelId, roomType, checkIn, checkOut);
         var booking = bookingUseCase.Execute(request);

@@ -15,21 +15,6 @@ public class HotelsController : ControllerBase
         this.hotelService = hotelService;
     }
 
-    [HttpPost]
-    public IActionResult AddHotel([FromBody] AddHotelRequest request)
-    {
-        try
-        {
-            hotelService.AddHotel(request.Id, request.Name);
-            return Created($"/api/hotels/{request.Id}", null);
-        }
-        catch (HotelAlreadyExistsException exception)
-        {
-            return Conflict(new { message = exception.Message });
-        }
-
-    }
-
     [HttpPut("{hotelId}/rooms/{roomType}")]
     public IActionResult SetRoom(string hotelId, RoomType roomType, [FromBody] SetRoomNumberRequest request)
     {

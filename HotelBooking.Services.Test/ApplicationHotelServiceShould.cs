@@ -20,28 +20,6 @@ public class ApplicationHotelServiceShould
     }
 
     [Test]
-    public void add_hotel_when_hotel_doesnt_exist()
-    {
-        var hotel = new Hotel("hotel1", "hotel 1");
-
-        hotelRepository.Add(hotel);
-
-        hotelRepository.Received(1).Add(Arg.Is<Hotel>(h => h.Id == hotel.Id && h.Name == hotel.Name));
-    }
-
-    [Test]
-    public void return_conflict_when_hotel_exists()
-    {
-        var hotel = new Hotel("hotel1", "hotel 1");
-        hotelRepository.Exists(hotel.Id).Returns(true);
-
-        Should.Throw<HotelAlreadyExistsException>(() =>
-        hotelService.AddHotel(hotel.Id, hotel.Name))
-            .Message.ShouldBe($"Hotel with id {hotel.Id} already exists");
-        hotelRepository.Received(1).Exists(hotel.Id);
-    }
-
-    [Test]
     public void set_room_when_hotel_exists()
     {
         var hotel = new Hotel("hotel1", "hotel 1");

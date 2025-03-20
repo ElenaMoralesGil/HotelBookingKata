@@ -2,7 +2,7 @@
 namespace HotelBookingKata.Adapters;
 
 
-public class ApiBookingPolicyAdapter : BookingPolicyAdapter
+public class CheckBookingPermissionAdapter : CheckBookingPermissionRepository
 {
 
     public async Task<bool> IsBookingAllowed(string employeeId, RoomType roomType)

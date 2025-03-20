@@ -9,7 +9,7 @@ using Shouldly;
 
 namespace HotelBooking.Controllers.Tests;
 
-class BookingsControllerShould
+class CreateBookingControllerShould
 {
     private CreateBookingController controller;
     private CreateBookingUseCase createBookingUseCase;
