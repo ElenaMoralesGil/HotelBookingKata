@@ -15,20 +15,7 @@ public class HotelsController : ControllerBase
         this.hotelService = hotelService;
     }
 
-    [HttpPut("{hotelId}/rooms/{roomType}")]
-    public IActionResult SetRoom(string hotelId, RoomType roomType, [FromBody] SetRoomNumberRequest request)
-    {
 
-        try
-        {
-            hotelService.SetRoom(hotelId, request.Number, roomType);
-            return NoContent();
-        }
-        catch (HotelNotFoundException exception)
-        {
-            return NotFound(new { message = exception.Message });
-        }
-    }
 
     [HttpGet("{hotelId}")]
     public IActionResult GetHotel(string hotelId)

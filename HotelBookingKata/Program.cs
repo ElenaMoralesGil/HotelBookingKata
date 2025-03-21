@@ -7,6 +7,7 @@ using HotelBookingKata.AddHotel;
 using HotelBookingKata.AddEmployee;
 using HotelBookingKata.CreateBooking;
 using HotelBookingKata.DeleteEmployee;
+using HotelBookingKata.SetRoom;
 namespace HotelBookingKata;
 
 public partial class Program
@@ -33,6 +34,7 @@ public partial class Program
         builder.Services.AddScoped<AddHotelUseCase>();
         builder.Services.AddScoped<AddEmployeeUseCase>();
         builder.Services.AddScoped<DeleteEmployeeUseCase>();
+        builder.Services.AddScoped<SetRoomUseCase>();
         builder.Services.AddScoped<HotelService, AppHotelService>();
    
 
