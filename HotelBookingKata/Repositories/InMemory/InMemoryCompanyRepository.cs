@@ -1,5 +1,5 @@
 ﻿using HotelBookingKata.Entities;
-namespace HotelBookingKata.Repositories
+namespace HotelBookingKata.Repositories.InMemory
 {
     public class InMemoryCompanyRepository : CompanyRepository
     {

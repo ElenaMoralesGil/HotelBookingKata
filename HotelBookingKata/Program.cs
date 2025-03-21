@@ -8,6 +8,7 @@ using HotelBookingKata.AddEmployee;
 using HotelBookingKata.CreateBooking;
 using HotelBookingKata.DeleteEmployee;
 using HotelBookingKata.SetRoom;
+using HotelBookingKata.Repositories.InMemory;
 namespace HotelBookingKata;
 
 public partial class Program

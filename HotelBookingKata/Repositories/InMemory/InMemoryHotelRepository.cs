@@ -1,7 +1,7 @@
 using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
 
-namespace HotelBookingKata.Repositories;
+namespace HotelBookingKata.Repositories.InMemory;
 
 public class InMemoryHotelRepository : HotelRepository
 {

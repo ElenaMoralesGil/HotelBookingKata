@@ -1,4 +1,5 @@
 using HotelBookingKata.Repositories;
+using HotelBookingKata.Repositories.InMemory;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;

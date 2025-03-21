@@ -1,6 +1,6 @@
 ﻿using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
-using HotelBookingKata.Repositories;
+using HotelBookingKata.Repositories.InMemory;
 using Shouldly;
 namespace HotelBooking.Repositories.Tests;
 
