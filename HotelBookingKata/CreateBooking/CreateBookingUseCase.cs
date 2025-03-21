@@ -1,5 +1,4 @@
-﻿using HotelBookingKata.Controllers;
-using HotelBookingKata.Repositories;
+﻿using HotelBookingKata.Repositories;
 using HotelBookingKata.Entities;
 using HotelBookingKata.CheckBookingPolicy;
 using HotelBookingKata.Exceptions;

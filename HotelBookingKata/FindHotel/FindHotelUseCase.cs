@@ -1,19 +1,21 @@
 using HotelBookingKata.Entities;
-using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 namespace HotelBookingKata.Services;
 
-public class AppHotelService : HotelService
+public class FindHotelUseCase 
 {
 
     private readonly HotelRepository HotelRepository;
 
-    public AppHotelService(HotelRepository hotelRepository)
+    public FindHotelUseCase(HotelRepository hotelRepository)
     {
         HotelRepository = hotelRepository;
     }
+    public FindHotelUseCase()
+    {
+    }
 
-    public Hotel FindHotelBy(string hotelId)
+    public virtual Hotel Execute(string hotelId)
     {
         return HotelRepository.GetById(hotelId);
     }

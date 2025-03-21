@@ -1,22 +1,21 @@
 ﻿using HotelBookingKata.Entities;
-using HotelBookingKata.Exceptions;
 using HotelBookingKata.Repositories;
 using HotelBookingKata.Services;
 using NSubstitute;
 using Shouldly;
 namespace HotelBooking.Services.Test;
 
-public class ApplicationHotelServiceShould
+public class FindHotelUseCaseShould
 {
 
-    private AppHotelService hotelService;
+    private FindHotelUseCase useCase;
     private HotelRepository hotelRepository;
 
     [SetUp]
     public void Setup()
     {
         hotelRepository = Substitute.For<HotelRepository>();
-        hotelService = new AppHotelService(hotelRepository);
+        useCase = new FindHotelUseCase(hotelRepository);
     }
 
     
@@ -27,7 +26,7 @@ public class ApplicationHotelServiceShould
         var hotel = new Hotel("hotel1", "hotel 1");
         hotelRepository.GetById(hotel.Id).Returns(hotel);
 
-        var result = hotelService.FindHotelBy(hotel.Id);
+        var result = useCase.Execute(hotel.Id);
 
         result.ShouldBe(hotel);
         hotelRepository.Received(1).GetById(hotel.Id);

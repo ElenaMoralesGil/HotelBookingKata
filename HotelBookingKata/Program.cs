@@ -35,8 +35,8 @@ public partial class Program
         builder.Services.AddScoped<AddEmployeeUseCase>();
         builder.Services.AddScoped<DeleteEmployeeUseCase>();
         builder.Services.AddScoped<SetRoomUseCase>();
-        builder.Services.AddScoped<HotelService, AppHotelService>();
-   
+        builder.Services.AddScoped<FindHotelUseCase>();
+
 
         var app = builder.Build();
         app.MapControllers();

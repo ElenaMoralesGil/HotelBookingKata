@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBookingKata", "HotelBo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Controllers.Tests", "HotelBooking.Controllers.Tests\HotelBooking.Controllers.Tests.csproj", "{764BEC0B-2F12-45AD-948C-06DFDD4FB5F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Services.Test", "HotelBooking.Services.Test\HotelBooking.Services.Test.csproj", "{72CF5FF0-E53F-44F2-8B07-6FDFA0104830}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.UseCases.Tests", "HotelBooking.Services.Test\HotelBooking.UseCases.Tests.csproj", "{72CF5FF0-E53F-44F2-8B07-6FDFA0104830}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Repositories.Tests", "HotelBooking.Repositories.Tests\HotelBooking.Repositories.Tests.csproj", "{AD0A0C1D-A22E-49C7-A2FF-8FA897A33052}"
 EndProject

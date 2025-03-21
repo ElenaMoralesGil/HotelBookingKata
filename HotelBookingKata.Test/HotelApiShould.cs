@@ -1,5 +1,5 @@
-using HotelBookingKata.Controllers;
 using HotelBookingKata.Entities;
+using HotelBookingKata.FindHotel;
 using Shouldly;
 using System.Net;
 using System.Net.Http.Json;
@@ -139,7 +139,7 @@ public class HotelApiShould
         await client.PutAsJsonAsync($"/api/hotels/{hotel.Id}/rooms/{room2.Type}", room2);
 
         var response = await client.GetAsync($"/api/hotels/{hotel.Id}");
-        var result = await response.Content.ReadFromJsonAsync<HotelResponse>();
+        var result = await response.Content.ReadFromJsonAsync<FindHotelResponse>();
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         hotel.ShouldNotBeNull();
         result.ShouldNotBeNull();

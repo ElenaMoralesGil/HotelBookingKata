@@ -1,18 +1,17 @@
-using HotelBookingKata.Entities;
 using HotelBookingKata.Exceptions;
 using HotelBookingKata.Services;
 using Microsoft.AspNetCore.Mvc;
-namespace HotelBookingKata.Controllers;
+namespace HotelBookingKata.FindHotel;
 
 [ApiController]
 [Route("api/hotels")]
-public class HotelsController : ControllerBase
+public class FindHotelController : ControllerBase
 {
-    private HotelService hotelService;
+    private FindHotelUseCase useCase;
 
-    public HotelsController(HotelService hotelService)
+    public FindHotelController(FindHotelUseCase useCase)
     {
-        this.hotelService = hotelService;
+        this.useCase = useCase;
     }
 
 
@@ -22,10 +21,10 @@ public class HotelsController : ControllerBase
     {
         try
         {
-            var hotel = hotelService.FindHotelBy(hotelId);
+            var hotel = useCase.Execute(hotelId);
             var rooms = hotel.GetRooms().Select(room => new RoomResponse(room.Number, room.Type)).ToList();
 
-            return Ok(new HotelResponse(hotel.Id, hotel.Name, rooms));
+            return Ok(new FindHotelResponse(hotel.Id, hotel.Name, rooms));
         }
         catch (HotelNotFoundException exception)
         {
