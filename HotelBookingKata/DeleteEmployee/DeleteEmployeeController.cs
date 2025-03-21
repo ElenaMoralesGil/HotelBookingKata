@@ -1,18 +1,19 @@
 ﻿using HotelBookingKata.Exceptions;
-using HotelBookingKata.Services;
 using Microsoft.AspNetCore.Mvc;
-namespace HotelBookingKata.Controllers;
+
+namespace HotelBookingKata.DeleteEmployee;
+
 
 [ApiController]
 [Route("api/companies")]
-public class CompaniesController : ControllerBase
+public class DeleteEmployeeController : ControllerBase
 {
 
-    private CompanyService companyService;
+    private DeleteEmployeeUseCase useCase;
 
-    public CompaniesController(CompanyService companyService)
+    public DeleteEmployeeController(DeleteEmployeeUseCase useCase)
     {
-        this.companyService = companyService;
+        this.useCase = useCase;
     }
 
     [HttpDelete("{companyId}/employees/{employeeId}")]
@@ -20,7 +21,7 @@ public class CompaniesController : ControllerBase
     {
         try
         {
-            companyService.DeleteEmployee(employeeId);
+            useCase.Execute(employeeId);
             return Ok();
         }
         catch (EmployeeNotFoundException exception)
@@ -29,4 +30,3 @@ public class CompaniesController : ControllerBase
         }
     }
 }
-
